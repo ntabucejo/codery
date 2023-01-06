@@ -5,7 +5,7 @@ import Avatar from "./avatar";
 
 const User = () => {
   return (
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-4">
       <div className="flex gap-2">
         <Button variant="icon">
           <Symbol Icon={BellIcon} />
