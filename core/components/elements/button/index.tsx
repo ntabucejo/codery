@@ -52,7 +52,7 @@ const Button = ({
       className={`
         ${style}
         ${isFull ? "w-full" : ""}
-        whitespace-nowrap rounded px-4 py-2 font-bold transition-colors duration-150 ease-in-out focus:ring disabled:opacity-50`}>
+        whitespace-nowrap rounded px-4 py-2 text-sm font-bold transition-colors duration-150 ease-in-out focus:ring disabled:opacity-50`}>
       {children}
     </motion.button>
   );
