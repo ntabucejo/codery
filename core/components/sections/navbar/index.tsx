@@ -20,7 +20,7 @@ const categories = [
   "Rust",
   "Svelte",
   "API Service",
-  "Discord Bot",
+  "Discord Bots",
 ];
 
 const Navbar = () => {
