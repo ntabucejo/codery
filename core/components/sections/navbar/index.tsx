@@ -29,8 +29,8 @@ const Navbar = () => {
         <strong className="text-2xl">Codery</strong>
         <Search />
         <ul className="flex gap-4">
-          <Route to="Explore" href="#" />
-          <Route to="About" href="#" />
+          <Route to="Explore" href="#" isBold />
+          <Route to="About" href="#" isBold />
         </ul>
         <MinusIcon className="icon -ml-2 -mr-4 rotate-90 text-primary-dark/fade" />
         <User />
