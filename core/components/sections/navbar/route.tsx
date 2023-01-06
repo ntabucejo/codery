@@ -12,7 +12,7 @@ const Route = ({ to, href, isBold }: Props) => {
       <Link
         href={href}
         className={`${
-          isBold ? "font-semibold" : ""
+          isBold ? "font-medium" : ""
         } smooth cursor-pointer whitespace-nowrap text-sm text-primary-dark/fade hover:text-primary-dark`}>
         {to}
       </Link>
