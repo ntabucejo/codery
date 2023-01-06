@@ -1,12 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
+import type { MouseEventHandler } from "react";
 
 type Props = {
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "tertiary";
   isFull?: boolean;
   isDisabled?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
 const Button = ({
@@ -14,6 +16,7 @@ const Button = ({
   variant = "primary",
   isFull,
   isDisabled,
+  onClick = () => {},
 }: Props) => {
   let style = "";
 
@@ -45,6 +48,7 @@ const Button = ({
     <motion.button
       whileTap={{ scale: 0.99 }}
       disabled={isDisabled}
+      onClick={onClick}
       className={`
         ${style}
         ${isFull ? "w-full" : ""}
