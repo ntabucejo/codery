@@ -35,7 +35,7 @@ const Button = ({
     }
     case "tertiary": {
       const className =
-        "border border-transparent underline-offset-4 enabled:hover:underline";
+        "border border-transparent underline-offset-2q enabled:hover:underline";
       style = className;
       break;
     }
