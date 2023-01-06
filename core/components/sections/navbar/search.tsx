@@ -1,0 +1,17 @@
+import Symbol from "@core/components/elements/symbol";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+
+const Search = () => {
+  return (
+    <div className="clearance flex w-full items-center gap-2 overflow-hidden rounded border bg-white">
+      <Symbol Icon={MagnifyingGlassIcon} isHoverDisabled />
+      <input
+        type="text"
+        placeholder="Search here..."
+        className="w-full bg-transparent focus:outline-none"
+      />
+    </div>
+  );
+};
+
+export default Search;
