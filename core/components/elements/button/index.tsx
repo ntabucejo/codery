@@ -23,13 +23,13 @@ const Button = ({
   switch (variant) {
     case "primary": {
       const className =
-        "border border-primary-dark bg-primary-dark text-primary-light enabled:hover:border-black enabled:hover:bg-black";
+        "border border-primary-dark bg-primary-dark text-primary-light enabled:hover:border-black enabled:hover:bg-black focus:ring-1";
       style = className;
       break;
     }
     case "secondary": {
       const className =
-        "border border-primary-dark enabled:hover:bg-primary-dark enabled:hover:text-primary-light";
+        "border border-primary-dark enabled:hover:bg-primary-dark enabled:hover:text-primary-light focus:ring-1";
       style = className;
       break;
     }
@@ -52,7 +52,7 @@ const Button = ({
       className={`
         ${style}
         ${isFull ? "w-full" : ""}
-        whitespace-nowrap rounded px-4 py-2 text-sm font-bold transition-colors duration-150 ease-in-out focus:ring disabled:opacity-50`}>
+        whitespace-nowrap rounded px-4 py-2 text-sm font-bold transition-colors duration-150 ease-in-out disabled:opacity-50`}>
       {children}
     </motion.button>
   );
