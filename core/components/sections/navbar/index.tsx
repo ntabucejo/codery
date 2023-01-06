@@ -19,6 +19,8 @@ const categories = [
   "NextJs",
   "Rust",
   "Svelte",
+  "API Service",
+  "Discord Bot",
 ];
 
 const Navbar = () => {
