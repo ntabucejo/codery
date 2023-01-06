@@ -2,10 +2,11 @@ import Avatar from "@core/components/elements/avatar";
 import Button from "@core/components/elements/button";
 import { BellIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import Symbol from "../../../elements/symbol";
+
 const User = () => {
   return (
     <div className="flex items-center gap-4">
-      <div className="flex gap-2">
+      <div className="flex">
         <Button variant="icon">
           <Symbol Icon={BellIcon} />
         </Button>
