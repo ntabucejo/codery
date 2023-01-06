@@ -58,7 +58,7 @@ const Gig = ({
               <p className="ml-1 text-xs font-medium">{"(158)"}</p>
             </div>
             <div>
-              <p className="text-xs font-bold text-primary-dark">{price}</p>
+              <p className="text-sm font-bold text-primary-dark">{price}</p>
             </div>
           </div>
         </div>
