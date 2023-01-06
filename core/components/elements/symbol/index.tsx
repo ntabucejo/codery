@@ -44,7 +44,7 @@ const Symbol = ({
       } 
       ${className ? className : ""} 
       ${style} 
-      smooth aspect-square flex-none stroke-2 text-primary-dark/fade`}
+      smooth aspect-square flex-none text-primary-dark/fade`}
     />
   );
 };
