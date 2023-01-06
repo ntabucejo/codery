@@ -1,0 +1,57 @@
+"use client";
+
+import { motion } from "framer-motion";
+
+type Props = {
+  children: React.ReactNode;
+  variant?: "primary" | "secondary" | "tertiary";
+  isFull?: boolean;
+  isDisabled?: boolean;
+};
+
+const Button = ({
+  children,
+  variant = "primary",
+  isFull,
+  isDisabled,
+}: Props) => {
+  let style = "";
+
+  switch (variant) {
+    case "primary": {
+      const className =
+        "border border-primary-dark bg-primary-dark text-primary-light enabled:hover:border-black enabled:hover:bg-black";
+      style = className;
+      break;
+    }
+    case "secondary": {
+      const className =
+        "border border-primary-dark enabled:hover:bg-primary-dark enabled:hover:text-primary-light";
+      style = className;
+      break;
+    }
+    case "tertiary": {
+      const className =
+        "border border-transparent underline-offset-4 enabled:hover:underline";
+      style = className;
+      break;
+    }
+    default: {
+      style = "no-style";
+    }
+  }
+
+  return (
+    <motion.button
+      whileTap={{ scale: 0.99 }}
+      disabled={isDisabled}
+      className={`
+        ${style}
+        ${isFull ? "w-full" : ""}
+        whitespace-nowrap rounded px-4 py-2 font-bold transition-colors duration-150 ease-in-out focus:ring disabled:opacity-50`}>
+      {children}
+    </motion.button>
+  );
+};
+
+export default Button;

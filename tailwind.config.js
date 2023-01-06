@@ -15,10 +15,13 @@ module.exports = {
       fontSize: {
         ms: "10px",
       },
+      borderRadius: {
+        DEFAULT: "0.5rem",
+      },
       colors: {
         primary: {
-          light: "white",
-          dark: "black",
+          light: "#fafafa",
+          dark: "#2e2e2e",
           brand: "#5865F2",
         },
       },
