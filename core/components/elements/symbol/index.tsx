@@ -10,11 +10,11 @@ const Symbol = ({ Icon, isHoverDisabled, className }: Props) => {
       className={`
       ${className ? className : ""} 
       ${
-        isHoverDisabled
-          ? ""
-          : "hover:cursor-pointer hover:text-primary-dark group-hover:cursor-pointer group-hover:text-primary-dark"
+        !isHoverDisabled
+          ? "hover:cursor-pointer hover:text-primary-dark group-hover:cursor-pointer group-hover:text-primary-dark"
+          : ""
       } 
-      icon smooth text-primary-dark/fade`}
+      icon smooth stroke-2 text-primary-dark/fade`}
     />
   );
 };

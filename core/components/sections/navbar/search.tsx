@@ -2,7 +2,7 @@
 
 import Symbol from "@core/components/elements/symbol";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 const Search = () => {
   const ref = useRef<any>(null);
@@ -20,7 +20,7 @@ const Search = () => {
         ref={ref}
         type="text"
         placeholder="Search here..."
-        className="w-full bg-transparent focus:outline-none"
+        className="w-full bg-transparent text-sm focus:outline-none"
       />
     </div>
   );
