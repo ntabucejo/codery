@@ -23,7 +23,7 @@ const Gig = ({
   price,
 }: Props) => {
   return (
-    <div className="overflow-hidden rounded border">
+    <div className="smooth overflow-hidden rounded border hover:cursor-pointer hover:shadow">
       <div className="relative aspect-video w-full overflow-hidden">
         <Image src={thumbnail} alt="Gig Image" fill className="object-cover" />
       </div>
