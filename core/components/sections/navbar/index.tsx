@@ -25,7 +25,7 @@ const categories = [
 
 const Navbar = () => {
   return (
-    <nav className="contain pt-4">
+    <nav className="contain space-y-4">
       {/* Upper Nav */}
       <div className="flex items-center gap-4">
         <strong className="text-2xl">Codery</strong>
@@ -39,7 +39,7 @@ const Navbar = () => {
         <User />
       </div>
       {/* Lower Nav */}
-      <ul className="flex gap-4 overflow-x-auto py-4 scrollbar-hide">
+      <ul className="flex gap-4 overflow-x-auto scrollbar-hide">
         {categories.map((category) => (
           <Route key={category} to={category} href="#" />
         ))}
