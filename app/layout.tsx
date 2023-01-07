@@ -1,3 +1,4 @@
+import Navbar from "@core/components/sections/navbar";
 import "@core/styles/globals.css";
 import { Inter } from "@next/font/google";
 
@@ -14,7 +15,11 @@ const Layout = ({ children }: Props) => {
     <html lang="en">
       <head />
       <body className={`${inter.className} bg-primary-light text-primary-dark`}>
-        {children}
+        <header>
+          <Navbar />
+        </header>
+        <main className="space-y-4">{children}</main>
+        <footer>Footer</footer>
       </body>
     </html>
   );
