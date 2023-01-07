@@ -7,9 +7,9 @@ module.exports = {
   theme: {
     screens: {
       book: "480px",
-      tablet: "640px",
+      tablet: "768px",
       laptop: "1024px",
-      desktop: "1280px",
+      desktop: "1440px",
     },
     extend: {
       opacity: {
