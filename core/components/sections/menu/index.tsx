@@ -1,3 +1,4 @@
+import Button from "@core/components/elements/button";
 import Symbol from "@core/components/elements/symbol";
 import {
   HandThumbUpIcon,
@@ -12,7 +13,7 @@ type Props = {
 
 const Menu = ({ tabs }: Props) => {
   return (
-    <div className="contain relative grid grid-cols-[1fr,auto] border-y-2 border-gray-200 py-4">
+    <div className="contain relative grid grid-cols-[1fr,auto] border-y-2 border-gray-200">
       <ul className="mr-auto flex items-center gap-4">
         {tabs.map((tab) => {
           const href = tab.split(" ").join("-").toLowerCase();
@@ -21,9 +22,15 @@ const Menu = ({ tabs }: Props) => {
       </ul>
 
       <div className="flex items-center gap-4">
-        <Symbol Icon={HandThumbUpIcon} size="medium" />
-        <Symbol Icon={HeartIcon} size="medium" />
-        <Symbol Icon={ShareIcon} size="medium" />
+        <Button variant="icon">
+          <Symbol Icon={HandThumbUpIcon} size="medium" />
+        </Button>
+        <Button variant="icon">
+          <Symbol Icon={HeartIcon} size="medium" />
+        </Button>
+        <Button variant="icon">
+          <Symbol Icon={ShareIcon} size="medium" />
+        </Button>
       </div>
     </div>
   );
