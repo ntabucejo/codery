@@ -1,6 +1,6 @@
 const Description = () => {
   return (
-    <div className="mt-20 grid gap-6">
+    <div className="laptop:mt-20 grid gap-6">
       <h1 className="text-lg font-bold">About this Gig</h1>
       <p className="leading-relaxed">
         Hey, I'm glad to have you here.
