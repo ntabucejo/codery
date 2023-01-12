@@ -1,6 +1,7 @@
 "use client";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
+import { useState } from "react";
 
 const images = [
   {
@@ -21,26 +22,34 @@ const images = [
 ];
 
 const Carousel = () => {
+  const [count, setCount] = useState(0);
   return (
-    <div className="relative grid grid-flow-col overflow-hidden px-20 mt-10">
-      {images.map((image) => (
-        <div key={image.id} className="relative">
-          <Image
-            src={image.src}
-            alt={image.alt}
-            width={500}
-            height={500}
-            className="w-full object-cover"
-          />
-        </div>
-      ))}
+    <div className="lg:h-[500px] relative mt-10 grid h-96 w-full grid-flow-col overflow-hidden px-20">
+      <div className="relative m-auto">
+        <Image
+          src={images[count].src}
+          alt={images[count].alt}
+          width={500}
+          height={500}
+        />
+      </div>
       {/* left button */}
-      <button className="absolute top-1/2 left-0 grid h-10 w-10 -translate-y-1/2 transform place-items-center rounded-full bg-white shadow-md">
+      <button
+        onClick={() => {
+          setCount(count - 1);
+          if (count < images.length - 2) setCount(images.length - 1);
+        }}
+        className="smooth absolute top-1/2 left-0 grid h-10 w-10 -translate-y-1/2 transform place-items-center rounded-full bg-white shadow-md hover:scale-105">
         <ChevronLeftIcon className="h-6 w-6" />
       </button>
 
       {/* left button */}
-      <button className="absolute top-1/2 right-0 grid h-10 w-10 -translate-y-1/2 transform place-items-center rounded-full bg-white shadow-md">
+      <button
+        onClick={() => {
+          setCount(count + 1);
+          if (count > images.length - 2) setCount(0);
+        }}
+        className="smooth absolute top-1/2 right-0 grid h-10 w-10 -translate-y-1/2 transform place-items-center rounded-full bg-white shadow-md hover:scale-105">
         <ChevronRightIcon className="h-6 w-6" />
       </button>
     </div>
