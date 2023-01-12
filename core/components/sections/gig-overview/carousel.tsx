@@ -24,13 +24,14 @@ const images = [
 const Carousel = () => {
   const [count, setCount] = useState(0);
   return (
-    <div className="lg:h-[500px] relative mt-10 grid h-96 w-full grid-flow-col overflow-hidden px-20">
-      <div className="relative m-auto">
+    <div className="relative mt-10 grid h-[500px] w-full grid-flow-col overflow-hidden px-20">
+      <div className="relative">
         <Image
           src={images[count].src}
           alt={images[count].alt}
           width={500}
           height={500}
+          className="mx-auto"
         />
       </div>
       {/* left button */}
