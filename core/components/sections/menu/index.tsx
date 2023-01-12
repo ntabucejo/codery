@@ -5,7 +5,7 @@ import {
   HeartIcon,
   ShareIcon,
 } from "@heroicons/react/24/outline";
-import Route from "../../elements/route";
+import Tab from "./tab";
 
 type Props = {
   tabs: string[];
@@ -16,8 +16,7 @@ const Menu = ({ tabs }: Props) => {
     <div className="contain relative grid grid-cols-[1fr,auto] border-y-2 border-gray-200">
       <ul className="mr-auto flex items-center gap-4">
         {tabs.map((tab) => {
-          const href = tab.split(" ").join("-").toLowerCase();
-          return <Route key={tab} to={tab} href={href} isBold={false} />;
+          return <Tab key={tab} tab={tab} />;
         })}
       </ul>
 
