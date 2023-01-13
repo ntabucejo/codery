@@ -1,5 +1,6 @@
 import Avatar from "@core/components/elements/avatar";
 import Pin from "@core/components/elements/pin";
+import Route from "@core/components/elements/route";
 import Gigs from "@core/components/sections/gigs";
 import { MapPinIcon, AtSymbolIcon, UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
@@ -7,7 +8,7 @@ import Image from "next/image";
 const Page = () => {
   return (
     <>
-      <section className="smooth relative aspect-[20/4] overflow-hidden">
+      <section className="smooth relative -mt-4 aspect-[20/4] overflow-hidden">
         <Image
           src="https://images.unsplash.com/photo-1595776613215-fe04b78de7d0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
           alt="Hero Image"
@@ -38,6 +39,13 @@ const Page = () => {
             </div>
           </div>
         </div>
+      </section>
+      <section className="contain border-y py-2">
+        <ul className="flex gap-6">
+          <Route to="Gigs" href="#" />
+          <Route to="About Me" href="#" />
+          <Route to="Message Me" href="#" />
+        </ul>
       </section>
       <Gigs />
     </>
