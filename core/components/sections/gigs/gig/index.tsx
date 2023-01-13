@@ -1,4 +1,5 @@
 import Avatar from "@core/components/elements/avatar";
+import Pin from "@core/components/elements/pin";
 import Symbol from "@core/components/elements/symbol";
 import { MapPinIcon, StarIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
@@ -33,10 +34,9 @@ const Gig = ({
           <Avatar src={avatar} alt="Avatar" size="small" />
           <div>
             <h4 className="font-bold">{name}</h4>
-            <div className="flex items-center gap-1">
-              <Symbol size="small" Icon={MapPinIcon} isHoverDisabled />
-              <h6 className="text-xs text-primary-dark/fade">{location}</h6>
-            </div>
+            <Pin size="small" Icon={MapPinIcon}>
+              {location}
+            </Pin>
           </div>
         </div>
         <h3 className="text-sm">{title}</h3>
