@@ -30,7 +30,7 @@ const Gig = ({
       {/* Details */}
       <div className="space-y-4 p-2">
         <div className="flex items-center gap-4">
-          <Avatar src={avatar} alt="Avatar" />
+          <Avatar src={avatar} alt="Avatar" size="small" />
           <div>
             <h4 className="font-bold">{name}</h4>
             <div className="flex items-center gap-1">
