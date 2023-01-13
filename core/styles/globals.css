@@ -7,7 +7,7 @@
     @apply aspect-square h-6 w-6 flex-none;
   }
   .contain {
-    @apply smooth mx-auto max-w-screen-desktop p-2 tablet:p-4;
+    @apply smooth mx-auto max-w-screen-desktop px-2 tablet:px-4;
   }
   .clearance {
     @apply px-4 py-2;

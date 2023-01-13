@@ -1,5 +1,6 @@
 import Avatar from "@core/components/elements/avatar";
 import Pin from "@core/components/elements/pin";
+import Gigs from "@core/components/sections/gigs";
 import { MapPinIcon, AtSymbolIcon, UserIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
@@ -38,6 +39,7 @@ const Page = () => {
           </div>
         </div>
       </section>
+      <Gigs />
     </>
   );
 };
