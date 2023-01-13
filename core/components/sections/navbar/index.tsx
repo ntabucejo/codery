@@ -1,5 +1,5 @@
 import { MinusIcon } from "@heroicons/react/24/solid";
-import Route from "./route";
+import Route from "../../elements/route";
 import Search from "./search";
 import User from "./user";
 
