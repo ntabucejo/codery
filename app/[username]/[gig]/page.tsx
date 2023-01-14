@@ -1,15 +1,15 @@
-import Overview from "@core/components/sections/gig-overview";
-import Menu from "@core/components/sections/menu";
+import Gig from "@core/components/sections/gig";
 
 const list = ["Overview", "Description", "Reviews"];
 
-const Gig = () => {
+const Page = () => {
   return (
-    <div>
-      <Menu tabs={list} />
-      <Overview/>
-    </div>
+    <>
+      <Gig.Overview />
+      <Gig.Description />
+      <Gig.Reviews />
+    </>
   );
 };
 
-export default Gig;
+export default Page;

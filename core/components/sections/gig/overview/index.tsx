@@ -1,24 +1,22 @@
 import Avatar from "@core/components/elements/avatar";
 import Symbol from "@core/components/elements/symbol";
 import { StarIcon } from "@heroicons/react/24/solid";
+import Heading from "../heading";
 import Carousel from "./carousel";
-import Description from "./description";
 import Price from "./price";
-import Reviews from "./reviews";
 
 const Overview = () => {
   return (
-    <div className="contain grid gap-3 px-2">
-      {/* title */}
-      <h1 className="text-2xl font-bold">
+    <section className="contain space-y-4">
+      <Heading number={1}>
         I will develop fix deploy responsive website with react nextjs tailwind
-      </h1>
-
+      </Heading>
       {/* freelancer and rate */}
       <div className="flex items-center gap-3 pr-2">
         <Avatar
           src="https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80"
           alt="Avatar"
+          size="medium"
         />
         <h4 className="font-bold">dev_ed</h4>
         <div className="gap-0.1 flex items-center">
@@ -38,9 +36,7 @@ const Overview = () => {
       </div>
 
       <Carousel />
-      <Description />
-      <Reviews />
-    </div>
+    </section>
   );
 };
 
