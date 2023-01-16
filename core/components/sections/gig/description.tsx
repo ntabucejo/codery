@@ -1,7 +1,10 @@
+import Heading from "./heading";
+
 const Description = () => {
   return (
-    <div className="laptop:mt-20 grid gap-6">
-      <h1 className="text-lg font-bold">About this Gig</h1>
+    <section className="contain space-y-4">
+      <Heading number={2}>Description</Heading>
+      <p className="text-lg font-bold">About this Gig</p>
       <p className="leading-relaxed">
         Hey, I'm glad to have you here.
         <br></br>
@@ -34,7 +37,7 @@ const Description = () => {
         <br></br>
         NOTE: Kindly contact me before placing your order.
       </p>
-    </div>
+    </section>
   );
 };
 

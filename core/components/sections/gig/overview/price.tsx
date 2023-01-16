@@ -4,7 +4,7 @@ type Props = {
 };
 const Price = ({ price }: Props) => {
   return (
-    <div className="ml-auto flex flex-col tablet:flex-row items-end tablet:items-center gap-1 tablet:gap-4 rounded-md">
+    <div className="ml-auto flex flex-col items-end gap-1 rounded-md tablet:flex-row tablet:items-center tablet:gap-4">
       <span>
         Price starts at
         <span className="font-bold"> {price}</span>

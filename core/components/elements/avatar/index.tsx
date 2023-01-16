@@ -15,7 +15,7 @@ const Avatar = ({ src, alt, size, className }: Props) => {
       ${size === "medium" ? "h-12 w-12" : ""} 
       ${size === "large" ? "h-40 w-40" : ""} 
       ${className ? className : ""} 
-      relative overflow-hidden`}>
+      relative flex-none overflow-hidden`}>
       <Image src={src} alt={alt} fill className="rounded-full object-cover" />
     </div>
   );
