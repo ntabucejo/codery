@@ -3,7 +3,7 @@ import Symbol from "@core/components/elements/symbol";
 import { StarIcon } from "@heroicons/react/24/solid";
 import Heading from "../heading";
 import Carousel from "./carousel";
-import Price from "./price";
+import Order from "./order";
 
 const Overview = () => {
   return (
@@ -32,7 +32,7 @@ const Overview = () => {
           <p className="ml-1 text-xs font-medium">{"(158)"}</p>
         </div>
 
-        <Price price="50" />
+        <Order price="50" />
       </div>
 
       <Carousel />
