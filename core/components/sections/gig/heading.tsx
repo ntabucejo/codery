@@ -8,14 +8,14 @@ type Props = {
 const Heading = ({ children, number }: Props) => {
   if (number === 1)
     return (
-      <h1 className="text-5xl font-bold">
-        <Balancer>
+      <h1 className="text-4xl font-bold">
+        <Balancer ratio={2}>
           I will develop fix deploy responsive website with react nextjs
           tailwind
         </Balancer>
       </h1>
     );
-  return <h2 className="mt-12 text-3xl font-bold">{children}</h2>;
+  return <h2 className="mt-12 text-2xl font-bold">{children}</h2>;
 };
 
 export default Heading;

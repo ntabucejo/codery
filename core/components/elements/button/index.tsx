@@ -9,6 +9,7 @@ type Props = {
   isFull?: boolean;
   isDisabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  className?: string;
 };
 
 const Button = ({
@@ -17,6 +18,7 @@ const Button = ({
   isFull,
   isDisabled,
   onClick = () => {},
+  className,
 }: Props) => {
   let style = "";
 
@@ -57,6 +59,7 @@ const Button = ({
       className={`
         ${style}
         ${isFull ? "w-full" : ""}
+        ${className ? className : ""}
         smooth group whitespace-nowrap rounded text-sm font-bold transition-colors`}>
       {children}
     </motion.button>
