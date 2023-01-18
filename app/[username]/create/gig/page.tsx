@@ -1,12 +1,7 @@
+import CreateGig from "@core/components/sections/gig/create";
 const Page = () => {
   return (
-    <>
-      <section className="contain">
-        <div>
-          <input type="text" />
-        </div>
-      </section>
-    </>
+    <CreateGig/>
   );
 };
 
