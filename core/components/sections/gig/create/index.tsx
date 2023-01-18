@@ -16,7 +16,7 @@ const CreateGig = () => {
   return (
     <div className="contain grid gap-8">
       <Tab.Group>
-        <Tab.List className="flex items-center gap-4">
+        <Tab.List className="flex items-center overflow-scroll scrollbar-hide gap-4">
           {panels.map((panel) => (
             <Tab
               key={panel.title}
