@@ -2,7 +2,7 @@ import Navbar from "@core/components/sections/navbar";
 import "@core/styles/globals.css";
 import { Inter } from "@next/font/google";
 import Providers from "./providers";
-import TestSignIn from "./test-sign-in";
+import TestSignIn from "./test/test-sign-in";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,9 +23,7 @@ const Layout = ({ children }: Props) => {
             <Navbar />
           </header>
           <main className="space-y-4">{children}</main>
-          <footer className="border-t">
-            <TestSignIn />
-          </footer>
+          <footer className="border-t">Footer</footer>
         </Providers>
       </body>
     </html>
