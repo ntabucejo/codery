@@ -30,7 +30,7 @@ const useUpload = ({ setData, inputName }: UseUpload) => {
 
   const handleChange = (event: FormEvent<HTMLFormElement>) => {
     const reader = new FileReader();
-    reader.onload = function (onLoadEvent) {
+    reader.onload = (onLoadEvent) => {
       // @ts-expect-error
       setData(onLoadEvent.target.result);
     };
