@@ -1,11 +1,241 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-generator client {
+generator user {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  username      String?   @unique
+  location      String?
+  biography     String?
+  phone         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  freelancer Freelancer?
+  client     Client?
+  accounts   Account[]
+  favorites  Favorite[]
+}
+
+model Client {
+  id String @id @default(cuid())
+
+  user      User       @relation(fields: [userId], references: [id])
+  userId    String     @unique
+  contracts Contract[]
+  offers    Offer[]
+  reviews   Review[]
+}
+
+model Freelancer {
+  id String @id @default(cuid())
+
+  user      User       @relation(fields: [userId], references: [id])
+  userId    String     @unique
+  gigs      Gig[]
+  offers    Offer[]
+  comments  Comment[]
+  skill     Skill[]
+  contracts Contract[]
+
+  @@index([userId])
+}
+
+model Gig {
+  id          String @id @default(cuid())
+  title       String
+  description String @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
+  freelancerId String
+  category     Category   @relation(fields: [categoryId], references: [id])
+  categoryId   String
+  showcases    Showcase[]
+  contracts    Contract[]
+  reviews      Review[]
+  offers       Offer[]
+  tags         Tag[]
+  favorites    Favorite[]
+
+  @@unique([title])
+  @@index([freelancerId])
+  @@index([categoryId])
+}
+
+model Favorite {
+  id String @id @default(cuid())
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  gig    Gig    @relation(fields: [gigId], references: [id])
+  gigId  String
+
+  @@index([userId])
+  @@index([gigId])
+}
+
+model Skill {
+  id String @id @default(cuid())
+
+  freelancer   Freelancer  @relation(fields: [freelancerId], references: [id])
+  freelancerId String
+  technology   Technology? @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+  technologyId String?
+
+  @@unique([freelancerId, technologyId])
+  @@index([freelancerId])
+  @@index([technologyId])
+}
+
+model Technology {
+  id   String @id @default(cuid())
+  name String @unique
+  logo String
+
+  skills Skill[]
+  tags   Tag[]
+}
+
+model Tag {
+  id String @id @default(cuid())
+
+  technology   Technology? @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+  technologyId String?
+  gig          Gig         @relation(fields: [gigId], references: [id])
+  gigId        String
+
+  @@index([technologyId])
+  @@index([gigId])
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String @unique
+
+  gigs Gig[]
+}
+
+model Showcase {
+  id    String @id @default(cuid())
+  image String
+
+  gig   Gig    @relation(fields: [gigId], references: [id])
+  gigId String
+
+  @@index([gigId])
+}
+
+model Contract {
+  id     String @id @default(cuid())
+  status Status
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
+  freelancerId String
+  client       Client     @relation(fields: [clientId], references: [id])
+  clientId     String
+  gig          Gig        @relation(fields: [gigId], references: [id])
+  gigId        String
+
+  @@index([freelancerId])
+  @@index([clientId])
+  @@index([gigId])
+}
+
+model Offer {
+  id          String  @id @default(cuid())
+  title       String
+  description String  @db.Text
+  isAccepted  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
+  freelancerId String
+  client       Client     @relation(fields: [clientId], references: [id])
+  clientId     String
+  gig          Gig        @relation(fields: [gigId], references: [id])
+  gigId        String
+
+  @@index([freelancerId])
+  @@index([clientId])
+  @@index([gigId])
+}
+
+model Review {
+  id      String @id @default(cuid())
+  message String
+  rating  Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  client   Client    @relation(fields: [clientId], references: [id])
+  clientId String
+  gig      Gig       @relation(fields: [gigId], references: [id])
+  gigId    String
+  comments Comment[]
+
+  @@unique([clientId, gigId])
+  @@index([clientId])
+  @@index([gigId])
+}
+
+model Comment {
+  id      String @id @default(cuid())
+  message String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
+  freelancerId String
+  review       Review     @relation(fields: [reviewId], references: [id])
+  reviewId     String
+
+  @@index([freelancerId])
+  @@index([reviewId])
+}
+
+enum Status {
+  PENDING
+  WORKING
+  DELIVERED
 }
