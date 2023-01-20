@@ -27,7 +27,7 @@ const UserMenu = () => {
           size="small"
         />
       </Menu.Button>
-      <Menu.Items className="absolute z-50 flex flex-col rounded bg-white p-4 shadow-md outline-none">
+      <Menu.Items className="absolute right-2 z-50 flex flex-col rounded bg-white p-4 shadow-md outline-none desktop:right-10">
         <Menu.Item>
           <div className="mb-2 flex items-center gap-4">
             <Avatar
