@@ -24,11 +24,10 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, isNewUser }) {
       if (isNewUser) {
         const generateUsername = async () => {
+          const username = `${token.email?.split("@")[0]}`;
           await prisma.user.update({
             where: { id: token.sub },
-            data: {
-              username: token.name?.split(" ").join("").toLowerCase(),
-            },
+            data: { username },
           });
         };
         const becomeClient = async () => {
