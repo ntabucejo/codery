@@ -31,7 +31,15 @@ export const authOptions: NextAuthOptions = {
             },
           });
         };
+        const becomeClient = async () => {
+          await prisma.client.create({
+            data: {
+              userId: token.sub as string,
+            },
+          });
+        };
         generateUsername();
+        becomeClient();
       }
       return token;
     },
