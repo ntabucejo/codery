@@ -2,15 +2,10 @@
 
 import Avatar from "@core/components/elements/avatar";
 import Button from "@core/components/elements/button";
-import useSession from "@core/hooks/use-session";
 import { BellIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
-import { signIn } from "next-auth/react";
 import Symbol from "../../../elements/symbol";
 
 const User = () => {
-
-
-
   return (
     <div className="flex items-center gap-4">
       <div className="flex">
