@@ -21,7 +21,25 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token }) {
+    async jwt({ token, isNewUser }) {
+      if (isNewUser) {
+        const generateUsername = async () => {
+          const username = `${token.email?.split("@")[0]}`;
+          await prisma.user.update({
+            where: { id: token.sub },
+            data: { username },
+          });
+        };
+        const becomeClient = async () => {
+          await prisma.client.create({
+            data: {
+              userId: token.sub as string,
+            },
+          });
+        };
+        generateUsername();
+        becomeClient();
+      }
       return token;
     },
   },
