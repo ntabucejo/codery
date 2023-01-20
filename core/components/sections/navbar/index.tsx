@@ -38,7 +38,7 @@ const Navbar = async () => {
           <Route to="Home" href="#" isBold />
           <Route to="Explore" href="#" isBold />
           <Route to="About" href="#" isBold />
-        </ul>q
+        </ul>
         {session ? (
           <>
             <MinusIcon className="icon -ml-2 -mr-4 rotate-90 text-primary-dark/fade" />
