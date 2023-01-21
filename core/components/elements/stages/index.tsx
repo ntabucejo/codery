@@ -12,7 +12,7 @@ type Props = {
 
 const Stages = ({ panels }: Props) => {
   return (
-    <Tab.Group as="section" className="space-y-4">
+    <Tab.Group as="section" className="space-y-8">
       <Tab.List className="flex w-full items-center gap-6 overflow-scroll scrollbar-hide">
         {panels.map((panel) => (
           <>
@@ -27,7 +27,12 @@ const Stages = ({ panels }: Props) => {
                     } flex aspect-square w-8 items-center justify-center rounded-full border text-center font-semibold`}>
                     <div className="">{panel.id}</div>
                   </div>
-                  <span className="font-semibold">{panel.title}</span>
+                  <span
+                    className={`${
+                      selected ? "" : "text-primary-dark/fade"
+                    } font-semibold`}>
+                    {panel.title}
+                  </span>
                 </>
               )}
             </Tab>
