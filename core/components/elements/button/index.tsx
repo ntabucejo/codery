@@ -5,7 +5,7 @@ import type { MouseEventHandler } from "react";
 
 type Props = {
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "tertiary" | "icon";
+  variant?: "primary" | "secondary" | "tertiary" | "quaternary" | "icon";
   isFull?: boolean;
   isDisabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -36,13 +36,13 @@ const Button = ({
       break;
     }
     case "tertiary": {
-      const className =
-        "border border-transparent underline-offset-2 enabled:hover:underline clearance";
+      const className = "p-2 text-primary-dark/fade hover:text-primary-dark";
       style = className;
       break;
     }
-    case "icon": {
-      const className = "p-2";
+    case "quaternary": {
+      const className =
+        "border border-transparent underline-offset-2 enabled:hover:underline clearance";
       style = className;
       break;
     }
@@ -58,9 +58,9 @@ const Button = ({
       onClick={onClick}
       className={`
         ${style}
-        ${isFull ? "w-full" : ""}
+        ${isFull ? "flex w-full justify-center" : ""}
         ${className ? className : ""}
-        smooth group whitespace-nowrap rounded text-sm font-bold transition-colors`}>
+        smooth group flex items-center gap-2 whitespace-nowrap rounded text-sm font-bold transition-colors`}>
       {children}
     </motion.button>
   );

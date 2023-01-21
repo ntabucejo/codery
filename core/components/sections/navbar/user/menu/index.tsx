@@ -1,72 +1,80 @@
+"use client";
+
 import Avatar from "@core/components/elements/avatar";
-import Button from "@core/components/elements/button";
-import { Menu } from "@headlessui/react";
+import { Menu as HeadlessuiMenu, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import Route from "./route";
 import {
-  ArrowLeftOnRectangleIcon,
-  ChartBarIcon,
   UserIcon,
-} from "@heroicons/react/24/solid";
+  ChartPieIcon,
+  ArrowLeftOnRectangleIcon,
+} from "@heroicons/react/24/outline";
+import Button from "@core/components/elements/button";
 import { signOut } from "next-auth/react";
+import Symbol from "@core/components/elements/symbol";
+import { Session } from "next-auth";
 
-const UserMenu = () => {
-  const list = [
-    { Icon: <UserIcon className="h-6 w-6" />, name: "Profile", href: "#" },
-    {
-      Icon: <ChartBarIcon className="h-6 w-6" />,
-      name: "Dashboard",
-      href: "#",
-    },
-  ];
+type Props = {
+  session: Session;
+  className?: string;
+};
 
+const Menu = ({ session, className }: Props) => {
   return (
-    <Menu as="div">
-      <Menu.Button className="relative outline-none">
-        <Avatar
-          src="https://images.unsplash.com/photo-1672860647219-d624a4bf5d06?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-          alt="Avatar"
-          size="small"
-        />
-      </Menu.Button>
-      <Menu.Items className="absolute right-2 z-50 flex flex-col rounded bg-white p-4 shadow-md outline-none desktop:right-10">
-        <Menu.Item>
-          <div className="mb-2 flex items-center gap-4">
-            <Avatar
-              src="https://images.unsplash.com/photo-1672860647219-d624a4bf5d06?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-              alt="Avatar"
-              size="medium"
-            />
+    <HeadlessuiMenu as="div" className={`${className} relative z-10`}>
+      <HeadlessuiMenu.Button className="flex items-center">
+        <Avatar src={session.user?.image!} alt="Avatar" size="small" />
+      </HeadlessuiMenu.Button>
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95">
+        <HeadlessuiMenu.Items className="fixed left-4 right-4 mt-4 w-80 rounded border bg-white py-2 book:absolute book:left-auto book:right-0">
+          <div className="flex items-center gap-4 px-2 pb-2">
+            <Avatar src={session.user?.image!} alt="Avatar" size="medium" />
             <div className="flex flex-col">
-              <span className="font-semibold">Jazztine Cruz</span>
-              <span className="text-sm">jzztn.crz@gmail.com</span>
+              <span className="font-bold">{session.user?.name}</span>
+              <span className="text-xs text-primary-dark/fade">
+                {session.user?.email}
+              </span>
             </div>
           </div>
-        </Menu.Item>
 
-        {list.map((menu) => (
-          <Menu.Item key={menu.name}>
-            {({ active }) => (
-              <a
-                className={`${
-                  active && "rounded bg-slate-100"
-                } flex items-center gap-4 p-2`}
-                href={menu.href}>
-                {menu.Icon}
-                {menu.name}
-              </a>
-            )}
-          </Menu.Item>
-        ))}
+          <ul className="border-y p-2">
+            <Route Icon={UserIcon} href="#">
+              Profile
+            </Route>
+            <Route Icon={ChartPieIcon} href="#">
+              Dashboard
+            </Route>
+          </ul>
 
-        <Button
-          isFull
-          onClick={() => signOut()}
-          className="mt-2 flex items-center gap-2">
-          <ArrowLeftOnRectangleIcon className="h-6 w-6" />
-          <span>Logout my Account</span>
-        </Button>
-      </Menu.Items>
-    </Menu>
+          <div className="flex gap-2 px-2">
+            <Button
+              isFull
+              onClick={() => signOut()}
+              className="mt-2 flex items-center gap-2">
+              <Symbol
+                Icon={ArrowLeftOnRectangleIcon}
+                isHoverDisabled
+                className="text-primary-light"
+              />
+              Logout Account
+            </Button>
+            <Button
+              variant="secondary"
+              className="mt-2 flex items-center gap-2">
+              Feedback
+            </Button>
+          </div>
+        </HeadlessuiMenu.Items>
+      </Transition>
+    </HeadlessuiMenu>
   );
 };
 
-export default UserMenu;
+export default Menu;

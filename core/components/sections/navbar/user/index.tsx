@@ -1,24 +1,47 @@
 "use client";
 
-import Avatar from "@core/components/elements/avatar";
+import {
+  BellIcon,
+  ShoppingCartIcon,
+  BanknotesIcon,
+  ChatBubbleLeftRightIcon,
+} from "@heroicons/react/24/outline";
 import Button from "@core/components/elements/button";
-import { BellIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { Session } from "next-auth";
 import Symbol from "../../../elements/symbol";
-import UserMenu from "./menu";
+import Menu from "./menu";
+import { MinusIcon } from "@heroicons/react/24/solid";
 
-const User = () => {
+type Props = {
+  session: Session;
+};
+
+const User = ({ session }: Props) => {
   return (
-    <div className="flex items-center gap-4">
-      <div className="flex">
-        <Button variant="icon">
-          <Symbol Icon={BellIcon} />
-        </Button>
-        <Button variant="icon">
-          <Symbol Icon={ShoppingCartIcon} />
-        </Button>
+    <>
+      <MinusIcon className="icon -ml-2 -mr-4 rotate-90 text-primary-dark/fade" />
+      <div className="flex items-center gap-4">
+        <div className="flex">
+          <Button variant="tertiary">
+            <Symbol Icon={BellIcon} />
+            Notifications
+          </Button>
+          <Button variant="tertiary">
+            <Symbol Icon={ShoppingCartIcon} />
+            Orders
+          </Button>
+          <Button variant="tertiary">
+            <Symbol Icon={BanknotesIcon} />
+            Offers
+          </Button>
+          <Button variant="tertiary">
+            <Symbol Icon={ChatBubbleLeftRightIcon} />
+            Messages
+          </Button>
+        </div>
+        <Menu session={session} />
       </div>
-      <UserMenu/>
-    </div>
+    </>
   );
 };
 

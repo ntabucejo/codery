@@ -1,9 +1,9 @@
 import useSession from "@core/hooks/use-session";
-import { MinusIcon } from "@heroicons/react/24/solid";
 import Route from "../../elements/route";
 import Search from "./search";
 import SignIn from "./sign-in";
 import User from "./user";
+import { getProviders } from "next-auth/react";
 
 const categories = [
   "Typescript",
@@ -27,6 +27,7 @@ const categories = [
 
 const Navbar = async () => {
   const { session } = await useSession();
+  const providers = await getProviders();
 
   return (
     <nav className="contain space-y-4">
@@ -40,14 +41,9 @@ const Navbar = async () => {
           <Route to="About" href="#" isBold />
         </ul>
         {session ? (
-          <>
-            <MinusIcon className="icon -ml-2 -mr-4 rotate-90 text-primary-dark/fade" />
-            <User />
-          </>
+          <User session={session} />
         ) : (
-          <>
-            <SignIn />
-          </>
+          <SignIn providers={providers!} />
         )}
       </div>
       {/* Lower Nav */}

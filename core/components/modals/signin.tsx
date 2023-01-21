@@ -3,7 +3,6 @@ import { Dispatch, SetStateAction } from "react";
 import Button from "../elements/button";
 import Modal from "../layouts/modal";
 import { signIn } from "next-auth/react";
-import { sign } from "crypto";
 
 type Props = {
   openModal: boolean;

@@ -6,7 +6,6 @@ import NumberField from "@core/components/elements/fields/number";
 import TextAreaField from "@core/components/elements/fields/textarea";
 import TextField from "@core/components/elements/fields/text";
 import Tooltip from "@core/components/elements/tooltip";
-import React from "react";
 
 const Overview = () => {
   return (
