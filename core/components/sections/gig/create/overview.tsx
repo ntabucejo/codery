@@ -4,7 +4,6 @@ import Description from "@core/components/elements/fields/description";
 import Label from "@core/components/elements/fields/label";
 import TextField from "@core/components/elements/fields/textField";
 import Tooltip from "@core/components/elements/tooltip";
-import React from "react";
 
 const Overview = () => {
   return (

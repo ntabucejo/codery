@@ -42,9 +42,9 @@ const Symbol = ({
           ? "hover:cursor-pointer hover:text-primary-dark group-hover:cursor-pointer group-hover:text-primary-dark"
           : ""
       } 
-      ${className ? className : ""} 
+      ${className ? className : "text-primary-dark/fade"} 
       ${style} 
-      smooth aspect-square flex-none text-primary-dark/fade`}
+      smooth aspect-square flex-none`}
     />
   );
 };

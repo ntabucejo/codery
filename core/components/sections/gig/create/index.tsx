@@ -1,6 +1,6 @@
 "use client";
+
 import { Tab } from "@headlessui/react";
-import React from "react";
 import Overview from "./overview";
 
 const panels = [
@@ -16,11 +16,11 @@ const CreateGig = () => {
   return (
     <div className="contain grid gap-8">
       <Tab.Group>
-        <Tab.List className="flex items-center overflow-scroll scrollbar-hide gap-4">
+        <Tab.List className="flex items-center gap-4 overflow-scroll scrollbar-hide">
           {panels.map((panel) => (
             <Tab
               key={panel.title}
-              className="cursor-pointer outline-none smooth hover:font-medium">
+              className="smooth cursor-pointer outline-none hover:font-medium">
               {panel.title}
             </Tab>
           ))}

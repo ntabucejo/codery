@@ -1,4 +1,5 @@
-'use client'
+"use client";
+
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import Content from "./content";
