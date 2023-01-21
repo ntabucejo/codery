@@ -19,12 +19,14 @@ const Route = ({ children, Icon, href }: Props) => {
             className={`${
               active
                 ? "bg-primary-dark text-primary-light"
-                : "text-primary-dark/fade"
+                : "text-primary-dark"
             } smooth flex w-full items-center gap-2 rounded p-2 text-left`}>
             <Symbol
               Icon={Icon}
               isHoverDisabled
-              className={`${active ? "text-primary-light" : ""}`}
+              className={`${
+                active ? "text-primary-light" : "text-primary-dark"
+              }`}
             />
             {children}
           </button>
