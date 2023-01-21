@@ -1,11 +1,12 @@
 "use client";
 import { Tab } from "@headlessui/react";
 import React, { useState } from "react";
+import Gallery from "./gallery";
 import Overview from "./overview";
 
 const panels = [
   { id: 1, title: "Overview", content: <Overview /> },
-  { id: 2, title: "Gallery", content: "Content 5" },
+  { id: 2, title: "Gallery", content: <Gallery/> },
   { id: 3, title: "Publish", content: "Content 6" },
 ];
 
