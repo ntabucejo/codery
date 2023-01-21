@@ -1,13 +1,21 @@
 "use client";
 
 import Button from "@core/components/elements/button";
-import { signIn } from "next-auth/react";
+import SignInModal from "@core/components/modals/signin";
+import { useState } from "react";
 
 const SignIn = () => {
+  const [openModal, setOpenModal] = useState(true);
   return (
-    <Button variant="primary" onClick={() => signIn("google")}>
-      Login
-    </Button>
+    <>
+      <Button variant="primary" onClick={() => setOpenModal(true)}>
+        Login / SignUp
+      </Button>
+
+      {openModal && (
+        <SignInModal setOpenModal={setOpenModal} openModal={openModal} />
+      )}
+    </>
   );
 };
 
