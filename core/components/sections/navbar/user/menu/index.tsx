@@ -8,6 +8,8 @@ import {
   UserIcon,
   ChartPieIcon,
   ArrowLeftOnRectangleIcon,
+  BriefcaseIcon,
+  PlusCircleIcon,
 } from "@heroicons/react/24/outline";
 import Button from "@core/components/elements/button";
 import { signOut } from "next-auth/react";
@@ -33,7 +35,7 @@ const Menu = ({ session, className }: Props) => {
         leave="transition ease-in duration-75"
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95">
-        <HeadlessuiMenu.Items className="fixed left-4 right-4 mt-4 w-80 rounded border bg-white py-2 book:absolute book:left-auto book:right-0">
+        <HeadlessuiMenu.Items className="fixed left-4 right-4 mt-4 w-80 rounded border bg-primary-light py-2 shadow book:absolute book:left-auto book:right-0">
           <div className="flex items-center gap-4 px-2 pb-2">
             <Avatar src={session.user?.image!} alt="Avatar" size="medium" />
             <div className="flex flex-col">
@@ -50,6 +52,12 @@ const Menu = ({ session, className }: Props) => {
             </Route>
             <Route Icon={ChartPieIcon} href="#">
               Dashboard
+            </Route>
+            <Route Icon={PlusCircleIcon} href="#">
+              Create Gig
+            </Route>
+            <Route Icon={BriefcaseIcon} href="#">
+              Become Freelancer
             </Route>
           </ul>
 
