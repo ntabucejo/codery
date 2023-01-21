@@ -3,6 +3,7 @@ import Route from "../../elements/route";
 import Search from "./search";
 import SignIn from "./sign-in";
 import User from "./user";
+import { getProviders } from "next-auth/react";
 
 const categories = [
   "Typescript",
@@ -26,6 +27,7 @@ const categories = [
 
 const Navbar = async () => {
   const { session } = await useSession();
+  const providers = await getProviders();
 
   return (
     <nav className="contain space-y-4">
@@ -38,7 +40,11 @@ const Navbar = async () => {
           <Route to="Explore" href="#" isBold />
           <Route to="About" href="#" isBold />
         </ul>
-        {session ? <User session={session} /> : <SignIn />}
+        {session ? (
+          <User session={session} />
+        ) : (
+          <SignIn providers={providers!} />
+        )}
       </div>
       {/* Lower Nav */}
       <ul className="flex gap-4 overflow-x-auto scrollbar-hide">

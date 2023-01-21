@@ -36,8 +36,7 @@ const Button = ({
       break;
     }
     case "tertiary": {
-      const className =
-        "p-2 flex items-center gap-2 text-primary-dark/fade hover:text-primary-dark";
+      const className = "p-2 text-primary-dark/fade hover:text-primary-dark";
       style = className;
       break;
     }
@@ -61,7 +60,7 @@ const Button = ({
         ${style}
         ${isFull ? "flex w-full justify-center" : ""}
         ${className ? className : ""}
-        smooth group whitespace-nowrap rounded text-sm font-bold transition-colors`}>
+        smooth group flex items-center gap-2 whitespace-nowrap rounded text-sm font-bold transition-colors`}>
       {children}
     </motion.button>
   );
