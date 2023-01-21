@@ -10,7 +10,8 @@ const Showcase = () => {
       <Field.Body
         id="Upload Images"
         label="Upload Images"
-        description="Get noticed by the right buyers with visual examples of your services.">
+        description="Get noticed by the right buyers with visual examples of your services."
+        tooltip="By uploading images you will have a higher chance of getting a client.">
         <Field.File id="Upload Images" />
       </Field.Body>
       <ul className="grid grid-cols-4 gap-4">
