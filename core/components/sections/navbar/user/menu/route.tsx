@@ -1,6 +1,5 @@
 "use client";
 
-import Button from "@core/components/elements/button";
 import Symbol from "@core/components/elements/symbol";
 import { Menu } from "@headlessui/react";
 import { useRouter } from "next/navigation";
