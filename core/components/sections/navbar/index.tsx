@@ -38,7 +38,7 @@ const Navbar = async () => {
         <strong className="text-2xl">Codery</strong>
         <Search />
         <ul className="flex gap-4">
-          <Route to="Home" href="#" isBold />
+          <Route to="Home" href="/" isBold />
           <Route to="Explore" href="#" isBold />
           <Route to="About" href="#" isBold />
         </ul>
