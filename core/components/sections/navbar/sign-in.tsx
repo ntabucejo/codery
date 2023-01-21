@@ -20,15 +20,15 @@ const SignIn = ({ providers }: Props) => {
   return (
     <>
       <Button variant="primary" onClick={handleOpen}>
-        Login / SignUp
+        Login
       </Button>
 
       <Modal
         title="Welcome to Codery!"
         state={state}
         handleClose={handleClose}
-        className="max-w-md">
-        <div className="grid grid-cols-2 gap-4">
+        className="max-w-sm">
+        <div className="space-y-2">
           {Object.values(providers).map((provider) => (
             <div key={provider.name}>
               <Button

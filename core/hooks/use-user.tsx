@@ -4,10 +4,10 @@ import useSession from "./use-session";
 const useUser = async () => {
   const { session } = await useSession();
   const user = await prisma.user.findUnique({
-    where: { email: session?.user?.email! },
+    where: { email: session?.user?.email! || "!" },
   });
 
-  return { user: user! };
+  return { user };
 };
 
 export default useUser;

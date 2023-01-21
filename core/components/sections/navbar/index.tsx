@@ -27,7 +27,6 @@ const categories = [
 ];
 
 const Navbar = async () => {
-  const { session } = await useSession();
   const { user } = await useUser();
   const providers = await getProviders();
 
@@ -42,7 +41,7 @@ const Navbar = async () => {
           <Route to="Explore" href="#" isBold />
           <Route to="About" href="#" isBold />
         </ul>
-        {session ? <User user={user} /> : <SignIn providers={providers!} />}
+        {user ? <User user={user} /> : <SignIn providers={providers!} />}
       </div>
       {/* Lower Nav */}
       <ul className="flex gap-4 overflow-x-auto scrollbar-hide">
