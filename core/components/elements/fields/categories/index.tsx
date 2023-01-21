@@ -16,12 +16,12 @@ const Categories = () => {
   const [selectedCategory, setSelectedCategory] = useState(list[0]);
 
   return (
-    <Listbox value={selectedCategory} onChange={setSelectedCategory}>
-      <Listbox.Button className="flex items-center rounded border-[1px] border-primary-dark/25 px-4 py-2 text-sm font-semibold text-primary-dark/80">
+    <Listbox as='div' value={selectedCategory} onChange={setSelectedCategory} className='relative'>
+      <Listbox.Button className="flex relative items-center w-full rounded border-[1px] border-primary-dark/25 px-4 py-3 text-sm font-semibold text-primary-dark/80">
         <span>{selectedCategory.name}</span>
         <ChevronDownIcon className="ml-auto h-5 w-5" />
       </Listbox.Button>
-      <Listbox.Options className="h-40 overflow-scroll rounded border-[1px] border-primary-dark/25">
+      <Listbox.Options className="h-40 absolute -bottom-[165px] w-full bg-white z-50 overflow-scroll rounded border-[1px] border-primary-dark/25">
         {list
           .filter((category) => category.id > 0)
           .map((category) => (
@@ -29,7 +29,7 @@ const Categories = () => {
               key={category.id}
               value={category}
               disabled={category.unavailable}
-              className="cursor-pointer py-2 pl-2 text-sm hover:bg-primary-dark/5">
+              className="cursor-pointer p-3 pl-2 hover:bg-primary-dark/5 text-sm">
               {category.name}
             </Listbox.Option>
           ))}
