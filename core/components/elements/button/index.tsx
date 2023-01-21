@@ -37,13 +37,13 @@ const Button = ({
     }
     case "tertiary": {
       const className =
-        "border border-transparent underline-offset-2 enabled:hover:underline clearance";
+        "p-2 flex items-center gap-2 text-primary-dark/fade hover:text-primary-dark";
       style = className;
       break;
     }
     case "quaternary": {
       const className =
-        "p-2 flex items-center gap-2 text-primary-dark/fade hover:text-primary-dark";
+        "border border-transparent underline-offset-2 enabled:hover:underline clearance";
       style = className;
       break;
     }

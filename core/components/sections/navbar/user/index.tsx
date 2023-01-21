@@ -22,19 +22,19 @@ const User = ({ session }: Props) => {
       <MinusIcon className="icon -ml-2 -mr-4 rotate-90 text-primary-dark/fade" />
       <div className="flex items-center gap-4">
         <div className="flex">
-          <Button variant="quaternary">
+          <Button variant="tertiary">
             <Symbol Icon={BellIcon} />
             Notifications
           </Button>
-          <Button variant="quaternary">
+          <Button variant="tertiary">
             <Symbol Icon={ShoppingCartIcon} />
             Orders
           </Button>
-          <Button variant="quaternary">
+          <Button variant="tertiary">
             <Symbol Icon={BanknotesIcon} />
             Offers
           </Button>
-          <Button variant="quaternary">
+          <Button variant="tertiary">
             <Symbol Icon={ChatBubbleLeftRightIcon} />
             Messages
           </Button>
