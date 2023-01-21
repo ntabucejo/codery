@@ -3,6 +3,7 @@
 import Button from "@core/components/elements/button";
 import Symbol from "@core/components/elements/symbol";
 import { Menu } from "@headlessui/react";
+import { useRouter } from "next/navigation";
 
 type Props = {
   children: React.ReactNode;
@@ -11,11 +12,18 @@ type Props = {
 };
 
 const Route = ({ children, Icon, href }: Props) => {
+  const router = useRouter();
+
+  const handleNavigation = () => {
+    router.push(href);
+  };
+
   return (
     <li>
       <Menu.Item>
         {({ active }) => (
           <button
+            onClick={handleNavigation}
             className={`${
               active
                 ? "bg-primary-dark text-primary-light"
