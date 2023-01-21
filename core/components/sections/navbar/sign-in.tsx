@@ -5,7 +5,7 @@ import SignInModal from "@core/components/modals/signin";
 import { useState } from "react";
 
 const SignIn = () => {
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
   return (
     <>
       <Button variant="primary" onClick={() => setOpenModal(true)}>
