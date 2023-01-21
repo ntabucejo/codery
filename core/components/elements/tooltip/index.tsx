@@ -2,6 +2,7 @@
 
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
+import Symbol from "../symbol";
 import Content from "./content";
 
 type Props = {
@@ -13,12 +14,11 @@ const Tooltip = ({ children }: Props) => {
 
   return (
     <div className="relative">
-      <QuestionMarkCircleIcon
+      <div
         onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
-        className="h-5 w-5 cursor-pointer text-primary-dark/40"
-      />
-
+        onMouseLeave={() => setOpen(false)}>
+        <Symbol Icon={QuestionMarkCircleIcon} size="small" />
+      </div>
       {open && <Content children={children}></Content>}
     </div>
   );
