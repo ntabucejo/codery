@@ -4,6 +4,7 @@ import Search from "./search";
 import SignIn from "./sign-in";
 import User from "./user";
 import { getProviders } from "next-auth/react";
+import useUser from "@core/hooks/use-user";
 
 const categories = [
   "Typescript",
@@ -26,7 +27,7 @@ const categories = [
 ];
 
 const Navbar = async () => {
-  const { session } = await useSession();
+  const { user } = await useUser();
   const providers = await getProviders();
 
   return (
@@ -36,15 +37,11 @@ const Navbar = async () => {
         <strong className="text-2xl">Codery</strong>
         <Search />
         <ul className="flex gap-4">
-          <Route to="Home" href="#" isBold />
+          <Route to="Home" href="/" isBold />
           <Route to="Explore" href="#" isBold />
           <Route to="About" href="#" isBold />
         </ul>
-        {session ? (
-          <User session={session} />
-        ) : (
-          <SignIn providers={providers!} />
-        )}
+        {user ? <User user={user} /> : <SignIn providers={providers!} />}
       </div>
       {/* Lower Nav */}
       <ul className="flex gap-4 overflow-x-auto scrollbar-hide">

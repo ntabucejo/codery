@@ -8,22 +8,24 @@ import {
   UserIcon,
   ChartPieIcon,
   ArrowLeftOnRectangleIcon,
+  BriefcaseIcon,
+  PlusCircleIcon,
 } from "@heroicons/react/24/outline";
 import Button from "@core/components/elements/button";
 import { signOut } from "next-auth/react";
 import Symbol from "@core/components/elements/symbol";
-import { Session } from "next-auth";
+import type { User } from "@prisma/client";
 
 type Props = {
-  session: Session;
+  user: User;
   className?: string;
 };
 
-const Menu = ({ session, className }: Props) => {
+const Menu = ({ user, className }: Props) => {
   return (
     <HeadlessuiMenu as="div" className={`${className} relative z-10`}>
       <HeadlessuiMenu.Button className="flex items-center">
-        <Avatar src={session.user?.image!} alt="Avatar" size="small" />
+        <Avatar src={user.image!} alt="Avatar" size="small" />
       </HeadlessuiMenu.Button>
       <Transition
         as={Fragment}
@@ -33,23 +35,29 @@ const Menu = ({ session, className }: Props) => {
         leave="transition ease-in duration-75"
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95">
-        <HeadlessuiMenu.Items className="fixed left-4 right-4 mt-4 w-80 rounded border bg-white py-2 book:absolute book:left-auto book:right-0">
+        <HeadlessuiMenu.Items className="fixed left-4 right-4 mt-4 w-80 rounded border bg-primary-light py-2 shadow book:absolute book:left-auto book:right-0">
           <div className="flex items-center gap-4 px-2 pb-2">
-            <Avatar src={session.user?.image!} alt="Avatar" size="medium" />
+            <Avatar src={user.image!} alt="Avatar" size="medium" />
             <div className="flex flex-col">
-              <span className="font-bold">{session.user?.name}</span>
+              <span className="font-bold">{user.name!}</span>
               <span className="text-xs text-primary-dark/fade">
-                {session.user?.email}
+                {user.email!}
               </span>
             </div>
           </div>
 
           <ul className="border-y p-2">
-            <Route Icon={UserIcon} href="#">
+            <Route Icon={UserIcon} href={`/${user.username}`}>
               Profile
             </Route>
             <Route Icon={ChartPieIcon} href="#">
               Dashboard
+            </Route>
+            <Route Icon={PlusCircleIcon} href={`/${user.username}/create/gig`}>
+              Create Gig
+            </Route>
+            <Route Icon={BriefcaseIcon} href="#">
+              Become Freelancer
             </Route>
           </ul>
 

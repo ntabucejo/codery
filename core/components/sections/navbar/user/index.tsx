@@ -7,16 +7,16 @@ import {
   ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
 import Button from "@core/components/elements/button";
-import { Session } from "next-auth";
 import Symbol from "../../../elements/symbol";
 import Menu from "./menu";
 import { MinusIcon } from "@heroicons/react/24/solid";
+import type { User as UserType } from "@prisma/client";
 
 type Props = {
-  session: Session;
+  user: UserType;
 };
 
-const User = ({ session }: Props) => {
+const User = ({ user }: Props) => {
   return (
     <>
       <MinusIcon className="icon -ml-2 -mr-4 rotate-90 text-primary-dark/fade" />
@@ -39,7 +39,7 @@ const User = ({ session }: Props) => {
             Messages
           </Button>
         </div>
-        <Menu session={session} />
+        <Menu user={user} />
       </div>
     </>
   );
