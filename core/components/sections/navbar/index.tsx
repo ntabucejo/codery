@@ -5,6 +5,7 @@ import SignIn from "./sign-in";
 import User from "./user";
 import { getProviders } from "next-auth/react";
 import useUser from "@core/hooks/use-user";
+import serialize from "@core/utilities/serialize";
 
 const categories = [
   "Typescript",
@@ -41,7 +42,7 @@ const Navbar = async () => {
           <Route to="Explore" href="#" isBold />
           <Route to="About" href="#" isBold />
         </ul>
-        {user ? <User user={user} /> : <SignIn providers={providers!} />}
+        {user ? <User user={serialize(user)} /> : <SignIn providers={providers!} />}
       </div>
       {/* Lower Nav */}
       <ul className="flex gap-4 overflow-x-auto scrollbar-hide">
