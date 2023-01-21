@@ -10,10 +10,10 @@ import Button from "@core/components/elements/button";
 import Symbol from "../../../elements/symbol";
 import Menu from "./menu";
 import { MinusIcon } from "@heroicons/react/24/solid";
-import type { User } from "@prisma/client";
+import type { User as UserType } from "@prisma/client";
 
 type Props = {
-  user: User;
+  user: UserType;
 };
 
 const User = ({ user }: Props) => {
