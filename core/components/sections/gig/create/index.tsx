@@ -5,9 +5,6 @@ import Overview from "./overview";
 
 const panels = [
   { title: "Overview", content: <Overview /> },
-  { title: "Pricing", content: "Content 2" },
-  { title: "Description", content: "Content 3" },
-  { title: "Requirements", content: "Content 4" },
   { title: "Gallery", content: "Content 5" },
   { title: "Publish", content: "Content 6" },
 ];
