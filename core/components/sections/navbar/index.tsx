@@ -1,5 +1,4 @@
 import useSession from "@core/hooks/use-session";
-import { MinusIcon } from "@heroicons/react/24/solid";
 import Route from "../../elements/route";
 import Search from "./search";
 import SignIn from "./sign-in";
@@ -39,16 +38,7 @@ const Navbar = async () => {
           <Route to="Explore" href="#" isBold />
           <Route to="About" href="#" isBold />
         </ul>
-        {session ? (
-          <>
-            <MinusIcon className="icon -ml-2 -mr-4 rotate-90 text-primary-dark/fade" />
-            <User />
-          </>
-        ) : (
-          <>
-            <SignIn />
-          </>
-        )}
+        {session ? <User session={session} /> : <SignIn />}
       </div>
       {/* Lower Nav */}
       <ul className="flex gap-4 overflow-x-auto scrollbar-hide">
