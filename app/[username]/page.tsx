@@ -2,10 +2,14 @@ import Avatar from "@core/components/elements/avatar";
 import Pin from "@core/components/elements/pin";
 import Route from "@core/components/elements/route";
 import Gigs from "@core/components/sections/gigs";
+import useUser from "@core/hooks/use-user";
 import { MapPinIcon, AtSymbolIcon, UserIcon } from "@heroicons/react/24/solid";
+import moment from "moment";
 import Image from "next/image";
 
-const Page = () => {
+const Page = async () => {
+  const { user } = await useUser();
+
   return (
     <>
       <section className="smooth relative -mt-4 aspect-[20/4] overflow-hidden">
@@ -19,22 +23,24 @@ const Page = () => {
       <section className="contain">
         <div className="flex gap-8">
           <Avatar
-            src="https://images.unsplash.com/photo-1672860647219-d624a4bf5d06?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-            alt="Avatar"
+            src={user?.image!}
+            alt={user?.name!}
             size="large"
             className="-mt-20 rounded-full border"
           />
           <div className="flex flex-col justify-end space-y-2">
-            <h1 className="text-5xl font-bold">Nikko Abucejo</h1>
+            <h1 className="text-5xl font-bold">{user?.name}</h1>
             <div className="flex gap-4">
               <Pin size="medium" Icon={AtSymbolIcon}>
-                nikkoabucejo
+                {user?.username}
               </Pin>
-              <Pin size="medium" Icon={MapPinIcon}>
-                Philippines
-              </Pin>
+              {user?.location ? (
+                <Pin size="medium" Icon={MapPinIcon}>
+                  {user?.location}
+                </Pin>
+              ) : null}
               <Pin size="medium" Icon={UserIcon}>
-                January 2022
+                {moment(user?.createdAt!).format("LL")}
               </Pin>
             </div>
           </div>
