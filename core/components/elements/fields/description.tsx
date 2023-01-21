@@ -3,7 +3,9 @@ type Props = {
 };
 
 const Description = ({ paragraph }: Props) => {
-  return <p className="text-sm text-primary-dark/50 font-medium">{paragraph}</p>;
+  return (
+    <p className="text-sm font-medium text-primary-dark/50">{paragraph}</p>
+  );
 };
 
 export default Description;

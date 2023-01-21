@@ -67,7 +67,6 @@ const Menu = ({ session, className }: Props) => {
             </Button>
             <Button
               variant="secondary"
-              onClick={() => signOut()}
               className="mt-2 flex items-center gap-2">
               Feedback
             </Button>

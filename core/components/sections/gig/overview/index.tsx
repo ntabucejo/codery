@@ -10,9 +10,7 @@ const Overview = () => {
         <Carousel />
         <AboutMe />
       </div>
-      <Heading number={1}>
-        I will develop fix deploy responsive
-      </Heading>
+      <Heading number={1}>I will develop fix deploy responsive</Heading>
     </section>
   );
 };

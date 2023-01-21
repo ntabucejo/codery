@@ -29,7 +29,7 @@ const Categories = () => {
               key={category.id}
               value={category}
               disabled={category.unavailable}
-              className="cursor-pointer py-2 pl-2 hover:bg-primary-dark/5 text-sm">
+              className="cursor-pointer py-2 pl-2 text-sm hover:bg-primary-dark/5">
               {category.name}
             </Listbox.Option>
           ))}
