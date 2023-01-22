@@ -4,20 +4,21 @@ type Props = {
   id: string;
   isFull?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  defaultValue?: string;
 };
 
-const Number = ({ id, isFull, onChange }: Props) => {
+const Date = ({ id, isFull, onChange, defaultValue }: Props) => {
   return (
     <div>
       <input
         id={id}
-        type="number"
-        defaultValue={50}
+        type="date"
         onChange={onChange}
+        defaultValue={defaultValue}
         className={`${isFull ? "w-full" : ""} clearance rounded border`}
       />
     </div>
   );
 };
 
-export default Number;
+export default Date;

@@ -10,6 +10,7 @@ type Props = {
   isDisabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
+  type?: "button" | "submit";
 };
 
 const Button = ({
@@ -19,6 +20,7 @@ const Button = ({
   isDisabled,
   onClick = () => {},
   className,
+  type = "button",
 }: Props) => {
   let style = "";
 
@@ -56,6 +58,7 @@ const Button = ({
       whileTap={{ scale: 0.95 }}
       disabled={isDisabled}
       onClick={onClick}
+      type={type}
       className={`
         ${style}
         ${isFull ? "flex w-full justify-center" : ""}

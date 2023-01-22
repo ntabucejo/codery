@@ -1,6 +1,8 @@
 import Body from "./body";
+import Date from "./date";
 import File from "./file";
 import Number from "./number";
+import Select from "./select";
 import Text from "./text";
 import Textarea from "./textarea";
 
@@ -10,6 +12,8 @@ const Field = {
   Textarea: Textarea,
   Number: Number,
   File: File,
+  Date: Date,
+  Select: Select,
 };
 
 export default Field;
