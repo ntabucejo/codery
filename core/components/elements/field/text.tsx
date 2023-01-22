@@ -4,20 +4,22 @@ type Props = {
   id: string;
   isFull?: boolean;
   placeholder?: string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
   defaultValue?: string
+  value?: string;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 
-const Text = ({ id, isFull, onChange, placeholder, defaultValue }: Props) => {
+const Text = ({ id, isFull, placeholder, onChange, value, defaultValue }: Props) => {
   return (
     <div>
       <input
         id={id}
         type="text"
-        onChange={onChange}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        className={`${isFull ? "w-full" : ""} clearance rounded border`}
+        value={value}
+        onChange={onChange}
+        className={`${isFull ? "w-full" : ""} clearance rounded border text-sm`}
       />
     </div>
   );

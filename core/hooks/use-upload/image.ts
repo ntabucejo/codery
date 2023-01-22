@@ -1,11 +1,12 @@
-import { type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 
-type UseUpload = {
-  setData: any;
-  inputName: string;
+type Image = {
+  name: string;
 };
 
-const useUpload = ({ setData, inputName }: UseUpload) => {
+const image = ({ name }: Image) => {
+  const [data, setData] = useState("");
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -16,7 +17,7 @@ const useUpload = ({ setData, inputName }: UseUpload) => {
     const formData = new FormData();
     // @ts-expect-error
     for (const file of fileInput?.files) {
-      formData.append(inputName, file);
+      formData.append(name, file);
     }
     formData.append("upload_preset", "codery");
     const endpoint = "https://api.cloudinary.com/v1_1/ntabucejo/image/upload";
@@ -28,7 +29,7 @@ const useUpload = ({ setData, inputName }: UseUpload) => {
     return data;
   };
 
-  const handleChange = (event: FormEvent<HTMLFormElement>) => {
+  const handleChange = async (event: FormEvent<HTMLFormElement>) => {
     const reader = new FileReader();
     reader.onload = (onLoadEvent) => {
       // @ts-expect-error
@@ -36,9 +37,11 @@ const useUpload = ({ setData, inputName }: UseUpload) => {
     };
     // @ts-expect-error
     reader.readAsDataURL(event.target.files[0]);
+
+    return await handleSubmit(event);
   };
 
-  return { handleSubmit, handleChange };
+  return { data, handleSubmit, handleChange };
 };
 
-export default useUpload;
+export default image;

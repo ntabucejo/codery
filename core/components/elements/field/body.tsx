@@ -6,11 +6,21 @@ type Props = {
   label: string;
   description: string;
   tooltip?: string;
+  error?: string;
+  className?: string;
 };
 
-const Body = ({ children, id, label, description, tooltip }: Props) => {
+const Body = ({
+  children,
+  id,
+  label,
+  description,
+  tooltip,
+  error,
+  className,
+}: Props) => {
   return (
-    <div className="space-y-2">
+    <div className={`${className ? className : ""} relative space-y-2 py-2`}>
       <div>
         <div className="flex items-center justify-start gap-2">
           <label htmlFor={id} className="font-bold">
@@ -21,6 +31,7 @@ const Body = ({ children, id, label, description, tooltip }: Props) => {
         <p className="text-sm text-primary-dark/fade text-left">{description}</p>
       </div>
       {children}
+      {error ? <span className="text-xs text-red-500">{error}</span> : null}
     </div>
   );
 };
