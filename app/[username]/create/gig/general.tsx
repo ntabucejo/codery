@@ -1,4 +1,3 @@
-import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 
 const options = [
@@ -27,44 +26,42 @@ const General = () => {
         tooltip="Clients will know what category or language you can do about this gig.">
         <Field.Textarea id="Project Description" isFull />
       </Field.Body>
-      <div className="flex gap-12">
-        <Field.Body
-          id="Minimum Price"
-          label="Minimum Price"
-          description="How much is your starting price? You can negotiate with your client about the final amount later."
-          tooltip="All prices should start from 50 dollars.">
-          <Field.Number id="Minimum Price" isFull />
-        </Field.Body>
-        <Field.Body
-          id="Maximum Price"
-          label="Maximum Price"
-          description="How much is your starting price? You can negotiate with your client about the final amount later."
-          tooltip="All prices should start from 50 dollars.">
-          <Field.Number id="Maximum Price" isFull />
-        </Field.Body>
-        <Field.Body
-          id="Revisions"
-          label="Revisions"
-          description="How much is your starting price? You can negotiate with your client about the final amount later."
-          tooltip="All prices should start from 50 dollars.">
-          <Field.Select.List options={options} />
-        </Field.Body>
-      </div>
       <Field.Body
-        id="Select Category"
-        label="Select Category"
+        id="Project Category"
+        label="Project Category"
         description="How much is your starting price? You can negotiate with your client about the final amount later."
         tooltip="All prices should start from 50 dollars.">
         <Field.Select.Combo options={options} />
       </Field.Body>
-      <Field.Body
-        id="Technologies"
-        label="Technologies"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars.">
-        <Field.Select.Multiple options={options} />
-      </Field.Body>
-      <Button variant="primary">{"Showcase >"}</Button>
+      <div className="grid grid-cols-4 gap-4">
+        <Field.Body
+          id="Delivery Period"
+          label="Delivery Period"
+          description="How much is your starting price? You can negotiate with your client about the final amount later."
+          tooltip="All prices should start from 50 dollars."
+          className="col-span-2">
+          <Field.Select.List options={options} />
+        </Field.Body>
+        <Field.Body
+          id="Technologies"
+          label="Technologies"
+          description="How much is your starting price? You can negotiate with your client about the final amount later."
+          tooltip="All prices should start from 50 dollars."
+          className="col-span-2 row-span-2">
+          <Field.Select.Multiple options={options} />
+        </Field.Body>
+        <Field.Body
+          id="Price Range"
+          label="Price Range"
+          description="How much is your starting price? You can negotiate with your client about the final amount later."
+          tooltip="All prices should start from 50 dollars."
+          className="col-span-2">
+          <div className="grid grid-cols-2 gap-4">
+            <Field.Number id="Price Range" isFull />
+            <Field.Number id="Price Range" isFull />
+          </div>
+        </Field.Body>
+      </div>
     </form>
   );
 };

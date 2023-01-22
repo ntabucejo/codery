@@ -6,11 +6,19 @@ type Props = {
   label: string;
   description: string;
   tooltip?: string;
+  className?: string;
 };
 
-const Body = ({ children, id, label, description, tooltip }: Props) => {
+const Body = ({
+  children,
+  id,
+  label,
+  description,
+  tooltip,
+  className,
+}: Props) => {
   return (
-    <div className="space-y-2">
+    <div className={`${className ? className : ""} space-y-2`}>
       <div>
         <div className="flex items-center gap-2">
           <label htmlFor={id} className="font-bold">

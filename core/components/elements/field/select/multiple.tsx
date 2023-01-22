@@ -94,7 +94,7 @@ const Multiple = ({ options }: Props) => {
           </Transition>
         </div>
       </Combobox>
-      <ul className="flex gap-2">
+      <ul className="flex flex-wrap gap-2">
         {items.map((item) => (
           <li
             key={item.id}
