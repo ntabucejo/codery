@@ -23,7 +23,7 @@ const Layout = ({ children }: Props) => {
             <Navbar />
           </header>
           <main className="space-y-4">{children}</main>
-          <footer className="border-t">Footer</footer>
+          {/* <footer className="border-t">Footer</footer> */}
         </Providers>
       </body>
     </html>

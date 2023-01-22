@@ -15,7 +15,7 @@ type Props = {
 
 const Stages = ({ name, panels }: Props) => {
   return (
-    <Tab.Group as="section" className="space-y-4">
+    <Tab.Group as="div" className="space-y-4">
       <div className="space-y-4 rounded bg-primary-dark p-4">
         <h1 className="text-xl font-bold text-primary-light">{name}</h1>
         <Tab.List className="flex w-full items-center gap-6 overflow-scroll scrollbar-hide">
