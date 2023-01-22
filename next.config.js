@@ -6,6 +6,7 @@ const nextConfig = {
       "images.unsplash.com",
       "res.cloudinary.com",
       "lh3.googleusercontent.com",
+      "fiverr-res.cloudinary.com"
     ],
   },
   experimental: { appDir: true },
