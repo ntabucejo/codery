@@ -1,4 +1,5 @@
 import Body from "./body";
+import Date from "./date";
 import File from "./file";
 import Number from "./number";
 import Select from "./select";
@@ -11,6 +12,7 @@ const Field = {
   Textarea: Textarea,
   Number: Number,
   File: File,
+  Date: Date,
   Select: Select,
 };
 

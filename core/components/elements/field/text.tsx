@@ -6,9 +6,10 @@ type Props = {
   placeholder?: string;
   value?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  defaultValue?: string
 };
 
-const Text = ({ id, isFull, placeholder, onChange, value }: Props) => {
+const Text = ({ id, isFull, placeholder, onChange, value, defaultValue }: Props) => {
   return (
     <div>
       <input
@@ -17,6 +18,7 @@ const Text = ({ id, isFull, placeholder, onChange, value }: Props) => {
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         className={`${isFull ? "w-full" : ""} clearance rounded border text-sm`}
       />
     </div>
