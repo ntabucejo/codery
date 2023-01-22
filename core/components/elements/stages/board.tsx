@@ -27,7 +27,7 @@ const Board = ({ name, panels }: Props) => {
                     <div
                       className={`${
                         selected ? "bg-primary-light" : ""
-                      } flex aspect-square w-8 items-center justify-center rounded-full border text-center font-semibold`}>
+                      } flex aspect-square w-7 items-center justify-center rounded-full border text-center font-semibold`}>
                       <div
                         className={`${
                           selected ? "text-primary-dark" : "text-primary-light"
