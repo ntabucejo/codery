@@ -1,4 +1,3 @@
-import useSession from "@core/hooks/use-session";
 import Route from "../../elements/route";
 import Search from "./search";
 import SignIn from "./sign-in";
@@ -42,7 +41,11 @@ const Navbar = async () => {
           <Route to="Explore" href="#" isBold />
           <Route to="About" href="#" isBold />
         </ul>
-        {user ? <User user={serialize(user)} /> : <SignIn providers={providers!} />}
+        {user ? (
+          <User user={serialize(user)} />
+        ) : (
+          <SignIn providers={providers!} />
+        )}
       </div>
       {/* Lower Nav */}
       <ul className="flex gap-4 overflow-x-auto scrollbar-hide">
