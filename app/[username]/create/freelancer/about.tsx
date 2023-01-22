@@ -21,7 +21,7 @@ const About = () => {
     <>
       <section className="contain space-y-4">
         <h1 className="text-4xl font-bold">Become a Freelancer</h1>
-        <Stages panels={panels} />
+        <Stages name="CREATE / FREELANCER" panels={panels} />
       </section>
     </>
   );
