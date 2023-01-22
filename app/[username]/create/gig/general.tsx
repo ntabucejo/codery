@@ -17,7 +17,6 @@ const General = () => {
         tooltip="Clients will know what category or language you can do about this gig.">
         <Field.Textarea id="Project Description" isFull />
       </Field.Body>
-      
       <Field.Body
         id="Starting Price"
         label="Starting Price"
