@@ -77,9 +77,7 @@ const Gig = () => {
   return (
     <section className="contain">
       <form className="space-y-4">
-        <div>
-          <Stages name="CREATE / GIG" panels={panels} />
-        </div>
+        <Stages name="CREATE / GIG" panels={panels} />
         <Button variant="primary" onClick={handleSumbit}>
           Submit
         </Button>
