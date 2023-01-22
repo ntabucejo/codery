@@ -18,7 +18,7 @@ const Body = ({
   className,
 }: Props) => {
   return (
-    <div className={`${className ? className : ""} space-y-2`}>
+    <div className={`${className ? className : ""} space-y-2 py-2`}>
       <div>
         <div className="flex items-center gap-2">
           <label htmlFor={id} className="font-bold">

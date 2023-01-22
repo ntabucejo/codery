@@ -1,24 +1,35 @@
 "use client";
 
-import { Fragment, useState } from "react";
+import {
+  type Dispatch,
+  type SetStateAction,
+  Fragment,
+  useState,
+  useEffect,
+} from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import Symbol from "../../symbol";
 
 type Option = {
-  id: number;
+  id: string;
   name: string;
 };
 
 type Props = {
   options: Option[];
+  name: string;
+  value: {
+    id: string;
+    name: string;
+  }[];
+  setValue: Dispatch<SetStateAction<any>>;
 };
 
-const Multiple = ({ options }: Props) => {
-  const [selected, setSelected] = useState<Option>({ id: -1, name: "Select" });
+const Multiple = ({ options, name, value, setValue }: Props) => {
+  const [selected, setSelected] = useState<Option | null>(null);
+  const [items, setItems] = useState<Option[]>(value);
   const [query, setQuery] = useState("");
-  const [value, setValue] = useState("Select");
-  const [items, setItems] = useState<Option[]>([]);
 
   const filteredOptions =
     query === ""
@@ -30,26 +41,26 @@ const Multiple = ({ options }: Props) => {
             .includes(query.toLowerCase().replace(/\s+/g, ""))
         );
 
-  const isItemExists = (option: Option) => {
-    if (items.find((item) => item.id === option.id)) return true;
+  const isSelectedOnItems = () => {
+    if (selected && items.find((item) => item.id === selected.id)) return true;
     return false;
   };
 
-  const handleAddItem = (option: Option) => {
-    if (!isItemExists(option)) {
-      setItems([...items, option]);
+  useEffect(() => {
+    if (selected && !isSelectedOnItems()) {
+      setItems((state) => [...state, selected]);
+      // @ts-ignore
+      setValue((state) => ({ ...state, [name]: [...items, selected] }));
     }
-  };
+  }, [selected]);
 
   return (
     <div className="space-y-2">
       <Combobox value={selected} onChange={setSelected}>
         <div className="relative text-sm">
           <Combobox.Input
-            onBlur={() => setValue("Select")}
             className="clearance w-full rounded border"
-            onClick={() => setValue("")}
-            displayValue={() => value}
+            placeholder="Select"
             onChange={(event) => setQuery(event.target.value)}
           />
           <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
@@ -71,7 +82,6 @@ const Multiple = ({ options }: Props) => {
                   <Combobox.Option
                     key={option.id}
                     value={option}
-                    onClick={() => handleAddItem(option)}
                     className={({ active }) =>
                       `${
                         active
@@ -82,7 +92,7 @@ const Multiple = ({ options }: Props) => {
                     {({ selected }) => (
                       <span
                         className={`block truncate ${
-                          selected || isItemExists(option) ? "line-through" : ""
+                          selected ? "font-bold" : ""
                         }`}>
                         {option.name}
                       </span>
