@@ -49,6 +49,13 @@ const General = () => {
           <Field.Select.List options={options} />
         </Field.Body>
       </div>
+      <Field.Body
+        id="Technologies"
+        label="Technologies"
+        description="How much is your starting price? You can negotiate with your client about the final amount later."
+        tooltip="All prices should start from 50 dollars.">
+        <Field.Select.Multiple options={options} />
+      </Field.Body>
     </form>
   );
 };
