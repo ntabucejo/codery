@@ -3,6 +3,7 @@
 import { Fragment, useState } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import Symbol from "../../symbol";
 
 type Option = {
   id: number;
@@ -13,7 +14,7 @@ type Props = {
   options: Option[];
 };
 
-const Select = ({ options }: Props) => {
+const Combo = ({ options }: Props) => {
   const [selected, setSelected] = useState<Option>({ id: -1, name: "Select" });
   const [query, setQuery] = useState("");
 
@@ -29,17 +30,14 @@ const Select = ({ options }: Props) => {
 
   return (
     <Combobox value={selected} onChange={setSelected}>
-      <div className="relative w-fit">
+      <div className="relative">
         <Combobox.Input
-          className="clearance rounded border"
+          className="clearance w-full rounded border"
           displayValue={(option: Option) => option.name}
           onChange={(event) => setQuery(event.target.value)}
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-          <ChevronUpDownIcon
-            className="h-5 w-5 text-gray-400"
-            aria-hidden="true"
-          />
+          <Symbol Icon={ChevronUpDownIcon} size="small" />
         </Combobox.Button>
         <Transition
           as={Fragment}
@@ -47,29 +45,29 @@ const Select = ({ options }: Props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
           afterLeave={() => setQuery("")}>
-          <Combobox.Options className="absolute z-10 mt-2 max-h-60 w-full overflow-auto rounded bg-white shadow">
+          <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded bg-white shadow">
             {filteredOptions.length === 0 && query !== "" ? (
               <div className="clearance relative cursor-default select-none text-gray-700">
                 Nothing found.
               </div>
             ) : (
-              filteredOptions.map((person) => (
+              filteredOptions.map((option) => (
                 <Combobox.Option
-                  key={person.id}
-                  value={person}
+                  key={option.id}
+                  value={option}
                   className={({ active }) =>
-                    ` ${
+                    `${
                       active
                         ? "bg-primary-dark text-primary-light"
                         : "text-primary-dark"
                     } clearance relative cursor-default select-none`
                   }>
-                  {({ selected, active }) => (
+                  {({ selected }) => (
                     <span
                       className={`block truncate ${
                         selected ? "font-bold" : ""
                       }`}>
-                      {person.name}
+                      {option.name}
                     </span>
                   )}
                 </Combobox.Option>
@@ -82,4 +80,4 @@ const Select = ({ options }: Props) => {
   );
 };
 
-export default Select;
+export default Combo;
