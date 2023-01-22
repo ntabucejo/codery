@@ -1,6 +1,8 @@
 "use client";
 
 import { Tab } from "@headlessui/react";
+import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import Symbol from "../symbol";
 
 type Props = {
   panels: {
@@ -15,7 +17,7 @@ const Stages = ({ panels }: Props) => {
     <Tab.Group as="section" className="space-y-4">
       <Tab.List className="clearance flex w-full items-center gap-6 overflow-scroll rounded bg-primary-dark scrollbar-hide">
         {panels.map((panel) => (
-          <div key={panel.id} className="flex items-center gap-2">
+          <div key={panel.id} className="flex items-center gap-4">
             <Tab className="smooth flex cursor-pointer items-center gap-2 active:outline-pink-500">
               {({ selected }) => (
                 <>
@@ -40,7 +42,12 @@ const Stages = ({ panels }: Props) => {
               )}
             </Tab>
             {panels[panels.length - 1].id !== panel.id ? (
-              <div className="h-[1px] w-24 bg-primary-light/fade" />
+              <Symbol
+                Icon={ChevronRightIcon}
+                isHoverDisabled
+                size="small"
+                className="text-white"
+              />
             ) : null}
           </div>
         ))}
