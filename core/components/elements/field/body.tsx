@@ -10,7 +10,7 @@ type Props = {
 
 const Body = ({ children, id, label, description, tooltip }: Props) => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       <div>
         <div className="flex items-center justify-start gap-2">
           <label htmlFor={id} className="font-bold">
