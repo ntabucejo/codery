@@ -11,7 +11,6 @@ import {
 import { Fragment, useEffect, useState } from "react";
 
 const Chat = () => {
-
   const [openChat, setOpenChat] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
 
@@ -34,7 +33,7 @@ const Chat = () => {
           className="font-semibold text-white hover:text-white"
         />
       </button>
-      
+
       {/* pop up first message */}
       <Transition show={openMessage} as={Fragment}>
         <Transition.Child

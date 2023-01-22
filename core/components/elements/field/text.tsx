@@ -4,12 +4,19 @@ type Props = {
   id: string;
   isFull?: boolean;
   placeholder?: string;
-  defaultValue?: string
+  defaultValue?: string;
   value?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 
-const Text = ({ id, isFull, placeholder, onChange, value, defaultValue }: Props) => {
+const Text = ({
+  id,
+  isFull,
+  placeholder,
+  onChange,
+  value,
+  defaultValue,
+}: Props) => {
   return (
     <div>
       <input
