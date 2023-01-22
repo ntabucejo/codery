@@ -15,16 +15,18 @@ const options = [
 type Props = {
   fields: GigSchema;
   setFields: Dispatch<SetStateAction<GigSchema>>;
+  errors: any;
 };
 
-const General = ({ fields, setFields }: Props) => {
+const General = ({ fields, setFields, errors }: Props) => {
   return (
     <form className="space-y-4">
       <Field.Body
         id="Project Title"
         label="Project Title"
         description="This will help your gig to recognize instantaneously."
-        tooltip="This is about the description of your gig">
+        tooltip="This is about the description of your gig"
+        error={errors["title"]}>
         <Field.Text
           id="Project Title"
           isFull
@@ -35,12 +37,12 @@ const General = ({ fields, setFields }: Props) => {
           }
         />
       </Field.Body>
-
       <Field.Body
         id="Project Description"
         label="Project Description"
         description="Briefly Describe Your Gig."
-        tooltip="Clients will know what category or language you can do about this gig.">
+        tooltip="Clients will know what category or language you can do about this gig."
+        error={errors["description"]}>
         <Field.Textarea
           id="Project Description"
           isFull
@@ -55,7 +57,8 @@ const General = ({ fields, setFields }: Props) => {
         id="Project Category"
         label="Project Category"
         description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars.">
+        tooltip="All prices should start from 50 dollars."
+        error={errors["category"]}>
         <Field.Select.Combo
           options={options}
           name="category"
@@ -69,6 +72,7 @@ const General = ({ fields, setFields }: Props) => {
           label="Delivery Period"
           description="How much is your starting price? You can negotiate with your client about the final amount later."
           tooltip="All prices should start from 50 dollars."
+          error={errors["period"]}
           className="col-span-2">
           <Field.Select.List
             options={options}
@@ -82,6 +86,7 @@ const General = ({ fields, setFields }: Props) => {
           label="Technologies"
           description="How much is your starting price? You can negotiate with your client about the final amount later."
           tooltip="All prices should start from 50 dollars."
+          error={errors["tags"]}
           className="col-span-2 row-span-2">
           <Field.Select.Multiple
             options={options}
@@ -95,6 +100,7 @@ const General = ({ fields, setFields }: Props) => {
           label="Price Range"
           description="How much is your starting price? You can negotiate with your client about the final amount later."
           tooltip="All prices should start from 50 dollars."
+          error={errors["price"]}
           className="col-span-2">
           <div className="grid grid-cols-2 gap-4">
             <Field.Number

@@ -1,12 +1,8 @@
 import { z } from "zod";
 
 export const gigSchema = z.object({
-  title: z
-    .string()
-    .startsWith("I will")
-    .max(80)
-    .regex(new RegExp(".*[`~<>?./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*")),
-  description: z.string().max(1000),
+  title: z.string().startsWith("I will").max(80),
+  description: z.string().max(1000).min(10),
   category: z.object({ id: z.string().cuid(), name: z.string() }),
   tags: z.object({ id: z.string().cuid(), name: z.string() }).array(),
   showcases: z.object({ image: z.string().url() }).array(),
