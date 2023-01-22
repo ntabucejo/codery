@@ -1,12 +1,10 @@
-"use client";
-
 import Field from "@core/components/elements/field";
 import Symbol from "@core/components/elements/symbol";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 
 const Showcase = () => {
   return (
-    <form className="space-y-4">
+    <div className="space-y-4">
       <Field.Body
         id="Upload Images"
         label="Upload Images"
@@ -24,7 +22,7 @@ const Showcase = () => {
           </div>
         </li>
       </ul>
-    </form>
+    </div>
   );
 };
 

@@ -76,10 +76,14 @@ const Gig = () => {
 
   return (
     <section className="contain">
-      <Stages name="CREATE / GIG" panels={panels} />
-      <Button variant="primary" onClick={handleSumbit}>
-        Submit
-      </Button>
+      <form className="space-y-4">
+        <div>
+          <Stages name="CREATE / GIG" panels={panels} />
+        </div>
+        <Button variant="primary" onClick={handleSumbit}>
+          Submit
+        </Button>
+      </form>
     </section>
   );
 };

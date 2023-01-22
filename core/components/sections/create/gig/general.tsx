@@ -20,7 +20,7 @@ type Props = {
 
 const General = ({ fields, setFields, errors }: Props) => {
   return (
-    <form className="space-y-4">
+    <div className="space-y-4">
       <Field.Body
         id="Project Title"
         label="Project Title"
@@ -128,7 +128,7 @@ const General = ({ fields, setFields, errors }: Props) => {
           </div>
         </Field.Body>
       </div>
-    </form>
+    </div>
   );
 };
 
