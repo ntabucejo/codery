@@ -42,7 +42,7 @@ const Education = () => {
             }
           />
         </Field.Body>
-        <div className="grid gap-6 tablet:grid-cols-2">
+        <div className="flex flex-col tablet:flex-row items-center gap-4">
           <Field.Body
             id="Title"
             label="Title"
@@ -166,7 +166,7 @@ const Education = () => {
                     defaultValue={education.university}
                   />
                 </Field.Body>
-                <div className="grid gap-6 tablet:grid-cols-2">
+                <div className="flex flex-col tablet:flex-row items-center gap-4">
                   <Field.Body
                     id="Title"
                     label="Title"
