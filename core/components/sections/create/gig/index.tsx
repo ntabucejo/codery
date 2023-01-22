@@ -5,6 +5,7 @@ import Stages from "@core/components/elements/stages";
 import { gigSchema, GigSchema } from "@core/schemas/gig";
 import { MouseEvent, useState } from "react";
 import General from "./general";
+import Publish from "./publish";
 import Showcase from "./showcase";
 
 const initialFields: GigSchema = {
@@ -54,9 +55,7 @@ const Gig = () => {
     {
       id: 3,
       title: "Publish",
-      content: (
-        <General fields={fields} setFields={setFields} errors={errors} />
-      ),
+      content: <Publish />,
     },
   ];
 
@@ -76,7 +75,7 @@ const Gig = () => {
   };
 
   return (
-    <section className="contain space-y-4">
+    <section className="contain">
       <Stages name="CREATE / GIG" panels={panels} />
       <Button variant="primary" onClick={handleSumbit}>
         Submit
