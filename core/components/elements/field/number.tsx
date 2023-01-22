@@ -14,7 +14,7 @@ const Number = ({ id, isFull, onChange }: Props) => {
         type="number"
         defaultValue={50}
         onChange={onChange}
-        className={`${isFull ? "w-full" : ""} clearance rounded border`}
+        className={`${isFull ? "w-full" : ""} clearance rounded border text-sm`}
       />
     </div>
   );

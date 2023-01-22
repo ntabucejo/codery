@@ -30,7 +30,7 @@ const Combo = ({ options }: Props) => {
 
   return (
     <Combobox value={selected} onChange={setSelected}>
-      <div className="relative">
+      <div className="relative text-sm">
         <Combobox.Input
           className="clearance w-full rounded border"
           displayValue={(option: Option) => option.name}

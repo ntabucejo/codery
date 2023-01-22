@@ -19,7 +19,7 @@ const List = ({ options }: Props) => {
 
   return (
     <Listbox value={selected} onChange={setSelected}>
-      <div className="relative">
+      <div className="relative text-sm">
         <Listbox.Button className="clearance w-full rounded border bg-white text-left ">
           <span className="block truncate">{selected.name}</span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
