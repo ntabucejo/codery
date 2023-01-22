@@ -80,8 +80,6 @@ const Gig = () => {
     }
   };
 
-  console.log({ errors });
-
   return (
     <section className="contain space-y-4">
       <Stages name="CREATE / GIG" panels={panels} />
