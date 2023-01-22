@@ -11,7 +11,7 @@ const UploadImage = () => {
 
   const { handleSubmit, handleChange } = useUpload({
     setData: setImageSrc,
-    inputName: "file",
+    name: "file",
   });
 
   return (

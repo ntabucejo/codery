@@ -51,7 +51,13 @@ const Gig = () => {
         <General fields={fields} setFields={setFields} errors={errors} />
       ),
     },
-    { id: 2, title: "Showcase", content: <Showcase /> },
+    {
+      id: 2,
+      title: "Showcase",
+      content: (
+        <Showcase fields={fields} setFields={setFields} errors={errors} />
+      ),
+    },
     {
       id: 3,
       title: "Publish",
@@ -61,27 +67,27 @@ const Gig = () => {
 
   const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    const clearErrors = () => setErrors(initialErrors);
     const result = gigSchema.safeParse(fields);
     if (result.success) return;
     const validations = result.error.issues;
     const updatedErrors = validations.map((validation) => {
       return { name: validation.path[0], message: validation.message };
     });
-    const clearErrors = () => setErrors(initialErrors);
     clearErrors();
     for (const error of updatedErrors) {
       setErrors((state) => ({ ...state, [error.name]: error.message }));
     }
   };
 
+  console.log({ errors });
+
   return (
-    <section className="contain">
-      <form className="space-y-4">
-        <Stages name="CREATE / GIG" panels={panels} />
-        <Button variant="primary" onClick={handleSumbit}>
-          Submit
-        </Button>
-      </form>
+    <section className="contain space-y-4">
+      <Stages name="CREATE / GIG" panels={panels} />
+      <Button variant="primary" onClick={handleSumbit}>
+        Submit
+      </Button>
     </section>
   );
 };

@@ -1,5 +1,5 @@
 const Publish = () => {
-  return <div>Publish</div>;
+  return <form>Publish</form>;
 };
 
 export default Publish;

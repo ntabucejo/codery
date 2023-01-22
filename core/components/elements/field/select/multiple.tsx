@@ -55,7 +55,7 @@ const Multiple = ({ options, name, value, setValue }: Props) => {
   }, [selected]);
 
   return (
-    <div className="space-y-2">
+    <div className={`${items.length ? "space-y-2" : ""}`}>
       <Combobox value={selected} onChange={setSelected}>
         <div className="relative text-sm">
           <Combobox.Input
