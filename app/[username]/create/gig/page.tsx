@@ -12,8 +12,8 @@ const Page = () => {
   return (
     <>
       <section className="contain space-y-4">
-        <h1 className="text-4xl font-bold">Create Gig</h1>
-        <Stages panels={panels} />
+        {/* <h1 className="text-4xl font-bold">Create Gig</h1> */}
+        <Stages name="CREATE / GIG" panels={panels} />
       </section>
     </>
   );
