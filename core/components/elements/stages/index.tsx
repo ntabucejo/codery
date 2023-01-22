@@ -15,10 +15,8 @@ const Stages = ({ panels }: Props) => {
     <Tab.Group as="section" className="space-y-4">
       <Tab.List className="clearance flex w-full items-center gap-6 overflow-scroll rounded bg-primary-dark scrollbar-hide">
         {panels.map((panel) => (
-          <>
-            <Tab
-              key={panel.id}
-              className="smooth flex cursor-pointer items-center gap-2 active:outline-pink-500">
+          <div key={panel.id} className="flex items-center gap-2">
+            <Tab className="smooth flex cursor-pointer items-center gap-2 active:outline-pink-500">
               {({ selected }) => (
                 <>
                   <div
@@ -44,7 +42,7 @@ const Stages = ({ panels }: Props) => {
             {panels[panels.length - 1].id !== panel.id ? (
               <div className="h-[1px] w-24 bg-primary-light/fade" />
             ) : null}
-          </>
+          </div>
         ))}
       </Tab.List>
       <Tab.Panels>
