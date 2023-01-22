@@ -34,6 +34,16 @@ const Combo = ({ options }: Props) => {
         <Combobox.Input
           className="clearance w-full rounded border"
           displayValue={(option: Option) => option.name}
+          onClick={() =>
+            selected.name === "Select"
+              ? setSelected({ id: -1, name: "" })
+              : null
+          }
+          onBlur={() =>
+            selected.name === ""
+              ? setSelected({ id: -1, name: "Select" })
+              : null
+          }
           onChange={(event) => setQuery(event.target.value)}
         />
         <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
