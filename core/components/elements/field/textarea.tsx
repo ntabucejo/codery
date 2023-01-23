@@ -13,6 +13,7 @@ const Textarea = ({ id, isFull, placeholder, value, onChange }: Props) => {
     <div>
       <textarea
         id={id}
+        rows={8}
         value={value}
         onChange={onChange}
         placeholder={placeholder}
