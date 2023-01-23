@@ -3,17 +3,18 @@ import Field from "@core/components/elements/field";
 import Modal from "@core/components/layouts/modal";
 import useModal from "@core/hooks/use-modal";
 import {
-  freelancerFields,
-  type FreelancerType,
-} from "@core/schemas/freelancer";
+  FreelancerErrors,
+  type FreelancerFields,
+} from "@core/validations/freelancer";
 import cuid from "cuid";
 import { type Dispatch, type SetStateAction } from "react";
 import Employment from "./employment";
 import Testimonial from "./testimonial";
 
 type Props = {
-  fields: FreelancerType;
-  setFields: Dispatch<SetStateAction<FreelancerType>>;
+  fields: FreelancerFields;
+  setFields: Dispatch<SetStateAction<FreelancerFields>>;
+  errors: FreelancerErrors;
 };
 
 const options = [
@@ -25,7 +26,7 @@ const options = [
   { id: cuid(), name: "Hellen Schmidt" },
 ];
 
-const Experience = ({ fields, setFields }: Props) => {
+const Experience = ({ fields, setFields, errors }: Props) => {
   const {
     state: testimonialModalState,
     handleOpen: handleOpenTestimonialModal,
@@ -44,10 +45,11 @@ const Experience = ({ fields, setFields }: Props) => {
         id="skills"
         label="Skills"
         description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars.">
+        tooltip="All prices should start from 50 dollars."
+        error={errors["skills"]}>
         <Field.Select.Multiple
           options={options}
-          name="skills"
+          keys={["skills"]}
           value={fields.skills}
           setValue={setFields}
         />

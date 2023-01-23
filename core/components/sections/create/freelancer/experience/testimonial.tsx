@@ -2,27 +2,63 @@ import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Modal from "@core/components/layouts/modal";
 import {
+  type FreelancerFields,
+  type TestimonialErrors,
+  testimonialErrors,
+  testimonialSchema,
   freelancerFields,
-  type FreelancerType,
-} from "@core/schemas/freelancer";
+} from "@core/validations/freelancer";
 import { type State } from "@core/types/modal";
-import { type Dispatch, type SetStateAction } from "react";
+import {
+  type MouseEvent,
+  type Dispatch,
+  type SetStateAction,
+  useState,
+} from "react";
 
 type Props = {
-  fields: FreelancerType;
-  setFields: Dispatch<SetStateAction<FreelancerType>>;
+  fields: FreelancerFields;
+  setFields: Dispatch<SetStateAction<FreelancerFields>>;
   modalState: State;
   handleOpenModal: () => void;
   handleCloseModal: () => void;
 };
 
 const Testimonial = ({
-  fields,
-  setFields,
+  fields: _fields,
+  setFields: _setFields,
   modalState,
   handleOpenModal,
   handleCloseModal,
 }: Props) => {
+  const [fields, setFields] = useState(_fields.testimonial);
+  const [errors, setErrors] = useState<TestimonialErrors>(testimonialErrors);
+
+  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const clearErrors = () => setErrors(testimonialErrors);
+    const result = testimonialSchema.safeParse(fields);
+    if (result.success) {
+      clearErrors();
+      handleCloseModal();
+      _setFields({
+        ..._fields,
+        testimonials: [..._fields.testimonials, fields],
+        testimonial: _fields.testimonial,
+      });
+      setFields(_fields.testimonial);
+      return;
+    }
+    const validations = result.error.issues;
+    const updatedErrors = validations.map((validation) => {
+      return { name: validation.path[0], message: validation.message };
+    });
+    clearErrors();
+    for (const error of updatedErrors) {
+      setErrors((state) => ({ ...state, [error.name]: error.message }));
+    }
+  };
+
   return (
     <Field.Body
       id="testimonial"
@@ -31,8 +67,8 @@ const Testimonial = ({
       tooltip="All prices should start from 50 dollars.">
       <Button onClick={handleOpenModal}>Add Testimonial</Button>
       <ul className="grid grid-cols-4 gap-4">
-        {fields.testimonials.map((testimonial) => (
-          <li className="space-y-4 rounded border bg-white p-4">
+        {_fields.testimonials.map((testimonial, index) => (
+          <li key={index} className="space-y-4 rounded border bg-white p-4">
             <div>
               <h4 className="font-semibold">{testimonial.name}</h4>
               <h5 className="text-xs text-primary-dark/fade">
@@ -47,6 +83,7 @@ const Testimonial = ({
       </ul>
       <Modal
         title="Testimonial"
+        description="How much is your starting price? You can negotiate with your client about the final amount later."
         state={modalState}
         handleClose={handleCloseModal}
         className="max-w-2xl">
@@ -54,19 +91,17 @@ const Testimonial = ({
           id="name"
           label="Name"
           description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private.">
+          tooltip="Any information needed here in the form are safe and private."
+          error={errors.name}>
           <Field.Text
             id="name"
             isFull
             placeholder="Juan Jose"
-            value={fields.testimonial.name}
+            value={fields.name}
             onChange={(event) =>
               setFields({
                 ...fields,
-                testimonial: {
-                  ...fields.testimonial,
-                  name: event.target.value,
-                },
+                name: event.target.value,
               })
             }
           />
@@ -75,19 +110,17 @@ const Testimonial = ({
           id="position"
           label="Position"
           description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private.">
+          tooltip="Any information needed here in the form are safe and private."
+          error={errors.position}>
           <Field.Text
             id="position"
             isFull
             placeholder="Developer"
-            value={fields.testimonial.position}
+            value={fields.position}
             onChange={(event) =>
               setFields({
                 ...fields,
-                testimonial: {
-                  ...fields.testimonial,
-                  position: event.target.value,
-                },
+                position: event.target.value,
               })
             }
           />
@@ -97,19 +130,17 @@ const Testimonial = ({
             id="email"
             label="Email"
             description="Where do you live?"
-            tooltip="Any information needed here in the form are safe and private.">
+            tooltip="Any information needed here in the form are safe and private."
+            error={errors.email}>
             <Field.Text
               id="email"
               isFull
               placeholder="juanjose@example.com"
-              value={fields.testimonial.email}
+              value={fields.email}
               onChange={(event) =>
                 setFields({
                   ...fields,
-                  testimonial: {
-                    ...fields.testimonial,
-                    email: event.target.value,
-                  },
+                  email: event.target.value,
                 })
               }
             />
@@ -118,19 +149,17 @@ const Testimonial = ({
             id="link"
             label="Link"
             description="Where do you live?"
-            tooltip="Any information needed here in the form are safe and private.">
+            tooltip="Any information needed here in the form are safe and private."
+            error={errors.link}>
             <Field.Text
               id="link"
               isFull
               placeholder="www.juanjose.com"
-              value={fields.testimonial.link}
+              value={fields.link}
               onChange={(event) =>
                 setFields({
                   ...fields,
-                  testimonial: {
-                    ...fields.testimonial,
-                    link: event.target.value,
-                  },
+                  link: event.target.value,
                 })
               }
             />
@@ -140,47 +169,35 @@ const Testimonial = ({
           id="message"
           label="Message"
           description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private.">
+          tooltip="Any information needed here in the form are safe and private."
+          error={errors.message}>
           <Field.Textarea
             id="message"
             isFull
             placeholder="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque voluptatum enim blanditiis nobis facilis modi ut. Libero temporibus ipsum, quisquam sapiente aliquid magnam nobis optio, dolorum ipsam reiciendis, consectetur provident."
-            value={fields.testimonial.message}
+            value={fields.message}
             onChange={(event) =>
-              setFields({
-                ...fields,
-                testimonial: {
-                  ...fields.testimonial,
-                  message: event.target.value,
-                },
-              })
+              setFields({ ...fields, message: event.target.value })
             }
           />
         </Field.Body>
-        <div className="flex gap-4">
-          <Button
-            onClick={() => {
-              handleCloseModal();
-              setFields({
-                ...fields,
-                testimonials: [
-                  ...fields.testimonials,
-                  { ...fields.testimonial },
-                ],
-                testimonial: freelancerFields.testimonial,
-              });
-            }}>
-            Add Testimonial
-          </Button>
+        <div className="flex w-full gap-4">
+          <Button onClick={handleSumbit}>Add Testimonial</Button>
           <Button
             variant="secondary"
             onClick={() => {
-              setFields({
-                ...fields,
+              _setFields({
+                ..._fields,
                 testimonial: freelancerFields.testimonial,
               });
             }}>
             Clear
+          </Button>
+          <Button
+            variant="tertiary"
+            onClick={handleCloseModal}
+            className="ml-auto">
+            Close
           </Button>
         </div>
       </Modal>

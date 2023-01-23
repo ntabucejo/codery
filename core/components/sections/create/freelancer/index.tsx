@@ -2,33 +2,44 @@
 
 import Stages from "@core/components/elements/stages";
 import {
-  type FreelancerType,
+  type FreelancerFields,
   freelancerFields,
-} from "@core/schemas/freelancer";
-import { useState } from "react";
+  freelancerSchema,
+  freelancerErrors,
+  FreelancerErrors,
+} from "@core/validations/freelancer";
+import { type MouseEvent, useState } from "react";
 import Experience from "./experience";
 import Personal from "./personal";
 import Overview from "./overview";
-import Achievement from "./achievment";
+import Button from "@core/components/elements/button";
+import Achievement from "./achivement";
 
 const Freelancer = () => {
-  const [fields, setFields] = useState<FreelancerType>(freelancerFields);
-
+  const [fields, setFields] = useState<FreelancerFields>(freelancerFields);
+  const [errors, setErrors] = useState<FreelancerErrors>(freelancerErrors);
+  console.log(fields);
   const panels = [
     {
       id: 1,
       title: "Personal",
-      content: <Personal fields={fields} setFields={setFields} />,
+      content: (
+        <Personal fields={fields} setFields={setFields} errors={errors} />
+      ),
     },
     {
       id: 2,
       title: "Experience",
-      content: <Experience fields={fields} setFields={setFields} />,
+      content: (
+        <Experience fields={fields} setFields={setFields} errors={errors} />
+      ),
     },
     {
       id: 3,
       title: "Achievement",
-      content: <Achievement fields={fields} setFields={setFields} />,
+      content: (
+        <Achievement fields={fields} setFields={setFields} errors={errors} />
+      ),
     },
     {
       id: 4,
@@ -37,9 +48,28 @@ const Freelancer = () => {
     },
   ];
 
+  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const clearErrors = () => setErrors(freelancerErrors);
+    const result = freelancerSchema.safeParse(fields);
+    if (result.success) {
+      clearErrors();
+      return;
+    }
+    const validations = result.error.issues;
+    const updatedErrors = validations.map((validation) => {
+      return { name: validation.path[0], message: validation.message };
+    });
+    clearErrors();
+    for (const error of updatedErrors) {
+      setErrors((state) => ({ ...state, [error.name]: error.message }));
+    }
+  };
+
   return (
     <section className="contain space-y-4">
       <Stages name="CREATE / FREELANCER" panels={panels} />
+      <Button onClick={handleSumbit}>Submit</Button>
     </section>
   );
 };

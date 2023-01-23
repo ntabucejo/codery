@@ -8,6 +8,7 @@ export const educationSchema = z.object({
 });
 
 export const employmentSchema = z.object({
+  company: z.string().min(1).max(50),
   position: z.string().min(1).max(50),
   description: z.string().min(10).max(1000),
   location: z.string().min(1).max(50),
@@ -40,9 +41,9 @@ export const freelancerSchema = z.object({
   educations: educationSchema.array().max(8),
 });
 
-export type FreelancerType = z.infer<typeof freelancerSchema>;
+export type FreelancerFields = z.infer<typeof freelancerSchema>;
 
-export const freelancerFields: FreelancerType = {
+export const freelancerFields: FreelancerFields = {
   biography: "",
   location: "",
   phone: "",
@@ -56,6 +57,7 @@ export const freelancerFields: FreelancerType = {
   },
   testimonials: [],
   employment: {
+    company: "",
     position: "",
     description: "",
     location: "",
@@ -71,3 +73,51 @@ export const freelancerFields: FreelancerType = {
   },
   educations: [],
 };
+
+export const freelancerErrors = {
+  biography: "",
+  location: "",
+  phone: "",
+  skills: "",
+  testimonial: {
+    name: "",
+    email: "",
+    link: "",
+    position: "",
+    message: "",
+  },
+  testimonials: "",
+  employment: "",
+  employments: "",
+  education: "",
+  educations: "",
+};
+
+export const testimonialErrors = {
+  name: "",
+  email: "",
+  link: "",
+  position: "",
+  message: "",
+};
+
+export const employmentErrors = {
+  company: "",
+  position: "",
+  description: "",
+  location: "",
+  year: "",
+  isActive: "",
+};
+
+export const educationErrors = {
+  school: "",
+  degree: "",
+  area: "",
+  year: "",
+};
+
+export type FreelancerErrors = typeof freelancerErrors;
+export type TestimonialErrors = typeof testimonialErrors;
+export type EmploymentErrors = typeof employmentErrors;
+export type EducationErrors = typeof educationErrors;

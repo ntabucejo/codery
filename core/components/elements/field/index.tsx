@@ -15,7 +15,7 @@ const Field = {
   File: File,
   Date: Date,
   Select: Select,
-  Check: Check
+  Check: Check,
 };
 
 export default Field;

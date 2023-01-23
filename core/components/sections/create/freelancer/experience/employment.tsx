@@ -2,16 +2,24 @@ import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Modal from "@core/components/layouts/modal";
 import {
+  EmploymentErrors,
+  employmentErrors,
+  employmentSchema,
   freelancerFields,
-  type FreelancerType,
-} from "@core/schemas/freelancer";
+  type FreelancerFields,
+} from "@core/validations/freelancer";
 import { type State } from "@core/types/modal";
 import cuid from "cuid";
-import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
+import {
+  type MouseEvent,
+  type Dispatch,
+  type SetStateAction,
+  useState,
+} from "react";
 
 type Props = {
-  fields: FreelancerType;
-  setFields: Dispatch<SetStateAction<FreelancerType>>;
+  fields: FreelancerFields;
+  setFields: Dispatch<SetStateAction<FreelancerFields>>;
   modalState: State;
   handleOpenModal: () => void;
   handleCloseModal: () => void;
@@ -39,47 +47,88 @@ const Employment = ({
   handleOpenModal,
   handleCloseModal,
 }: Props) => {
-  const [employment, setEmployment] = useState(fields.employment);
+  const [errors, setErrors] = useState<EmploymentErrors>(employmentErrors);
 
-  useEffect(() => {
-    setFields({
-      ...fields,
-      employment: { ...fields.employment, year: employment.year },
+  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const clearErrors = () => setErrors(employmentErrors);
+    const result = employmentSchema.safeParse(fields.employment);
+    if (result.success) {
+      clearErrors();
+      handleCloseModal();
+      setFields({
+        ...fields,
+        employments: [...fields.employments, fields.employment],
+        employment: freelancerFields.employment,
+      });
+      return;
+    }
+    const validations = result.error.issues;
+    const updatedErrors = validations.map((validation) => {
+      return { name: validation.path[0], message: validation.message };
     });
-  }, [employment.year]);
+    clearErrors();
+    for (const error of updatedErrors) {
+      setErrors((state) => ({ ...state, [error.name]: error.message }));
+    }
+  };
 
   return (
     <Field.Body
       id="employment"
-      label="Emplyment"
+      label="Employment"
       description="How much is your starting price? You can negotiate with your client about the final amount later."
       tooltip="All prices should start from 50 dollars.">
-      <Button onClick={handleOpenModal}>Add Emplyment</Button>
+      <Button onClick={handleOpenModal}>Add Employment</Button>
       <ul className="grid grid-cols-4 gap-4">
-        {fields.testimonials.map((testimonial) => (
-          <li className="space-y-4 rounded border bg-white p-4">
+        {fields.employments.map((employment, index) => (
+          <li key={index} className="space-y-4 rounded border bg-white p-4">
             <div>
-              <h4 className="font-semibold">{testimonial.name}</h4>
+              <h4 className="font-semibold">{employment.position}</h4>
               <h5 className="text-xs text-primary-dark/fade">
-                {testimonial.email}
+                {employment.location}
               </h5>
             </div>
             <p className="text-sm text-primary-dark/fade">
-              {testimonial.message}
+              {employment.description}
             </p>
           </li>
         ))}
       </ul>
       <Modal
         title="Employment"
+        description="How much is your starting price? You can negotiate with your client about the final amount later."
         state={modalState}
         handleClose={handleCloseModal}
         className="max-w-2xl">
         <Field.Body
+          id="company"
+          label="Company"
+          description="Where do you live?"
+          tooltip="Any information needed here in the form are safe and private."
+          error={errors.company}>
+          <Field.Text
+            id="position"
+            isFull
+            placeholder="Software Developer"
+            value={fields.employment.company}
+            onChange={(event) =>
+              setFields({
+                ...fields,
+                employment: {
+                  ...fields.employment,
+                  company: event.target.value,
+                },
+              })
+            }
+          />
+        </Field.Body>
+        <Field.Body
           id="position"
           label="Position"
           description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private.">
+          tooltip="Any information needed here in the form are safe and private."
+          error={errors.position}>
           <Field.Text
             id="position"
             isFull
@@ -100,7 +149,8 @@ const Employment = ({
           id="description"
           label="Description"
           description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private.">
+          tooltip="Any information needed here in the form are safe and private."
+          error={errors.description}>
           <Field.Textarea
             id="description"
             isFull
@@ -122,7 +172,8 @@ const Employment = ({
             id="location"
             label="Location"
             description="Where do you live?"
-            tooltip="Any information needed here in the form are safe and private.">
+            tooltip="Any information needed here in the form are safe and private."
+            error={errors.location}>
             <Field.Text
               id="location"
               isFull
@@ -143,12 +194,13 @@ const Employment = ({
             id="year"
             label="Year"
             description="How much is your starting price? "
-            tooltip="All prices should start from 50 dollars.">
+            tooltip="All prices should start from 50 dollars."
+            error={errors.year}>
             <Field.Select.Combo
               options={years}
-              name="year"
+              keys={["employment", "year"]}
               value={fields.employment.year}
-              setValue={setEmployment}
+              setValue={setFields}
             />
           </Field.Body>
         </div>
@@ -156,7 +208,8 @@ const Employment = ({
           id="active"
           label="Active"
           description="How much is your starting price? "
-          tooltip="All prices should start from 50 dollars.">
+          tooltip="All prices should start from 50 dollars."
+          error={errors.isActive}>
           <Field.Check
             id="active"
             isChecked={fields.employment.isActive}
@@ -172,18 +225,8 @@ const Employment = ({
             Still Active?
           </Field.Check>
         </Field.Body>
-        <div className="flex gap-4">
-          <Button
-            onClick={() => {
-              handleCloseModal();
-              setFields({
-                ...fields,
-                employments: [...fields.employments, { ...fields.employment }],
-                employment: freelancerFields.employment,
-              });
-            }}>
-            Add Employment
-          </Button>
+        <div className="flex w-full gap-4">
+          <Button onClick={handleSumbit}>Add Employment</Button>
           <Button
             variant="secondary"
             onClick={() => {
@@ -193,6 +236,12 @@ const Employment = ({
               });
             }}>
             Clear
+          </Button>
+          <Button
+            variant="tertiary"
+            onClick={handleCloseModal}
+            className="ml-auto">
+            Close
           </Button>
         </div>
       </Modal>
