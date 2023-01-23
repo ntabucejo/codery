@@ -95,117 +95,95 @@ const Education = ({ fields, setFields, modal }: Props) => {
   };
 
   return (
-    <Field.Body
-      id="education"
-      label="Education"
+    <Modal
+      title="Education"
       description="How much is your starting price? You can negotiate with your client about the final amount later."
-      tooltip="All prices should start from 50 dollars.">
-      <Button onClick={modal.handleOpen}>Add Education</Button>
-      <ul className="grid grid-cols-4 gap-4">
-        {fields.educations.map((education, index) => (
-          <li key={index} className="space-y-4 rounded border bg-white p-4">
-            <div>
-              <h4 className="font-semibold">{education.school}</h4>
-              <h5 className="text-xs text-primary-dark/fade">
-                {education.degree?.name}
-              </h5>
-            </div>
-            <p className="text-sm text-primary-dark/fade">
-              {education.area?.name}
-            </p>
-          </li>
-        ))}
-      </ul>
-      <Modal
-        title="Education"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        state={modal.state}
-        handleClose={modal.handleClose}
-        className="max-w-2xl">
-        <Field.Body
+      state={modal.state}
+      handleClose={modal.handleClose}
+      className="max-w-2xl">
+      <Field.Body
+        id="school"
+        label="School"
+        description="Where do you live?"
+        tooltip="Any information needed here in the form are safe and private."
+        error={errors.school}>
+        <Field.Text
           id="school"
-          label="School"
-          description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private."
-          error={errors.school}>
-          <Field.Text
-            id="school"
-            isFull
-            placeholder="Juan Jose University"
-            value={fields.education.school}
-            onChange={(event) =>
-              setFields({
-                ...fields,
-                education: {
-                  ...fields.education,
-                  school: event.target.value,
-                },
-              })
-            }
+          isFull
+          placeholder="Juan Jose University"
+          value={fields.education.school}
+          onChange={(event) =>
+            setFields({
+              ...fields,
+              education: {
+                ...fields.education,
+                school: event.target.value,
+              },
+            })
+          }
+        />
+      </Field.Body>
+      <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+        <Field.Body
+          id="degree"
+          label="Degree"
+          description="How much is your starting price? "
+          tooltip="All prices should start from 50 dollars."
+          error={errors.degree}>
+          <Field.Select.Combo
+            options={degrees}
+            keys={["education", "degree"]}
+            value={fields.education.degree}
+            setValue={setFields}
           />
         </Field.Body>
-        <div className="grid grid-cols-2 gap-y-4 gap-x-8">
-          <Field.Body
-            id="degree"
-            label="Degree"
-            description="How much is your starting price? "
-            tooltip="All prices should start from 50 dollars."
-            error={errors.degree}>
-            <Field.Select.Combo
-              options={degrees}
-              keys={["education", "degree"]}
-              value={fields.education.degree}
-              setValue={setFields}
-            />
-          </Field.Body>
-          <Field.Body
-            id="area"
-            label="Area"
-            description="How much is your starting price? "
-            tooltip="All prices should start from 50 dollars."
-            error={errors.area}>
-            <Field.Select.Combo
-              options={areas}
-              keys={["education", "area"]}
-              value={fields.education.area}
-              setValue={setFields}
-            />
-          </Field.Body>
-          <Field.Body
-            id="year"
-            label="Year"
-            description="How much is your starting price? "
-            tooltip="All prices should start from 50 dollars."
-            error={errors.year}>
-            <Field.Select.Combo
-              options={years}
-              keys={["education", "year"]}
-              value={fields.education.year}
-              setValue={setFields}
-            />
-          </Field.Body>
-        </div>
-        <div className="flex w-full gap-4">
-          <Button onClick={handleSubmit}>Add Education</Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setFields({
-                ...fields,
-                education: freelancerFields.education,
-              });
-            }}>
-            Clear
-          </Button>
-          <Button
-            variant="tertiary"
-            onClick={modal.handleClose}
-            className="ml-auto">
-            Close
-          </Button>
-        </div>
-      </Modal>
-    </Field.Body>
+        <Field.Body
+          id="area"
+          label="Area"
+          description="How much is your starting price? "
+          tooltip="All prices should start from 50 dollars."
+          error={errors.area}>
+          <Field.Select.Combo
+            options={areas}
+            keys={["education", "area"]}
+            value={fields.education.area}
+            setValue={setFields}
+          />
+        </Field.Body>
+        <Field.Body
+          id="year"
+          label="Year"
+          description="How much is your starting price? "
+          tooltip="All prices should start from 50 dollars."
+          error={errors.year}>
+          <Field.Select.Combo
+            options={years}
+            keys={["education", "year"]}
+            value={fields.education.year}
+            setValue={setFields}
+          />
+        </Field.Body>
+      </div>
+      <div className="flex w-full gap-4">
+        <Button onClick={handleSubmit}>Add Education</Button>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            setFields({
+              ...fields,
+              education: freelancerFields.education,
+            });
+          }}>
+          Clear
+        </Button>
+        <Button
+          variant="tertiary"
+          onClick={modal.handleClose}
+          className="ml-auto">
+          Close
+        </Button>
+      </div>
+    </Modal>
   );
 };
 

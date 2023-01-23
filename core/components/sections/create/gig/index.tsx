@@ -29,7 +29,7 @@ const Gig = () => {
     {
       id: 2,
       title: "Share",
-      content: <Share fields={fields} setFields={setFields} />,
+      content: <Share fields={fields} setFields={setFields} errors={errors} />,
     },
     {
       id: 3,

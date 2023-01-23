@@ -1,3 +1,4 @@
+import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import useModal from "@core/hooks/use-modal";
 import {
@@ -42,11 +43,36 @@ const Experience = ({ fields, setFields, errors }: Props) => {
         />
       </Field.Body>
 
-      <Employment
-        fields={fields}
-        setFields={setFields}
-        modal={modalEmployment}
-      />
+      <Field.Body
+        id="employment"
+        label="Employment"
+        description="How much is your starting price? You can negotiate with your client about the final amount later."
+        tooltip="All prices should start from 50 dollars."
+        error={errors.employments}>
+        <Button onClick={modalEmployment.handleOpen}>Add Employment</Button>
+        {fields.employments.length ? (
+          <ul className="grid grid-cols-4 gap-4">
+            {fields.employments.map((employment, index) => (
+              <li key={index} className="space-y-4 rounded border bg-white p-4">
+                <div>
+                  <h4 className="font-semibold">{employment.position}</h4>
+                  <h5 className="text-xs text-primary-dark/fade">
+                    {employment.location}
+                  </h5>
+                </div>
+                <p className="text-sm text-primary-dark/fade">
+                  {employment.description}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+        <Employment
+          fields={fields}
+          setFields={setFields}
+          modal={modalEmployment}
+        />
+      </Field.Body>
     </form>
   );
 };
