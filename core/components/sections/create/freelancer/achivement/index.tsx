@@ -14,33 +14,16 @@ type Props = {
 };
 
 const Achievement = ({ fields, setFields, errors }: Props) => {
-  const {
-    state: educationModalState,
-    handleOpen: handleOpenEducationModal,
-    handleClose: handleCloseEducationModal,
-  } = useModal();
-
-  const {
-    state: testimonialModalState,
-    handleOpen: handleOpenTestimonialModal,
-    handleClose: handleCloseTestimonialModal,
-  } = useModal();
+  const modalEducation = useModal();
+  const modalTestimonial = useModal();
 
   return (
     <form className="space-y-4">
-      <Education
-        fields={fields}
-        setFields={setFields}
-        modalState={educationModalState}
-        handleOpenModal={handleOpenEducationModal}
-        handleCloseModal={handleCloseEducationModal}
-      />
+      <Education fields={fields} setFields={setFields} modal={modalEducation} />
       <Testimonial
         fields={fields}
         setFields={setFields}
-        modalState={testimonialModalState}
-        handleOpenModal={handleOpenTestimonialModal}
-        handleCloseModal={handleCloseTestimonialModal}
+        modal={modalTestimonial}
       />
     </form>
   );

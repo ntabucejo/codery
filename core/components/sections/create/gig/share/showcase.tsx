@@ -3,7 +3,7 @@ import Field from "@core/components/elements/field";
 import Symbol from "@core/components/elements/symbol";
 import Modal from "@core/components/layouts/modal";
 import useUpload from "@core/hooks/use-upload";
-import { type State } from "@core/types/modal";
+import { type Modal as ModalType } from "@core/types/modal";
 import {
   type GigFields,
   type ShowcaseErrors,
@@ -24,18 +24,10 @@ import {
 type Props = {
   fields: GigFields;
   setFields: Dispatch<SetStateAction<GigFields>>;
-  modalState: State;
-  handleOpenModal: () => void;
-  handleCloseModal: () => void;
+  modal: ModalType;
 };
 
-const Showcase = ({
-  fields,
-  setFields,
-  modalState,
-  handleOpenModal,
-  handleCloseModal,
-}: Props) => {
+const Showcase = ({ fields, setFields, modal }: Props) => {
   const fileId = "file";
   const [errors, setErrors] = useState<ShowcaseErrors>(showcaseErrors);
 
@@ -54,7 +46,7 @@ const Showcase = ({
     const result = showcaseSchema.safeParse(fields.showcase);
     if (result.success) {
       clearErrors();
-      handleCloseModal();
+      modal.handleClose();
       const data = await handleUpload(event);
       setFields({
         ...fields,
@@ -88,7 +80,7 @@ const Showcase = ({
       label="Showcase"
       description="Get noticed by the right buyers with visual examples of your services."
       tooltip="By uploading images you will have a higher chance of getting a client.">
-      <Button onClick={handleOpenModal}>Add Showcase</Button>
+      <Button onClick={modal.handleOpen}>Add Showcase</Button>
       <ul className="grid grid-cols-4 gap-4">
         {fields.showcases.length
           ? fields.showcases.map((showcase) => (
@@ -108,8 +100,8 @@ const Showcase = ({
       <Modal
         title="Showcase"
         description="Get noticed by the right buyers with visual examples of your services."
-        state={modalState}
-        handleClose={handleCloseModal}
+        state={modal.state}
+        handleClose={modal.handleClose}
         className="max-w-2xl">
         <Field.Body
           id="title"
@@ -186,7 +178,7 @@ const Showcase = ({
             <Button variant="secondary">Clear</Button>
             <Button
               variant="tertiary"
-              onClick={handleCloseModal}
+              onClick={modal.handleClose}
               className="ml-auto">
               Close
             </Button>

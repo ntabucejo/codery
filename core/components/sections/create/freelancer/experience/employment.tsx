@@ -8,7 +8,7 @@ import {
   freelancerFields,
   type FreelancerFields,
 } from "@core/validations/freelancer";
-import { type State } from "@core/types/modal";
+import { type Modal as ModalType } from "@core/types/modal";
 import cuid from "cuid";
 import {
   type MouseEvent,
@@ -20,9 +20,7 @@ import {
 type Props = {
   fields: FreelancerFields;
   setFields: Dispatch<SetStateAction<FreelancerFields>>;
-  modalState: State;
-  handleOpenModal: () => void;
-  handleCloseModal: () => void;
+  modal: ModalType;
 };
 
 class Year {
@@ -40,13 +38,7 @@ for (let year = 1960; year <= 2022; year++) {
   years.unshift(new Year(cuid(), year.toString()));
 }
 
-const Employment = ({
-  fields,
-  setFields,
-  modalState,
-  handleOpenModal,
-  handleCloseModal,
-}: Props) => {
+const Employment = ({ fields, setFields, modal }: Props) => {
   const [errors, setErrors] = useState<EmploymentErrors>(employmentErrors);
 
   const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
@@ -55,7 +47,7 @@ const Employment = ({
     const result = employmentSchema.safeParse(fields.employment);
     if (result.success) {
       clearErrors();
-      handleCloseModal();
+      modal.handleClose();
       setFields({
         ...fields,
         employments: [...fields.employments, fields.employment],
@@ -79,7 +71,7 @@ const Employment = ({
       label="Employment"
       description="How much is your starting price? You can negotiate with your client about the final amount later."
       tooltip="All prices should start from 50 dollars.">
-      <Button onClick={handleOpenModal}>Add Employment</Button>
+      <Button onClick={modal.handleOpen}>Add Employment</Button>
       <ul className="grid grid-cols-4 gap-4">
         {fields.employments.map((employment, index) => (
           <li key={index} className="space-y-4 rounded border bg-white p-4">
@@ -98,8 +90,8 @@ const Employment = ({
       <Modal
         title="Employment"
         description="How much is your starting price? You can negotiate with your client about the final amount later."
-        state={modalState}
-        handleClose={handleCloseModal}
+        state={modal.state}
+        handleClose={modal.handleClose}
         className="max-w-2xl">
         <Field.Body
           id="company"
@@ -239,7 +231,7 @@ const Employment = ({
           </Button>
           <Button
             variant="tertiary"
-            onClick={handleCloseModal}
+            onClick={modal.handleClose}
             className="ml-auto">
             Close
           </Button>

@@ -24,11 +24,7 @@ const options = [
 ];
 
 const Experience = ({ fields, setFields, errors }: Props) => {
-  const {
-    state: employmentModalState,
-    handleOpen: handleOpenEmploymentModal,
-    handleClose: handleCloseEmploymentModal,
-  } = useModal();
+  const modalEmployment = useModal();
 
   return (
     <form className="space-y-4">
@@ -49,9 +45,7 @@ const Experience = ({ fields, setFields, errors }: Props) => {
       <Employment
         fields={fields}
         setFields={setFields}
-        modalState={employmentModalState}
-        handleOpenModal={handleOpenEmploymentModal}
-        handleCloseModal={handleCloseEmploymentModal}
+        modal={modalEmployment}
       />
     </form>
   );

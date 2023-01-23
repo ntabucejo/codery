@@ -1,7 +1,7 @@
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Modal from "@core/components/layouts/modal";
-import { type State } from "@core/types/modal";
+import { type Modal as ModalType } from "@core/types/modal";
 import {
   educationErrors,
   educationSchema,
@@ -20,9 +20,7 @@ import {
 type Props = {
   fields: FreelancerFields;
   setFields: Dispatch<SetStateAction<FreelancerFields>>;
-  modalState: State;
-  handleOpenModal: () => void;
-  handleCloseModal: () => void;
+  modal: ModalType;
 };
 
 class Degree {
@@ -69,13 +67,7 @@ let areas: { id: string; name: string }[] = [
   new Area(cuid(), "Hardware"),
 ];
 
-const Education = ({
-  fields,
-  setFields,
-  modalState,
-  handleOpenModal,
-  handleCloseModal,
-}: Props) => {
+const Education = ({ fields, setFields, modal }: Props) => {
   const [errors, setErrors] = useState<EducationErrors>(educationErrors);
 
   const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
@@ -84,7 +76,7 @@ const Education = ({
     const result = educationSchema.safeParse(fields.education);
     if (result.success) {
       clearErrors();
-      handleCloseModal();
+      modal.handleClose();
       setFields({
         ...fields,
         educations: [...fields.educations, fields.education],
@@ -108,7 +100,7 @@ const Education = ({
       label="Education"
       description="How much is your starting price? You can negotiate with your client about the final amount later."
       tooltip="All prices should start from 50 dollars.">
-      <Button onClick={handleOpenModal}>Add Education</Button>
+      <Button onClick={modal.handleOpen}>Add Education</Button>
       <ul className="grid grid-cols-4 gap-4">
         {fields.educations.map((education, index) => (
           <li key={index} className="space-y-4 rounded border bg-white p-4">
@@ -127,8 +119,8 @@ const Education = ({
       <Modal
         title="Education"
         description="How much is your starting price? You can negotiate with your client about the final amount later."
-        state={modalState}
-        handleClose={handleCloseModal}
+        state={modal.state}
+        handleClose={modal.handleClose}
         className="max-w-2xl">
         <Field.Body
           id="school"
@@ -207,7 +199,7 @@ const Education = ({
           </Button>
           <Button
             variant="tertiary"
-            onClick={handleCloseModal}
+            onClick={modal.handleClose}
             className="ml-auto">
             Close
           </Button>

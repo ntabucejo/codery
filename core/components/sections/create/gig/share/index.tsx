@@ -9,21 +9,11 @@ type Props = {
 };
 
 const Share = ({ fields, setFields }: Props) => {
-  const {
-    state: showcaseModalState,
-    handleOpen: handleOpenShowcaseModal,
-    handleClose: handleCloseShowcaseModal,
-  } = useModal();
+  const modalShowcase = useModal();
 
   return (
     <div className="space-y-4">
-      <Showcase
-        fields={fields}
-        setFields={setFields}
-        modalState={showcaseModalState}
-        handleOpenModal={handleOpenShowcaseModal}
-        handleCloseModal={handleCloseShowcaseModal}
-      />
+      <Showcase fields={fields} setFields={setFields} modal={modalShowcase} />
     </div>
   );
 };

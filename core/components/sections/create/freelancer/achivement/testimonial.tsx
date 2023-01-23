@@ -8,7 +8,7 @@ import {
   testimonialSchema,
   freelancerFields,
 } from "@core/validations/freelancer";
-import { type State } from "@core/types/modal";
+import { type Modal as ModalType } from "@core/types/modal";
 import {
   type MouseEvent,
   type Dispatch,
@@ -19,18 +19,10 @@ import {
 type Props = {
   fields: FreelancerFields;
   setFields: Dispatch<SetStateAction<FreelancerFields>>;
-  modalState: State;
-  handleOpenModal: () => void;
-  handleCloseModal: () => void;
+  modal: ModalType;
 };
 
-const Testimonial = ({
-  fields,
-  setFields,
-  modalState,
-  handleOpenModal,
-  handleCloseModal,
-}: Props) => {
+const Testimonial = ({ fields, setFields, modal }: Props) => {
   const [errors, setErrors] = useState<TestimonialErrors>(testimonialErrors);
 
   const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
@@ -39,7 +31,7 @@ const Testimonial = ({
     const result = testimonialSchema.safeParse(fields.testimonial);
     if (result.success) {
       clearErrors();
-      handleCloseModal();
+      modal.handleClose();
       setFields({
         ...fields,
         testimonials: [...fields.testimonials, fields.testimonial],
@@ -63,7 +55,7 @@ const Testimonial = ({
       label="Testimonial"
       description="How much is your starting price? You can negotiate with your client about the final amount later."
       tooltip="All prices should start from 50 dollars.">
-      <Button onClick={handleOpenModal}>Add Testimonial</Button>
+      <Button onClick={modal.handleOpen}>Add Testimonial</Button>
       <ul className="grid grid-cols-4 gap-4">
         {fields.testimonials.map((testimonial, index) => (
           <li key={index} className="rounded border bg-white p-4">
@@ -77,8 +69,8 @@ const Testimonial = ({
       <Modal
         title="Testimonial"
         description="How much is your starting price? You can negotiate with your client about the final amount later."
-        state={modalState}
-        handleClose={handleCloseModal}
+        state={modal.state}
+        handleClose={modal.handleClose}
         className="max-w-2xl">
         <Field.Body
           id="name"
@@ -206,7 +198,7 @@ const Testimonial = ({
           </Button>
           <Button
             variant="tertiary"
-            onClick={handleCloseModal}
+            onClick={modal.handleClose}
             className="ml-auto">
             Close
           </Button>
