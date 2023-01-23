@@ -1,7 +1,10 @@
 import { z } from "zod";
 
 export const gigSchema = z.object({
-  title: z.string().startsWith("I will").max(80),
+  title: z
+    .string()
+    .startsWith("I will", "Project title must start with 'I will'")
+    .max(80),
   description: z.string().min(10).max(1000),
   category: z.object({ id: z.string().cuid(), name: z.string() }),
   tags: z
@@ -15,6 +18,7 @@ export const gigSchema = z.object({
     maximum: z.number().positive(),
   }),
   period: z.object({ id: z.string().cuid(), name: z.string() }),
+  isPublished: z.boolean(),
 });
 
 export type GigFields = z.infer<typeof gigSchema>;
@@ -36,6 +40,7 @@ export const gigFields: GigFields = {
     id: "",
     name: "",
   },
+  isPublished: false,
 };
 
 export const gigErrors = {
@@ -46,6 +51,7 @@ export const gigErrors = {
   showcases: "",
   price: "",
   period: "",
+  isPublished: "",
 };
 
 export type GigErrors = typeof gigErrors;
