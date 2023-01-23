@@ -1,14 +1,14 @@
 import Field from "@core/components/elements/field";
 import Symbol from "@core/components/elements/symbol";
 import useUpload from "@core/hooks/use-upload";
-import { type GigSchema } from "@core/schemas/gig";
+import { type GigFields } from "@core/validations/gig";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { type Dispatch, type SetStateAction } from "react";
 
 type Props = {
-  fields: GigSchema;
-  setFields: Dispatch<SetStateAction<GigSchema>>;
+  fields: GigFields;
+  setFields: Dispatch<SetStateAction<GigFields>>;
   errors: any;
 };
 

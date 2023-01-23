@@ -18,7 +18,7 @@ type Option = {
 
 type Props = {
   options: Option[];
-  name: string;
+  keys: string[];
   value: {
     id: string;
     name: string;
@@ -26,13 +26,24 @@ type Props = {
   setValue: Dispatch<SetStateAction<any>>;
 };
 
-const List = ({ options, name, value, setValue }: Props) => {
+const List = ({ options, keys, value, setValue }: Props) => {
   const [selected, setSelected] = useState<Option>(value);
   const isInitial = !selected?.name;
 
   useEffect(() => {
-    // @ts-ignore
-    setValue((state) => ({ ...state, [name]: selected }));
+    if (keys.length === 1) {
+      // @ts-ignore
+      setValue((state) => ({
+        ...state,
+        [keys[0]]: selected,
+      }));
+    } else if (keys.length === 2) {
+      // @ts-ignore
+      setValue((state) => ({
+        ...state,
+        [keys[0]]: { ...state[keys[0]], [keys[1]]: selected },
+      }));
+    }
   }, [selected]);
 
   return (
