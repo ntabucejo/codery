@@ -10,9 +10,7 @@ const FileField = ({ handleChange, className }: Props) => {
     <input
       onChange={handleChange}
       type="file"
-      className={`${
-        className ? className : ""
-      }`}
+      className={`${className ? className : ""}`}
     />
   );
 };

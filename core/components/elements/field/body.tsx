@@ -28,7 +28,9 @@ const Body = ({
           </label>
           {tooltip ? <Tooltip>{tooltip}</Tooltip> : null}
         </div>
-        <p className="text-sm text-primary-dark/fade text-left">{description}</p>
+        <p className="text-left text-sm text-primary-dark/fade">
+          {description}
+        </p>
       </div>
       {children}
       {error ? <span className="text-xs text-red-500">{error}</span> : null}

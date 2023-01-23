@@ -8,6 +8,7 @@ import {
   PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
+import About from "./about";
 
 const Page = async () => {
   const { user } = await useUser();
@@ -51,11 +52,12 @@ const Page = async () => {
       </div>
 
       <Cards title="How it Works" list={cards} />
+      <About />
 
-      <div className="contain grid laptop:grid-cols-2 gap-1 rounded border-2 p-6 text-xl text-primary-dark">
+      <div className="contain grid gap-1 rounded border-2 p-6 text-xl text-primary-dark laptop:grid-cols-2">
         <div className="felx flex-col gap-1">
           <strong className="text-2xl">Codery</strong>
-          <div className="flex flex-col mt-12">
+          <div className="mt-12 flex flex-col">
             <p className="text-[35px] font-semibold leading-10">
               On-demand developers <br /> led by the worlds leading experts.
             </p>
@@ -72,7 +74,7 @@ const Page = async () => {
           </Button>
         </div>
 
-        <div className="relative aspect-video mt-6 laptop:mt-0">
+        <div className="relative mt-6 aspect-video laptop:mt-0">
           <Image
             src="https://assets-global.website-files.com/606a802fcaa89bc357508cad/6099cd6c03dbc1f7e26a261b_Blog-1-p-800.png"
             alt="codery image"
