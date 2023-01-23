@@ -3,16 +3,25 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import type { State } from "@core/types/modal";
+import Balancer from "react-wrap-balancer";
 
 type Props = {
   children: React.ReactNode;
-  title?: any;
+  title?: string;
+  description?: string;
   state: State;
   handleClose: () => void;
   className?: string;
 };
 
-const Modal = ({ children, title, state, handleClose, className }: Props) => {
+const Modal = ({
+  children,
+  title,
+  description,
+  state,
+  handleClose,
+  className,
+}: Props) => {
   return (
     <Transition appear show={state === "show" ? true : false} as={Fragment}>
       <Dialog as="div" className="relative z-[999]" onClose={handleClose}>
@@ -24,7 +33,7 @@ const Modal = ({ children, title, state, handleClose, className }: Props) => {
           leave="ease-in duration-200"
           leaveFrom="opacity-100"
           leaveTo="opacity-0">
-          <div className="fixed inset-0 bg-primary-dark/50" />
+          <div className="fixed inset-0 bg-primary-dark/fade backdrop-blur-sm" />
         </Transition.Child>
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">
@@ -39,13 +48,24 @@ const Modal = ({ children, title, state, handleClose, className }: Props) => {
               <Dialog.Panel
                 className={`${
                   className ? className : ""
-                } w-full space-y-4 overflow-hidden rounded bg-primary-light p-4 shadow transition-all`}>
-                {title ? (
-                  <Dialog.Title
-                    as="h3"
-                    className="font-semibold text-primary-dark">
-                    {title}
-                  </Dialog.Title>
+                } w-full space-y-4 rounded bg-primary-light p-8 shadow transition-all`}>
+                {title || description ? (
+                  <div>
+                    {title ? (
+                      <Dialog.Title
+                        as="h3"
+                        className="text-2xl font-extrabold text-primary-dark">
+                        {title}
+                      </Dialog.Title>
+                    ) : null}
+                    {description ? (
+                      <Balancer>
+                        <p className="font-medium text-primary-dark/fade">
+                          {description}
+                        </p>
+                      </Balancer>
+                    ) : null}
+                  </div>
                 ) : null}
                 {children}
               </Dialog.Panel>

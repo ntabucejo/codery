@@ -18,7 +18,7 @@ type Option = {
 
 type Props = {
   options: Option[];
-  name: string;
+  keys: string[];
   value: {
     id: string;
     name: string;
@@ -26,7 +26,7 @@ type Props = {
   setValue: Dispatch<SetStateAction<any>>;
 };
 
-const Multiple = ({ options, name, value, setValue }: Props) => {
+const Multiple = ({ options, keys, value, setValue }: Props) => {
   const [selected, setSelected] = useState<Option | null>(null);
   const [items, setItems] = useState<Option[]>(value);
   const [query, setQuery] = useState("");
@@ -49,8 +49,22 @@ const Multiple = ({ options, name, value, setValue }: Props) => {
   useEffect(() => {
     if (selected && !isSelectedOnItems()) {
       setItems((state) => [...state, selected]);
-      // @ts-ignore
-      setValue((state) => ({ ...state, [name]: [...items, selected] }));
+      if (keys.length === 1) {
+        // @ts-ignore
+        setValue((state) => ({
+          ...state,
+          [keys[0]]: [...state[keys[0]], selected],
+        }));
+      } else if (keys.length === 2) {
+        // @ts-ignore
+        setValue((state) => ({
+          ...state,
+          [keys[0]]: {
+            ...state[keys[0]],
+            [keys[1]]: [...state[keys[1]], selected],
+          },
+        }));
+      }
     }
   }, [selected]);
 

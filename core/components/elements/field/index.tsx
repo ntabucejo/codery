@@ -1,4 +1,5 @@
 import Body from "./body";
+import Check from "./check";
 import Date from "./date";
 import File from "./file";
 import Number from "./number";
@@ -14,6 +15,7 @@ const Field = {
   File: File,
   Date: Date,
   Select: Select,
+  Check: Check,
 };
 
 export default Field;

@@ -2,46 +2,23 @@
 
 import Button from "@core/components/elements/button";
 import Stages from "@core/components/elements/stages";
-import { gigSchema, GigSchema } from "@core/schemas/gig";
+import {
+  type GigFields,
+  gigSchema,
+  GigErrors,
+  gigFields,
+  gigErrors,
+} from "@core/validations/gig";
 import { MouseEvent, useState } from "react";
 import General from "./general";
 import Publish from "./publish";
 import Showcase from "./showcase";
 
-const initialFields: GigSchema = {
-  title: "",
-  description: "",
-  category: {
-    id: "",
-    name: "",
-  },
-  tags: [],
-  showcases: [],
-  price: {
-    minimum: 5,
-    maximum: 100,
-  },
-  period: {
-    id: "",
-    name: "",
-  },
-};
-
-const initialErrors = {
-  title: "",
-  description: "",
-  category: "",
-  tags: "",
-  showcases: "",
-  price: "",
-  period: "",
-};
-
-export type Errors = typeof initialErrors;
-
 const Gig = () => {
-  const [fields, setFields] = useState<GigSchema>(initialFields);
-  const [errors, setErrors] = useState<Errors>(initialErrors);
+  const [fields, setFields] = useState<GigFields>(gigFields);
+  const [errors, setErrors] = useState<GigErrors>(gigErrors);
+
+  console.log(fields);
 
   const panels = [
     {
@@ -67,9 +44,12 @@ const Gig = () => {
 
   const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const clearErrors = () => setErrors(initialErrors);
+    const clearErrors = () => setErrors(gigErrors);
     const result = gigSchema.safeParse(fields);
-    if (result.success) return;
+    if (result.success) {
+      clearErrors();
+      return;
+    }
     const validations = result.error.issues;
     const updatedErrors = validations.map((validation) => {
       return { name: validation.path[0], message: validation.message };
