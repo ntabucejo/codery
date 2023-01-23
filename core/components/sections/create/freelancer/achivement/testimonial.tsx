@@ -25,28 +25,26 @@ type Props = {
 };
 
 const Testimonial = ({
-  fields: _fields,
-  setFields: _setFields,
+  fields,
+  setFields,
   modalState,
   handleOpenModal,
   handleCloseModal,
 }: Props) => {
-  const [fields, setFields] = useState(_fields.testimonial);
   const [errors, setErrors] = useState<TestimonialErrors>(testimonialErrors);
 
   const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const clearErrors = () => setErrors(testimonialErrors);
-    const result = testimonialSchema.safeParse(fields);
+    const result = testimonialSchema.safeParse(fields.testimonial);
     if (result.success) {
       clearErrors();
       handleCloseModal();
-      _setFields({
-        ..._fields,
-        testimonials: [..._fields.testimonials, fields],
-        testimonial: _fields.testimonial,
+      setFields({
+        ...fields,
+        testimonials: [...fields.testimonials, fields.testimonial],
+        testimonial: freelancerFields.testimonial,
       });
-      setFields(_fields.testimonial);
       return;
     }
     const validations = result.error.issues;
@@ -67,7 +65,7 @@ const Testimonial = ({
       tooltip="All prices should start from 50 dollars.">
       <Button onClick={handleOpenModal}>Add Testimonial</Button>
       <ul className="grid grid-cols-4 gap-4">
-        {_fields.testimonials.map((testimonial, index) => (
+        {fields.testimonials.map((testimonial, index) => (
           <li key={index} className="space-y-4 rounded border bg-white p-4">
             <div>
               <h4 className="font-semibold">{testimonial.name}</h4>
@@ -97,11 +95,14 @@ const Testimonial = ({
             id="name"
             isFull
             placeholder="Juan Jose"
-            value={fields.name}
+            value={fields.testimonial.name}
             onChange={(event) =>
               setFields({
                 ...fields,
-                name: event.target.value,
+                testimonial: {
+                  ...fields.testimonial,
+                  name: event.target.value,
+                },
               })
             }
           />
@@ -116,11 +117,14 @@ const Testimonial = ({
             id="position"
             isFull
             placeholder="Developer"
-            value={fields.position}
+            value={fields.testimonial.position}
             onChange={(event) =>
               setFields({
                 ...fields,
-                position: event.target.value,
+                testimonial: {
+                  ...fields.testimonial,
+                  position: event.target.value,
+                },
               })
             }
           />
@@ -136,11 +140,14 @@ const Testimonial = ({
               id="email"
               isFull
               placeholder="juanjose@example.com"
-              value={fields.email}
+              value={fields.testimonial.email}
               onChange={(event) =>
                 setFields({
                   ...fields,
-                  email: event.target.value,
+                  testimonial: {
+                    ...fields.testimonial,
+                    email: event.target.value,
+                  },
                 })
               }
             />
@@ -155,11 +162,14 @@ const Testimonial = ({
               id="link"
               isFull
               placeholder="www.juanjose.com"
-              value={fields.link}
+              value={fields.testimonial.link}
               onChange={(event) =>
                 setFields({
                   ...fields,
-                  link: event.target.value,
+                  testimonial: {
+                    ...fields.testimonial,
+                    link: event.target.value,
+                  },
                 })
               }
             />
@@ -175,9 +185,15 @@ const Testimonial = ({
             id="message"
             isFull
             placeholder="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque voluptatum enim blanditiis nobis facilis modi ut. Libero temporibus ipsum, quisquam sapiente aliquid magnam nobis optio, dolorum ipsam reiciendis, consectetur provident."
-            value={fields.message}
+            value={fields.testimonial.message}
             onChange={(event) =>
-              setFields({ ...fields, message: event.target.value })
+              setFields({
+                ...fields,
+                testimonial: {
+                  ...fields.testimonial,
+                  message: event.target.value,
+                },
+              })
             }
           />
         </Field.Body>
@@ -186,8 +202,8 @@ const Testimonial = ({
           <Button
             variant="secondary"
             onClick={() => {
-              _setFields({
-                ..._fields,
+              setFields({
+                ...fields,
                 testimonial: freelancerFields.testimonial,
               });
             }}>

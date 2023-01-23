@@ -65,8 +65,8 @@ let degrees: { id: string; name: string }[] = [
 ];
 
 let areas: { id: string; name: string }[] = [
-  new Degree(cuid(), "Software"),
-  new Degree(cuid(), "Hardware"),
+  new Area(cuid(), "Software"),
+  new Area(cuid(), "Hardware"),
 ];
 
 const Education = ({
