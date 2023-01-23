@@ -18,8 +18,6 @@ const Gig = () => {
   const [fields, setFields] = useState<GigFields>(gigFields);
   const [errors, setErrors] = useState<GigErrors>(gigErrors);
 
-  console.log(fields);
-
   const panels = [
     {
       id: 1,

@@ -50,6 +50,10 @@ const Showcase = ({
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setFields({
+      ...fields,
+      showcase: gigFields.showcase,
+    });
     const clearErrors = () => setErrors(showcaseErrors);
     const result = showcaseSchema.safeParse(fields.showcase);
     if (result.success) {

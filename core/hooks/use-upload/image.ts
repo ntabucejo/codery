@@ -27,7 +27,7 @@ const image = ({ name }: Image) => {
     const data = await response.json();
     setLoading(false);
 
-    setData(data.secure_url);
+    setData("");
 
     return data.secure_url;
   };
