@@ -122,7 +122,7 @@ const Multiple = ({ options, keys, value, setValue }: Props) => {
         {items.map((item) => (
           <li
             key={item.id}
-            className="rounded bg-primary-dark/fade px-2 py-1 text-sm text-primary-light">
+            className="rounded border bg-white px-2 py-1 text-sm text-primary-dark">
             {item.name}
           </li>
         ))}

@@ -1,7 +1,7 @@
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Modal from "@core/components/layouts/modal";
-import { type State } from "@core/types/modal";
+import { type Modal as ModalType } from "@core/types/modal";
 import {
   educationErrors,
   educationSchema,
@@ -20,9 +20,7 @@ import {
 type Props = {
   fields: FreelancerFields;
   setFields: Dispatch<SetStateAction<FreelancerFields>>;
-  modalState: State;
-  handleOpenModal: () => void;
-  handleCloseModal: () => void;
+  modal: ModalType;
 };
 
 class Degree {
@@ -65,26 +63,20 @@ let degrees: { id: string; name: string }[] = [
 ];
 
 let areas: { id: string; name: string }[] = [
-  new Degree(cuid(), "Software"),
-  new Degree(cuid(), "Hardware"),
+  new Area(cuid(), "Software"),
+  new Area(cuid(), "Hardware"),
 ];
 
-const Education = ({
-  fields,
-  setFields,
-  modalState,
-  handleOpenModal,
-  handleCloseModal,
-}: Props) => {
+const Education = ({ fields, setFields, modal }: Props) => {
   const [errors, setErrors] = useState<EducationErrors>(educationErrors);
 
-  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const clearErrors = () => setErrors(educationErrors);
     const result = educationSchema.safeParse(fields.education);
     if (result.success) {
       clearErrors();
-      handleCloseModal();
+      modal.handleClose();
       setFields({
         ...fields,
         educations: [...fields.educations, fields.education],
@@ -103,117 +95,95 @@ const Education = ({
   };
 
   return (
-    <Field.Body
-      id="education"
-      label="Education"
+    <Modal
+      title="Education"
       description="How much is your starting price? You can negotiate with your client about the final amount later."
-      tooltip="All prices should start from 50 dollars.">
-      <Button onClick={handleOpenModal}>Add Education</Button>
-      <ul className="grid grid-cols-4 gap-4">
-        {fields.educations.map((education, index) => (
-          <li key={index} className="space-y-4 rounded border bg-white p-4">
-            <div>
-              <h4 className="font-semibold">{education.school}</h4>
-              <h5 className="text-xs text-primary-dark/fade">
-                {education.degree?.name}
-              </h5>
-            </div>
-            <p className="text-sm text-primary-dark/fade">
-              {education.area?.name}
-            </p>
-          </li>
-        ))}
-      </ul>
-      <Modal
-        title="Education"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        state={modalState}
-        handleClose={handleCloseModal}
-        className="max-w-2xl">
-        <Field.Body
+      state={modal.state}
+      handleClose={modal.handleClose}
+      className="max-w-2xl">
+      <Field.Body
+        id="school"
+        label="School"
+        description="Where do you live?"
+        tooltip="Any information needed here in the form are safe and private."
+        error={errors.school}>
+        <Field.Text
           id="school"
-          label="School"
-          description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private."
-          error={errors.school}>
-          <Field.Text
-            id="school"
-            isFull
-            placeholder="Juan Jose University"
-            value={fields.education.school}
-            onChange={(event) =>
-              setFields({
-                ...fields,
-                education: {
-                  ...fields.education,
-                  school: event.target.value,
-                },
-              })
-            }
+          isFull
+          placeholder="Juan Jose University"
+          value={fields.education.school}
+          onChange={(event) =>
+            setFields({
+              ...fields,
+              education: {
+                ...fields.education,
+                school: event.target.value,
+              },
+            })
+          }
+        />
+      </Field.Body>
+      <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+        <Field.Body
+          id="degree"
+          label="Degree"
+          description="How much is your starting price? "
+          tooltip="All prices should start from 50 dollars."
+          error={errors.degree}>
+          <Field.Select.Combo
+            options={degrees}
+            keys={["education", "degree"]}
+            value={fields.education.degree}
+            setValue={setFields}
           />
         </Field.Body>
-        <div className="grid grid-cols-2 gap-y-4 gap-x-8">
-          <Field.Body
-            id="degree"
-            label="Degree"
-            description="How much is your starting price? "
-            tooltip="All prices should start from 50 dollars."
-            error={errors.degree}>
-            <Field.Select.Combo
-              options={degrees}
-              keys={["education", "degree"]}
-              value={fields.education.degree}
-              setValue={setFields}
-            />
-          </Field.Body>
-          <Field.Body
-            id="area"
-            label="Area"
-            description="How much is your starting price? "
-            tooltip="All prices should start from 50 dollars."
-            error={errors.area}>
-            <Field.Select.Combo
-              options={areas}
-              keys={["education", "area"]}
-              value={fields.education.area}
-              setValue={setFields}
-            />
-          </Field.Body>
-          <Field.Body
-            id="year"
-            label="Year"
-            description="How much is your starting price? "
-            tooltip="All prices should start from 50 dollars."
-            error={errors.year}>
-            <Field.Select.Combo
-              options={years}
-              keys={["education", "year"]}
-              value={fields.education.year}
-              setValue={setFields}
-            />
-          </Field.Body>
-        </div>
-        <div className="flex w-full gap-4">
-          <Button onClick={handleSumbit}>Add Education</Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setFields({
-                ...fields,
-                education: freelancerFields.education,
-              });
-            }}>
-            Clear
-          </Button>
-          <Button
-            variant="tertiary"
-            onClick={handleCloseModal}
-            className="ml-auto">
-            Close
-          </Button>
-        </div>
-      </Modal>
-    </Field.Body>
+        <Field.Body
+          id="area"
+          label="Area"
+          description="How much is your starting price? "
+          tooltip="All prices should start from 50 dollars."
+          error={errors.area}>
+          <Field.Select.Combo
+            options={areas}
+            keys={["education", "area"]}
+            value={fields.education.area}
+            setValue={setFields}
+          />
+        </Field.Body>
+        <Field.Body
+          id="year"
+          label="Year"
+          description="How much is your starting price? "
+          tooltip="All prices should start from 50 dollars."
+          error={errors.year}>
+          <Field.Select.Combo
+            options={years}
+            keys={["education", "year"]}
+            value={fields.education.year}
+            setValue={setFields}
+          />
+        </Field.Body>
+      </div>
+      <div className="flex w-full gap-4">
+        <Button onClick={handleSubmit}>Add Education</Button>
+        <Button
+          variant="secondary"
+          onClick={() => {
+            setFields({
+              ...fields,
+              education: freelancerFields.education,
+            });
+          }}>
+          Clear
+        </Button>
+        <Button
+          variant="tertiary"
+          onClick={modal.handleClose}
+          className="ml-auto">
+          Close
+        </Button>
+      </div>
+    </Modal>
   );
 };
 

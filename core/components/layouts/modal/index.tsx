@@ -50,17 +50,17 @@ const Modal = ({
                   className ? className : ""
                 } w-full space-y-4 rounded bg-primary-light p-8 shadow transition-all`}>
                 {title || description ? (
-                  <div>
+                  <div className="space-y-2 rounded bg-primary-dark p-4">
                     {title ? (
                       <Dialog.Title
                         as="h3"
-                        className="text-2xl font-extrabold text-primary-dark">
+                        className="text-2xl font-extrabold text-primary-light">
                         {title}
                       </Dialog.Title>
                     ) : null}
                     {description ? (
                       <Balancer>
-                        <p className="font-medium text-primary-dark/fade">
+                        <p className="text-sm font-medium text-primary-light/fade">
                           {description}
                         </p>
                       </Balancer>
