@@ -13,7 +13,7 @@ const image = ({ name }: Image) => {
     const form = event.currentTarget;
     const fileInput = Array.from(form.elements).find(
       // @ts-expect-error
-      (element) => element.name === "file"
+      (element) => element.name === name
     );
     const formData = new FormData();
     // @ts-expect-error
@@ -26,9 +26,7 @@ const image = ({ name }: Image) => {
     const response = await fetch(endpoint, { method: "POST", body: formData });
     const data = await response.json();
     setLoading(false);
-
     setData("");
-
     return data.secure_url;
   };
 
