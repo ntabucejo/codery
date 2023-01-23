@@ -17,7 +17,7 @@ const Board = ({ name, panels }: Props) => {
   return (
     <Tab.Group as="div" className="space-y-4">
       <div className="space-y-4 rounded bg-primary-dark p-4">
-        <h1 className="text-xl font-bold text-primary-light">{name}</h1>
+        <h1 className="text-2xl font-extrabold text-primary-light">{name}</h1>
         <Tab.List className="flex w-full items-center gap-6 overflow-scroll scrollbar-hide">
           {panels.map((panel) => (
             <div key={panel.id} className="flex items-center gap-4">
