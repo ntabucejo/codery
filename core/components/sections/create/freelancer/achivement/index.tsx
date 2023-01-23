@@ -5,6 +5,7 @@ import {
 } from "@core/validations/freelancer";
 import { type Dispatch, type SetStateAction } from "react";
 import Education from "./education";
+import Testimonial from "./testimonial";
 
 type Props = {
   fields: FreelancerFields;
@@ -19,6 +20,12 @@ const Achievement = ({ fields, setFields, errors }: Props) => {
     handleClose: handleCloseEducationModal,
   } = useModal();
 
+  const {
+    state: testimonialModalState,
+    handleOpen: handleOpenTestimonialModal,
+    handleClose: handleCloseTestimonialModal,
+  } = useModal();
+
   return (
     <form className="space-y-4">
       <Education
@@ -27,6 +34,13 @@ const Achievement = ({ fields, setFields, errors }: Props) => {
         modalState={educationModalState}
         handleOpenModal={handleOpenEducationModal}
         handleCloseModal={handleCloseEducationModal}
+      />
+      <Testimonial
+        fields={fields}
+        setFields={setFields}
+        modalState={testimonialModalState}
+        handleOpenModal={handleOpenTestimonialModal}
+        handleCloseModal={handleCloseTestimonialModal}
       />
     </form>
   );

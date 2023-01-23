@@ -1,6 +1,4 @@
-import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
-import Modal from "@core/components/layouts/modal";
 import useModal from "@core/hooks/use-modal";
 import {
   FreelancerErrors,
@@ -9,7 +7,6 @@ import {
 import cuid from "cuid";
 import { type Dispatch, type SetStateAction } from "react";
 import Employment from "./employment";
-import Testimonial from "./testimonial";
 
 type Props = {
   fields: FreelancerFields;
@@ -27,12 +24,6 @@ const options = [
 ];
 
 const Experience = ({ fields, setFields, errors }: Props) => {
-  const {
-    state: testimonialModalState,
-    handleOpen: handleOpenTestimonialModal,
-    handleClose: handleCloseTestimonialModal,
-  } = useModal();
-
   const {
     state: employmentModalState,
     handleOpen: handleOpenEmploymentModal,
@@ -54,13 +45,7 @@ const Experience = ({ fields, setFields, errors }: Props) => {
           setValue={setFields}
         />
       </Field.Body>
-      <Testimonial
-        fields={fields}
-        setFields={setFields}
-        modalState={testimonialModalState}
-        handleOpenModal={handleOpenTestimonialModal}
-        handleCloseModal={handleCloseTestimonialModal}
-      />
+
       <Employment
         fields={fields}
         setFields={setFields}
