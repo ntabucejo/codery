@@ -33,7 +33,7 @@ const Testimonial = ({
 }: Props) => {
   const [errors, setErrors] = useState<TestimonialErrors>(testimonialErrors);
 
-  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const clearErrors = () => setErrors(testimonialErrors);
     const result = testimonialSchema.safeParse(fields.testimonial);
@@ -193,7 +193,7 @@ const Testimonial = ({
           />
         </Field.Body>
         <div className="flex w-full gap-4">
-          <Button onClick={handleSumbit}>Add Testimonial</Button>
+          <Button onClick={handleSubmit}>Add Testimonial</Button>
           <Button
             variant="secondary"
             onClick={() => {

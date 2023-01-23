@@ -18,7 +18,7 @@ import Achievement from "./achivement";
 const Freelancer = () => {
   const [fields, setFields] = useState<FreelancerFields>(freelancerFields);
   const [errors, setErrors] = useState<FreelancerErrors>(freelancerErrors);
-  console.log(fields);
+
   const panels = [
     {
       id: 1,
@@ -48,7 +48,7 @@ const Freelancer = () => {
     },
   ];
 
-  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const clearErrors = () => setErrors(freelancerErrors);
     const result = freelancerSchema.safeParse(fields);
@@ -69,7 +69,7 @@ const Freelancer = () => {
   return (
     <section className="contain space-y-4">
       <Stages name="CREATE / FREELANCER" panels={panels} />
-      <Button onClick={handleSumbit}>Submit</Button>
+      <Button onClick={handleSubmit}>Submit</Button>
     </section>
   );
 };

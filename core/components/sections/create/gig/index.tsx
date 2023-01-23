@@ -12,7 +12,7 @@ import {
 import { MouseEvent, useState } from "react";
 import General from "./general";
 import Publish from "./publish";
-import Showcase from "./showcase";
+import Share from "./share";
 
 const Gig = () => {
   const [fields, setFields] = useState<GigFields>(gigFields);
@@ -30,10 +30,8 @@ const Gig = () => {
     },
     {
       id: 2,
-      title: "Showcase",
-      content: (
-        <Showcase fields={fields} setFields={setFields} errors={errors} />
-      ),
+      title: "Share",
+      content: <Share fields={fields} setFields={setFields} />,
     },
     {
       id: 3,
@@ -42,7 +40,7 @@ const Gig = () => {
     },
   ];
 
-  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const clearErrors = () => setErrors(gigErrors);
     const result = gigSchema.safeParse(fields);
@@ -63,7 +61,7 @@ const Gig = () => {
   return (
     <section className="contain space-y-4">
       <Stages name="CREATE / GIG" panels={panels} />
-      <Button variant="primary" onClick={handleSumbit}>
+      <Button variant="primary" onClick={handleSubmit}>
         Submit
       </Button>
     </section>

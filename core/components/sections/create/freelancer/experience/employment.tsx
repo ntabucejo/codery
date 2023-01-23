@@ -49,7 +49,7 @@ const Employment = ({
 }: Props) => {
   const [errors, setErrors] = useState<EmploymentErrors>(employmentErrors);
 
-  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const clearErrors = () => setErrors(employmentErrors);
     const result = employmentSchema.safeParse(fields.employment);
@@ -226,7 +226,7 @@ const Employment = ({
           </Field.Check>
         </Field.Body>
         <div className="flex w-full gap-4">
-          <Button onClick={handleSumbit}>Add Employment</Button>
+          <Button onClick={handleSubmit}>Add Employment</Button>
           <Button
             variant="secondary"
             onClick={() => {

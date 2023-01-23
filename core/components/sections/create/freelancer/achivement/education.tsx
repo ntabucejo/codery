@@ -78,7 +78,7 @@ const Education = ({
 }: Props) => {
   const [errors, setErrors] = useState<EducationErrors>(educationErrors);
 
-  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const clearErrors = () => setErrors(educationErrors);
     const result = educationSchema.safeParse(fields.education);
@@ -194,7 +194,7 @@ const Education = ({
           </Field.Body>
         </div>
         <div className="flex w-full gap-4">
-          <Button onClick={handleSumbit}>Add Education</Button>
+          <Button onClick={handleSubmit}>Add Education</Button>
           <Button
             variant="secondary"
             onClick={() => {
