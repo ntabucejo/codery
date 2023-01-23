@@ -66,16 +66,11 @@ const Testimonial = ({
       <Button onClick={handleOpenModal}>Add Testimonial</Button>
       <ul className="grid grid-cols-4 gap-4">
         {fields.testimonials.map((testimonial, index) => (
-          <li key={index} className="space-y-4 rounded border bg-white p-4">
-            <div>
-              <h4 className="font-semibold">{testimonial.name}</h4>
-              <h5 className="text-xs text-primary-dark/fade">
-                {testimonial.email}
-              </h5>
-            </div>
-            <p className="text-sm text-primary-dark/fade">
-              {testimonial.message}
-            </p>
+          <li key={index} className="rounded border bg-white p-4">
+            <h4 className="font-semibold">{testimonial.name}</h4>
+            <h5 className="text-xs text-primary-dark/fade">
+              {testimonial.email}
+            </h5>
           </li>
         ))}
       </ul>
