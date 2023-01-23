@@ -21,19 +21,22 @@ const Board = ({ name, panels }: Props) => {
         <Tab.List className="flex w-full items-center gap-6 overflow-scroll scrollbar-hide">
           {panels.map((panel) => (
             <div key={panel.id} className="flex items-center gap-4">
-              <Tab className="smooth flex cursor-pointer items-center gap-2 active:outline-pink-500">
+              <Tab className="smooth flex cursor-pointer items-center gap-2 focus:outline-0">
                 {({ selected }) => (
                   <>
                     <div
                       className={`${
                         selected ? "bg-primary-light" : ""
-                      } flex aspect-square w-7 items-center justify-center rounded-full border text-center font-semibold`}>
+                      } relative flex aspect-square w-7 items-center justify-center rounded-full border text-center font-semibold`}>
                       <div
                         className={`${
                           selected ? "text-primary-dark" : "text-primary-light"
                         }`}>
                         {panel.id}
                       </div>
+                      {selected ? (
+                        <div className="absolute inset-0 animate-spin rounded-full border-2 border-l-0 border-primary-brand border-b-transparent" />
+                      ) : null}
                     </div>
                     <span
                       className={`${
