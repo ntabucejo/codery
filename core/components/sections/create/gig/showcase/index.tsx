@@ -14,7 +14,7 @@ type Props = {
 const Showcase = ({ warnings }: Props) => {
   const fields = stores.gig.base((state) => state.fields);
   const modalShowcase = useModal();
-  console.log(fields);
+
   return (
     <div className="space-y-4">
       <Field.Body

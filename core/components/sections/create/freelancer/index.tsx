@@ -53,7 +53,7 @@ const Freelancer = ({ user }: Props) => {
     if (result.success) {
       try {
         const response = await axios.post(
-          `/api/data/users/${user.email}/freelancers`,
+          `/api/data/users/${user.id}/freelancers`,
           {
             ...fields,
             skills: fields.skills.map((skill) => {
@@ -90,7 +90,7 @@ const Freelancer = ({ user }: Props) => {
 
   return (
     <section className="contain space-y-4">
-      <Stages name="CREATE / FREELANCER" panels={panels} />
+      <Stages name="BECOME FREELANCER" panels={panels} />
       <Button onClick={handleSubmit}>Submit</Button>
     </section>
   );

@@ -46,16 +46,13 @@ const Gig = ({ user }: Props) => {
     const result = schemas.gig.base.safeParse(fields);
     if (result.success) {
       try {
-        const response = await axios.post(
-          `/api/data/users/${user.email}/gigs`,
-          {
-            ...fields,
-            categoryId: fields.category.id,
-            tags: fields.tags.map((tag) => {
-              return { technologyId: tag.id };
-            }),
-          }
-        );
+        const response = await axios.post(`/api/data/users/${user.id}/gigs`, {
+          ...fields,
+          categoryId: fields.category.id,
+          tags: fields.tags.map((tag) => {
+            return { technologyId: tag.id };
+          }),
+        });
         if (response.status === 201) {
           router.push(`${user.username}/dashboard`);
         }
@@ -69,7 +66,7 @@ const Gig = ({ user }: Props) => {
 
   return (
     <section className="contain space-y-4">
-      <Stages name="CREATE / GIG" panels={panels} />
+      <Stages name="CREATE GIG" panels={panels} />
       <Button variant="primary" onClick={handleSubmit}>
         Submit
       </Button>
