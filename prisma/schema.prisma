@@ -61,15 +61,60 @@ model Client {
 model Freelancer {
   id String @id @default(cuid())
 
-  user      User       @relation(fields: [userId], references: [id])
-  userId    String     @unique
-  gigs      Gig[]
-  offers    Offer[]
-  comments  Comment[]
-  skill     Skill[]
-  contracts Contract[]
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String        @unique
+  gigs         Gig[]
+  offers       Offer[]
+  comments     Comment[]
+  skill        Skill[]
+  contracts    Contract[]
+  employments  Employment[]
+  educations   Education[]
+  testimonials Testimonial[]
 
   @@index([userId])
+}
+
+model Employment {
+  id          String @id @default(cuid())
+  company     String
+  description String @db.Text
+  position    String
+  location    String
+  year        String
+  isActive    String
+
+  freelancer   Freelancer? @relation(fields: [freelancerId], references: [id])
+  freelancerId String?
+
+  @@index([freelancerId])
+}
+
+model Education {
+  id     String @id @default(cuid())
+  school String
+  degree String
+  area   String
+  start  String
+  end    String
+
+  freelancer   Freelancer? @relation(fields: [freelancerId], references: [id])
+  freelancerId String?
+
+  @@index([freelancerId])
+}
+
+model Testimonial {
+  id       String @id @default(cuid())
+  name     String
+  position String
+  email    String
+  message  String @db.Text
+
+  freelancer   Freelancer? @relation(fields: [freelancerId], references: [id])
+  freelancerId String?
+
+  @@index([freelancerId])
 }
 
 model Gig {

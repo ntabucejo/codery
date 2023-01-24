@@ -4,7 +4,8 @@ export const educationSchema = z.object({
   school: z.string().min(1).max(50),
   degree: z.object({ id: z.string().cuid(), name: z.string() }),
   area: z.object({ id: z.string().cuid(), name: z.string() }),
-  year: z.object({ id: z.string().cuid(), name: z.string() }),
+  start: z.object({ id: z.string().cuid(), name: z.string() }),
+  end: z.object({ id: z.string().cuid(), name: z.string() }),
 });
 
 export const employmentSchema = z.object({
@@ -19,7 +20,6 @@ export const employmentSchema = z.object({
 export const testimonialSchema = z.object({
   name: z.string().min(1).max(50),
   email: z.string().email(),
-  link: z.string().url(),
   position: z.string().min(1).max(50),
   message: z.string().min(10).max(1000),
 });
@@ -51,7 +51,6 @@ export const freelancerFields: FreelancerFields = {
   testimonial: {
     name: "",
     email: "",
-    link: "",
     position: "",
     message: "",
   },
@@ -69,7 +68,8 @@ export const freelancerFields: FreelancerFields = {
     school: "",
     degree: { id: "", name: "" },
     area: { id: "", name: "" },
-    year: { id: "", name: "" },
+    start: { id: "", name: "" },
+    end: { id: "", name: "" },
   },
   educations: [],
 };
@@ -79,13 +79,7 @@ export const freelancerErrors = {
   location: "",
   phone: "",
   skills: "",
-  testimonial: {
-    name: "",
-    email: "",
-    link: "",
-    position: "",
-    message: "",
-  },
+  testimonial: "",
   testimonials: "",
   employment: "",
   employments: "",
@@ -96,7 +90,6 @@ export const freelancerErrors = {
 export const testimonialErrors = {
   name: "",
   email: "",
-  link: "",
   position: "",
   message: "",
 };
@@ -114,7 +107,8 @@ export const educationErrors = {
   school: "",
   degree: "",
   area: "",
-  year: "",
+  start: "",
+  end: "",
 };
 
 export type FreelancerErrors = typeof freelancerErrors;

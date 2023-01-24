@@ -159,15 +159,28 @@ const Education = ({ fields, setFields, modal }: Props) => {
           />
         </Field.Body>
         <Field.Body
-          id="year"
-          label="Year"
+          id="start"
+          label="Start Year"
           description="How much is your starting price? "
           tooltip="All prices should start from 50 dollars."
-          error={errors.year}>
+          error={errors.start}>
           <Field.Select.Combo
             options={years}
-            keys={["education", "year"]}
-            value={fields.education.year}
+            keys={["education", "start"]}
+            value={fields.education.start}
+            setValue={setFields}
+          />
+        </Field.Body>
+        <Field.Body
+          id="end"
+          label="End Year"
+          description="How much is your starting price? "
+          tooltip="All prices should start from 50 dollars."
+          error={errors.end}>
+          <Field.Select.Combo
+            options={years}
+            keys={["education", "end"]}
+            value={fields.education.end}
             setValue={setFields}
           />
         </Field.Body>

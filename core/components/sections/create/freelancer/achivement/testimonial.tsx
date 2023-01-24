@@ -86,29 +86,29 @@ const Testimonial = ({ fields, setFields, modal }: Props) => {
           }
         />
       </Field.Body>
-      <Field.Body
-        id="position"
-        label="Position"
-        description="Where do you live?"
-        tooltip="Any information needed here in the form are safe and private."
-        error={errors.position}>
-        <Field.Text
-          id="position"
-          isFull
-          placeholder="Developer"
-          value={fields.testimonial.position}
-          onChange={(event) =>
-            setFields({
-              ...fields,
-              testimonial: {
-                ...fields.testimonial,
-                position: event.target.value,
-              },
-            })
-          }
-        />
-      </Field.Body>
       <div className="grid grid-cols-2 gap-8">
+        <Field.Body
+          id="position"
+          label="Position"
+          description="Where do you live?"
+          tooltip="Any information needed here in the form are safe and private."
+          error={errors.position}>
+          <Field.Text
+            id="position"
+            isFull
+            placeholder="Developer"
+            value={fields.testimonial.position}
+            onChange={(event) =>
+              setFields({
+                ...fields,
+                testimonial: {
+                  ...fields.testimonial,
+                  position: event.target.value,
+                },
+              })
+            }
+          />
+        </Field.Body>
         <Field.Body
           id="email"
           label="Email"
@@ -126,28 +126,6 @@ const Testimonial = ({ fields, setFields, modal }: Props) => {
                 testimonial: {
                   ...fields.testimonial,
                   email: event.target.value,
-                },
-              })
-            }
-          />
-        </Field.Body>
-        <Field.Body
-          id="link"
-          label="Link"
-          description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private."
-          error={errors.link}>
-          <Field.Text
-            id="link"
-            isFull
-            placeholder="www.juanjose.com"
-            value={fields.testimonial.link}
-            onChange={(event) =>
-              setFields({
-                ...fields,
-                testimonial: {
-                  ...fields.testimonial,
-                  link: event.target.value,
                 },
               })
             }
