@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const showcaseSchema = z.object({
+export const thumbnailSchema = z.object({
   title: z.string().min(1).max(80),
   description: z.string().min(10).max(1000),
   image: z.string().url(),
@@ -18,8 +18,8 @@ export const gigSchema = z.object({
     .array()
     .min(1)
     .max(12),
-  showcase: showcaseSchema,
-  showcases: showcaseSchema.array().min(1).max(8),
+  thumbnail: thumbnailSchema,
+  thumbnails: thumbnailSchema.array().min(1).max(8),
   price: z.object({
     minimum: z.number().positive(),
     maximum: z.number().positive(),
@@ -38,12 +38,12 @@ export const gigFields: GigFields = {
     name: "",
   },
   tags: [],
-  showcase: {
+  thumbnail: {
     title: "",
     description: "",
     image: "",
   },
-  showcases: [],
+  thumbnails: [],
   price: {
     minimum: 5,
     maximum: 100,
@@ -55,7 +55,7 @@ export const gigFields: GigFields = {
   isPublished: false,
 };
 
-export const showcaseErrors = {
+export const thumbnailErrors = {
   title: "",
   description: "",
   image: "",
@@ -66,11 +66,11 @@ export const gigErrors = {
   description: "",
   category: "",
   tags: "",
-  showcases: "",
+  thumbnails: "",
   price: "",
   period: "",
   isPublished: "",
 };
 
 export type GigErrors = typeof gigErrors;
-export type ShowcaseErrors = typeof showcaseErrors;
+export type ThumbnailErrors = typeof thumbnailErrors;

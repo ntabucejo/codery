@@ -4,7 +4,7 @@ import useModal from "@core/hooks/use-modal";
 import { GigErrors, type GigFields } from "@core/validations/gig";
 import Image from "next/image";
 import { type Dispatch, type SetStateAction } from "react";
-import Showcase from "./showcase";
+import Thumbnail from "./thumbnail";
 
 type Props = {
   fields: GigFields;
@@ -18,21 +18,21 @@ const Share = ({ fields, setFields, errors }: Props) => {
   return (
     <div className="space-y-4">
       <Field.Body
-        id="showcase"
-        label="Showcase"
+        id="thumbnail"
+        label="Thumbnail"
         description="Get noticed by the right buyers with visual examples of your services."
         tooltip="By uploading images you will have a higher chance of getting a client."
-        error={errors.showcases}>
+        error={errors.thumbnails}>
         <Button onClick={modalShowcase.handleOpen}>Add Showcase</Button>
-        {fields.showcases.length ? (
+        {fields.thumbnails.length ? (
           <ul className="grid grid-cols-4 gap-4">
-            {fields.showcases.map((showcase) => (
+            {fields.thumbnails.map((thumbnail) => (
               <li
-                key={showcase.image}
+                key={thumbnail.image}
                 className="relative grid aspect-video items-center overflow-hidden rounded border bg-white">
                 <Image
-                  src={showcase.image}
-                  alt={showcase.image}
+                  src={thumbnail.image}
+                  alt={thumbnail.image}
                   fill
                   className="object-contain"
                 />
@@ -40,7 +40,11 @@ const Share = ({ fields, setFields, errors }: Props) => {
             ))}
           </ul>
         ) : null}
-        <Showcase fields={fields} setFields={setFields} modal={modalShowcase} />
+        <Thumbnail
+          fields={fields}
+          setFields={setFields}
+          modal={modalShowcase}
+        />
       </Field.Body>
     </div>
   );

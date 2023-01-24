@@ -6,10 +6,10 @@ import useUpload from "@core/hooks/use-upload";
 import { type Modal as ModalType } from "@core/types/modal";
 import {
   type GigFields,
-  type ShowcaseErrors,
-  showcaseErrors,
-  showcaseSchema,
   gigFields,
+  thumbnailErrors,
+  thumbnailSchema,
+  type ThumbnailErrors,
 } from "@core/validations/gig";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
@@ -27,9 +27,9 @@ type Props = {
   modal: ModalType;
 };
 
-const Showcase = ({ fields, setFields, modal }: Props) => {
+const Thumbnail = ({ fields, setFields, modal }: Props) => {
   const fileId = "file";
-  const [errors, setErrors] = useState<ShowcaseErrors>(showcaseErrors);
+  const [errors, setErrors] = useState<ThumbnailErrors>(thumbnailErrors);
 
   const {
     data,
@@ -42,16 +42,19 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const clearErrors = () => setErrors(showcaseErrors);
-    const result = showcaseSchema.safeParse(fields.showcase);
+    const clearErrors = () => setErrors(thumbnailErrors);
+    const result = thumbnailSchema.safeParse(fields.thumbnail);
     if (result.success) {
       clearErrors();
       modal.handleClose();
       const data = await handleUpload(event);
       setFields({
         ...fields,
-        showcases: [...fields.showcases, { ...fields.showcase, image: data }],
-        showcase: gigFields.showcase,
+        thumbnails: [
+          ...fields.thumbnails,
+          { ...fields.thumbnail, image: data },
+        ],
+        thumbnail: gigFields.thumbnail,
       });
       return;
     }
@@ -69,14 +72,14 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
     if (data) {
       setFields({
         ...fields,
-        showcase: { ...fields.showcase, image: data },
+        thumbnail: { ...fields.thumbnail, image: data },
       });
     }
   }, [data]);
 
   return (
     <Modal
-      title="Showcase"
+      title="Thumbnail"
       description="Get noticed by the right buyers with visual examples of your services."
       state={modal.state}
       handleClose={modal.handleClose}
@@ -87,8 +90,8 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
           onChange={handleChange}
           className="row-span-2 space-y-4">
           <Field.Body
-            id="upload"
-            label="Upload"
+            id="image"
+            label="Image"
             description="Get noticed by the right buyers with visual examples of your services."
             tooltip="By uploading images you will have a higher chance of getting a client."
             error={errors.image}>
@@ -120,7 +123,7 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
               onClick={() =>
                 setFields({
                   ...fields,
-                  showcase: gigFields.showcase,
+                  thumbnail: gigFields.thumbnail,
                 })
               }>
               Clear
@@ -138,12 +141,12 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
               id="title"
               isFull
               placeholder="Codery Clone Website"
-              value={fields.showcase.title}
+              value={fields.thumbnail.title}
               onChange={(event) =>
                 setFields({
                   ...fields,
-                  showcase: {
-                    ...fields.showcase,
+                  thumbnail: {
+                    ...fields.thumbnail,
                     title: event.target.value,
                   },
                 })
@@ -160,12 +163,12 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
               id="position"
               isFull
               placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, non. Vitae ut perspiciatis recusandae non incidunt deleniti possimus debitis magnam eos, aspernatur, quidem, dicta rem molestiae consectetur quibusdam? Consectetur, molestias!"
-              value={fields.showcase.description}
+              value={fields.thumbnail.description}
               onChange={(event) =>
                 setFields({
                   ...fields,
-                  showcase: {
-                    ...fields.showcase,
+                  thumbnail: {
+                    ...fields.thumbnail,
                     description: event.target.value,
                   },
                 })
@@ -184,4 +187,4 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
   );
 };
 
-export default Showcase;
+export default Thumbnail;
