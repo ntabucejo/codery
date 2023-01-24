@@ -22,12 +22,12 @@ const SignIn = ({ providers }: Props) => {
       <Button variant="primary" onClick={handleOpen}>
         Login
       </Button>
-
       <Modal
         title="Welcome to Codery!"
+        description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum sapiente necessitatibus voluptates quod, incidunt"
         state={state}
         handleClose={handleClose}
-        className="max-w-sm">
+        className="max-w-xl">
         <div className="space-y-2">
           {Object.values(providers).map((provider) => (
             <div key={provider.name}>

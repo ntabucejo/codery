@@ -1,38 +1,38 @@
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import useModal from "@core/hooks/use-modal";
-import { GigErrors, type GigFields } from "@core/validations/gig";
+import stores from "@core/stores";
+import validate from "@core/utilities/validate";
 import Image from "next/image";
-import { type Dispatch, type SetStateAction } from "react";
-import Showcase from "./showcase";
+import { ZodIssue } from "zod";
+import Thumbnail from "./thumbnail";
 
 type Props = {
-  fields: GigFields;
-  setFields: Dispatch<SetStateAction<GigFields>>;
-  errors: GigErrors;
+  warnings: ZodIssue[];
 };
 
-const Share = ({ fields, setFields, errors }: Props) => {
+const Showcase = ({ warnings }: Props) => {
+  const fields = stores.gig.base((state) => state.fields);
   const modalShowcase = useModal();
-
+  console.log(fields);
   return (
     <div className="space-y-4">
       <Field.Body
-        id="showcase"
-        label="Showcase"
+        id="thumbnail"
+        label="Thumbnail"
         description="Get noticed by the right buyers with visual examples of your services."
         tooltip="By uploading images you will have a higher chance of getting a client."
-        error={errors.showcases}>
-        <Button onClick={modalShowcase.handleOpen}>Add Showcase</Button>
-        {fields.showcases.length ? (
+        warning={validate(warnings, "thumbnails")}>
+        <Button onClick={modalShowcase.handleOpen}>Add Thumbnail</Button>
+        {fields.thumbnails.length ? (
           <ul className="grid grid-cols-4 gap-4">
-            {fields.showcases.map((showcase) => (
+            {fields.thumbnails.map((thumbnail) => (
               <li
-                key={showcase.image}
+                key={thumbnail.image}
                 className="relative grid aspect-video items-center overflow-hidden rounded border bg-white">
                 <Image
-                  src={showcase.image}
-                  alt={showcase.image}
+                  src={thumbnail.image}
+                  alt={thumbnail.image}
                   fill
                   className="object-contain"
                 />
@@ -40,10 +40,10 @@ const Share = ({ fields, setFields, errors }: Props) => {
             ))}
           </ul>
         ) : null}
-        <Showcase fields={fields} setFields={setFields} modal={modalShowcase} />
+        <Thumbnail modal={modalShowcase} />
       </Field.Body>
     </div>
   );
 };
 
-export default Share;
+export default Showcase;

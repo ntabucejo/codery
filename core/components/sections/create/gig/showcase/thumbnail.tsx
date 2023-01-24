@@ -3,33 +3,28 @@ import Field from "@core/components/elements/field";
 import Symbol from "@core/components/elements/symbol";
 import Modal from "@core/components/layouts/modal";
 import useUpload from "@core/hooks/use-upload";
+import stores from "@core/stores";
 import { type Modal as ModalType } from "@core/types/modal";
-import {
-  type GigFields,
-  type ShowcaseErrors,
-  showcaseErrors,
-  showcaseSchema,
-  gigFields,
-} from "@core/validations/gig";
+import validate from "@core/utilities/validate";
+import schemas from "@core/validations/schemas";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import {
-  type Dispatch,
-  type SetStateAction,
-  useState,
-  useEffect,
-  type FormEvent,
-} from "react";
+import { useState, useEffect, type FormEvent } from "react";
+import { ZodIssue } from "zod";
 
 type Props = {
-  fields: GigFields;
-  setFields: Dispatch<SetStateAction<GigFields>>;
   modal: ModalType;
 };
 
-const Showcase = ({ fields, setFields, modal }: Props) => {
+const Thumbnail = ({ modal }: Props) => {
+  const fields = stores.gig.thumbnail((state) => state.fields);
+  const setFields = stores.gig.thumbnail((state) => state.setFields);
+  const { thumbnails: setThumbnails } = stores.gig.base(
+    (state) => state.setFields
+  );
+  const clear = stores.gig.thumbnail((state) => state.clear);
+  const [warnings, setWarnings] = useState<ZodIssue[]>([]);
   const fileId = "file";
-  const [errors, setErrors] = useState<ShowcaseErrors>(showcaseErrors);
 
   const {
     data,
@@ -42,56 +37,47 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const clearErrors = () => setErrors(showcaseErrors);
-    const result = showcaseSchema.safeParse(fields.showcase);
+    event.preventDefault();
+    const result = schemas.gig.thumbnail.safeParse(fields);
     if (result.success) {
-      clearErrors();
-      modal.handleClose();
-      const data = await handleUpload(event);
-      setFields({
-        ...fields,
-        showcases: [...fields.showcases, { ...fields.showcase, image: data }],
-        showcase: gigFields.showcase,
-      });
+      const data = (await handleUpload(event)) as string;
+      setThumbnails({ ...fields, image: data });
+      handleClear();
+      if (!loading) modal.handleClose();
       return;
     }
-    const validations = result.error.issues;
-    const updatedErrors = validations.map((validation) => {
-      return { name: validation.path[0], message: validation.message };
-    });
-    clearErrors();
-    for (const error of updatedErrors) {
-      setErrors((state) => ({ ...state, [error.name]: error.message }));
-    }
+    setWarnings(result.error.issues);
+  };
+
+  const handleClear = () => {
+    setWarnings([]);
+    clear();
   };
 
   useEffect(() => {
     if (data) {
-      setFields({
-        ...fields,
-        showcase: { ...fields.showcase, image: data },
-      });
+      setFields.image(data);
     }
   }, [data]);
 
   return (
     <Modal
-      title="Showcase"
+      title="Thumbnail"
       description="Get noticed by the right buyers with visual examples of your services."
       state={modal.state}
       handleClose={modal.handleClose}
       className="max-w-5xl">
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-[1fr,2fr] gap-8">
         <form
           onSubmit={handleSubmit}
           onChange={handleChange}
           className="row-span-2 space-y-4">
           <Field.Body
-            id="upload"
-            label="Upload"
+            id="image"
+            label="Image"
             description="Get noticed by the right buyers with visual examples of your services."
             tooltip="By uploading images you will have a higher chance of getting a client."
-            error={errors.image}>
+            warning={validate(warnings, "image")}>
             <Field.File id="upload" name={fileId} />
             <div className="relative grid aspect-video items-center overflow-hidden rounded border">
               {data ? (
@@ -111,18 +97,11 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
               )}
             </div>
           </Field.Body>
-          <div className="flex w-full gap-4">
+          <div className="absolute bottom-8 left-8 flex gap-4">
             <Button type="submit">
-              {loading ? "Uploading" : "Add Showcase"}
+              {loading ? "Uploading" : "Add Thumbnail"}
             </Button>
-            <Button
-              variant="secondary"
-              onClick={() =>
-                setFields({
-                  ...fields,
-                  showcase: gigFields.showcase,
-                })
-              }>
+            <Button variant="secondary" onClick={handleClear}>
               Clear
             </Button>
           </div>
@@ -133,21 +112,13 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
             label="Title"
             description="Where do you live?"
             tooltip="Any information needed here in the form are safe and private."
-            error={errors.title}>
+            warning={validate(warnings, "image")}>
             <Field.Text
               id="title"
               isFull
               placeholder="Codery Clone Website"
-              value={fields.showcase.title}
-              onChange={(event) =>
-                setFields({
-                  ...fields,
-                  showcase: {
-                    ...fields.showcase,
-                    title: event.target.value,
-                  },
-                })
-              }
+              value={fields.title}
+              onChange={setFields.title}
             />
           </Field.Body>
           <Field.Body
@@ -155,21 +126,41 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
             label="Description"
             description="Where do you live?"
             tooltip="Any information needed here in the form are safe and private."
-            error={errors.description}>
+            warning={validate(warnings, "description")}>
             <Field.Textarea
               id="position"
               isFull
               placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, non. Vitae ut perspiciatis recusandae non incidunt deleniti possimus debitis magnam eos, aspernatur, quidem, dicta rem molestiae consectetur quibusdam? Consectetur, molestias!"
-              value={fields.showcase.description}
-              onChange={(event) =>
-                setFields({
-                  ...fields,
-                  showcase: {
-                    ...fields.showcase,
-                    description: event.target.value,
-                  },
-                })
-              }
+              value={fields.description}
+              onChange={setFields.description}
+            />
+          </Field.Body>
+          <Field.Body
+            id="repository"
+            label="Repository"
+            description="Where do you live?"
+            tooltip="Any information needed here in the form are safe and private."
+            warning={validate(warnings, "repository")}>
+            <Field.Text
+              id="repository"
+              isFull
+              placeholder="Codery Clone Website"
+              value={fields.repository}
+              onChange={setFields.repository}
+            />
+          </Field.Body>
+          <Field.Body
+            id="website"
+            label="Website"
+            description="Where do you live?"
+            tooltip="Any information needed here in the form are safe and private."
+            warning={validate(warnings, "website")}>
+            <Field.Text
+              id="website"
+              isFull
+              placeholder="Codery Clone Website"
+              value={fields.website}
+              onChange={setFields.website}
             />
           </Field.Body>
           <Button
@@ -184,4 +175,4 @@ const Showcase = ({ fields, setFields, modal }: Props) => {
   );
 };
 
-export default Showcase;
+export default Thumbnail;

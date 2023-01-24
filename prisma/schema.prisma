@@ -61,30 +61,79 @@ model Client {
 model Freelancer {
   id String @id @default(cuid())
 
-  user      User       @relation(fields: [userId], references: [id])
-  userId    String     @unique
-  gigs      Gig[]
-  offers    Offer[]
-  comments  Comment[]
-  skill     Skill[]
-  contracts Contract[]
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String        @unique
+  gigs         Gig[]
+  offers       Offer[]
+  comments     Comment[]
+  skills       Skill[]
+  contracts    Contract[]
+  employments  Employment[]
+  educations   Education[]
+  testimonials Testimonial[]
 
   @@index([userId])
+}
+
+model Employment {
+  id          String  @id @default(cuid())
+  company     String
+  description String  @db.Text
+  position    String
+  location    String
+  from        String
+  to          String
+  isActive    Boolean
+
+  freelancer   Freelancer? @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  freelancerId String?
+
+  @@index([freelancerId])
+}
+
+model Education {
+  id     String @id @default(cuid())
+  school String
+  degree String
+  area   String
+  from   String
+  to     String
+
+  freelancer   Freelancer? @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  freelancerId String?
+
+  @@index([freelancerId])
+}
+
+model Testimonial {
+  id       String @id @default(cuid())
+  name     String
+  position String
+  email    String
+  message  String @db.Text
+
+  freelancer   Freelancer? @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  freelancerId String?
+
+  @@index([freelancerId])
 }
 
 model Gig {
   id          String @id @default(cuid())
   title       String
   description String @db.Text
+  period      Int
+  from        Int
+  to          Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
+  freelancer   Freelancer  @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId String
-  category     Category   @relation(fields: [categoryId], references: [id])
+  category     Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId   String
-  showcases    Showcase[]
+  thumbnails   Thumbnail[]
   contracts    Contract[]
   reviews      Review[]
   offers       Offer[]
@@ -99,9 +148,9 @@ model Gig {
 model Favorite {
   id String @id @default(cuid())
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
-  gig    Gig    @relation(fields: [gigId], references: [id])
+  gig    Gig    @relation(fields: [gigId], references: [id], onDelete: Cascade)
   gigId  String
 
   @@index([userId])
@@ -111,7 +160,7 @@ model Favorite {
 model Skill {
   id String @id @default(cuid())
 
-  freelancer   Freelancer  @relation(fields: [freelancerId], references: [id])
+  freelancer   Freelancer  @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId String
   technology   Technology? @relation(fields: [technologyId], references: [id], onDelete: Cascade)
   technologyId String?
@@ -135,7 +184,7 @@ model Tag {
 
   technology   Technology? @relation(fields: [technologyId], references: [id], onDelete: Cascade)
   technologyId String?
-  gig          Gig         @relation(fields: [gigId], references: [id])
+  gig          Gig         @relation(fields: [gigId], references: [id], onDelete: Cascade)
   gigId        String
 
   @@index([technologyId])
@@ -149,11 +198,15 @@ model Category {
   gigs Gig[]
 }
 
-model Showcase {
-  id    String @id @default(cuid())
-  image String
+model Thumbnail {
+  id          String @id @default(cuid())
+  image       String
+  title       String
+  description String
+  repository String
+  website     String
 
-  gig   Gig    @relation(fields: [gigId], references: [id])
+  gig   Gig    @relation(fields: [gigId], references: [id], onDelete: Cascade)
   gigId String
 
   @@index([gigId])
@@ -166,11 +219,11 @@ model Contract {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
+  freelancer   Freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId String
-  client       Client     @relation(fields: [clientId], references: [id])
+  client       Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId     String
-  gig          Gig        @relation(fields: [gigId], references: [id])
+  gig          Gig        @relation(fields: [gigId], references: [id], onDelete: Cascade)
   gigId        String
 
   @@index([freelancerId])
@@ -187,11 +240,11 @@ model Offer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
+  freelancer   Freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId String
-  client       Client     @relation(fields: [clientId], references: [id])
+  client       Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId     String
-  gig          Gig        @relation(fields: [gigId], references: [id])
+  gig          Gig        @relation(fields: [gigId], references: [id], onDelete: Cascade)
   gigId        String
 
   @@index([freelancerId])
@@ -207,9 +260,9 @@ model Review {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  client   Client    @relation(fields: [clientId], references: [id])
+  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
   clientId String
-  gig      Gig       @relation(fields: [gigId], references: [id])
+  gig      Gig       @relation(fields: [gigId], references: [id], onDelete: Cascade)
   gigId    String
   comments Comment[]
 
@@ -225,9 +278,9 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  freelancer   Freelancer @relation(fields: [freelancerId], references: [id])
+  freelancer   Freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId String
-  review       Review     @relation(fields: [reviewId], references: [id])
+  review       Review     @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId     String
 
   @@index([freelancerId])
