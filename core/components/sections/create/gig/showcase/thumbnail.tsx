@@ -67,7 +67,7 @@ const Thumbnail = ({ modal }: Props) => {
       state={modal.state}
       handleClose={modal.handleClose}
       className="max-w-5xl">
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-[1fr,2fr] gap-8">
         <form
           onSubmit={handleSubmit}
           onChange={handleChange}

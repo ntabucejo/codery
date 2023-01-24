@@ -52,7 +52,7 @@ const List = ({ options, value, setValue }: Props) => {
           leave="transition ease-in duration-100"
           leaveFrom="opacity-100"
           leaveTo="opacity-0">
-          <Listbox.Options className="absolute z-10 mt-2 max-h-60 w-full overflow-auto rounded bg-white shadow">
+          <Listbox.Options className="absolute z-10 mt-2 max-h-60 w-full overflow-auto rounded border bg-white shadow">
             {options.map((option) => (
               <Listbox.Option
                 key={option.id}

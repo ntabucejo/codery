@@ -68,7 +68,7 @@ const Multiple = ({ options, values, setValues }: Props) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}>
-            <Combobox.Options className="absolute z-10 mt-2 max-h-60 w-full overflow-auto rounded bg-white shadow">
+            <Combobox.Options className="absolute z-10 mt-2 max-h-60 w-full overflow-auto rounded border bg-white shadow">
               {filteredOptions.length === 0 && query !== "" ? (
                 <div className="clearance relative cursor-default select-none text-gray-700">
                   Nothing found.

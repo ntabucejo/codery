@@ -89,7 +89,7 @@ const Education = ({ modal }: Props) => {
       description="How much is your starting price? You can negotiate with your client about the final amount later."
       state={modal.state}
       handleClose={modal.handleClose}
-      className="max-w-2xl">
+      className="max-w-5xl">
       <Field.Body
         id="school"
         label="School"
@@ -111,7 +111,7 @@ const Education = ({ modal }: Props) => {
           description="How much is your starting price? "
           tooltip="All prices should start from 50 dollars."
           warning={validate(warnings, "degree")}>
-          <Field.Select.Combo
+          <Field.Select.List
             options={degrees}
             value={fields.degree}
             setValue={setFields.degree}
@@ -123,7 +123,7 @@ const Education = ({ modal }: Props) => {
           description="How much is your starting price? "
           tooltip="All prices should start from 50 dollars."
           warning={validate(warnings, "area")}>
-          <Field.Select.Combo
+          <Field.Select.List
             options={areas}
             value={fields.area}
             setValue={setFields.area}
@@ -135,7 +135,7 @@ const Education = ({ modal }: Props) => {
           description="How much is your starting price? "
           tooltip="All prices should start from 50 dollars."
           warning={validate(warnings, "from")}>
-          <Field.Select.Combo
+          <Field.Select.List
             options={years}
             value={fields.from}
             setValue={setFields.from}
@@ -147,7 +147,7 @@ const Education = ({ modal }: Props) => {
           description="How much is your starting price? "
           tooltip="All prices should start from 50 dollars."
           warning={validate(warnings, "to")}>
-          <Field.Select.Combo
+          <Field.Select.List
             options={years}
             value={fields.to}
             setValue={setFields.to}

@@ -45,19 +45,33 @@ const General = ({ warnings }: Props) => {
           onChange={setFields.description}
         />
       </Field.Body>
-      <Field.Body
-        id="Project Category"
-        label="Project Category"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars."
-        warning={validate(warnings, "category")}>
-        <Field.Select.Combo
-          options={categories}
-          value={fields.category}
-          setValue={setFields.category}
-        />
-      </Field.Body>
       <div className="grid grid-cols-4 gap-4">
+        <Field.Body
+          id="Project Category"
+          label="Project Category"
+          description="How much is your starting price? You can negotiate with your client about the final amount later."
+          tooltip="All prices should start from 50 dollars."
+          warning={validate(warnings, "category")}
+          className="col-span-2">
+          <Field.Select.Combo
+            options={categories}
+            value={fields.category}
+            setValue={setFields.category}
+          />
+        </Field.Body>
+        <Field.Body
+          id="Technologies"
+          label="Technologies"
+          description="How much is your starting price? You can negotiate with your client about the final amount later."
+          tooltip="All prices should start from 50 dollars."
+          warning={validate(warnings, "tags")}
+          className="col-span-2">
+          <Field.Select.Multiple
+            options={technologies}
+            values={fields.tags}
+            setValues={setFields.tags}
+          />
+        </Field.Body>
         <Field.Body
           id="Delivery Period"
           label="Delivery Period"
@@ -71,52 +85,34 @@ const General = ({ warnings }: Props) => {
             onChange={setFields.period}
           />
         </Field.Body>
-        <Field.Body
-          id="Technologies"
-          label="Technologies"
-          description="How much is your starting price? You can negotiate with your client about the final amount later."
-          tooltip="All prices should start from 50 dollars."
-          warning={validate(warnings, "tags")}
-          className="col-span-2 row-span-2">
-          <Field.Select.Multiple
-            options={technologies}
-            values={fields.tags}
-            setValues={setFields.tags}
-          />
-        </Field.Body>
-        <Field.Body
-          id="Price Range"
-          label="Price Range"
-          description="How much is your starting price? You can negotiate with your client about the final amount later."
-          tooltip="All prices should start from 50 dollars."
-          className="col-span-2">
-          <div className="grid grid-cols-2 gap-8">
-            <Field.Body
-              id="from"
-              label="Price Range"
-              tooltip="All prices should start from 50 dollars."
-              warning={validate(warnings, "from")}>
-              <Field.Number
-                id="Price Range"
-                isFull
-                value={fields.from}
-                onChange={setFields.from}
-              />
-            </Field.Body>
-            <Field.Body
-              id="to"
-              label="To"
-              tooltip="All prices should start from 50 dollars."
-              warning={validate(warnings, "to")}>
-              <Field.Number
-                id="Price Range"
-                isFull
-                value={fields.to}
-                onChange={setFields.to}
-              />
-            </Field.Body>
-          </div>
-        </Field.Body>
+        <div className="col-span-2 grid grid-cols-2 gap-8">
+          <Field.Body
+            id="from"
+            label="From Price"
+            description="Lorem, ipsum dolor sit amet consectetur adipisicing"
+            tooltip="All prices should start from 50 dollars."
+            warning={validate(warnings, "from")}>
+            <Field.Number
+              id="Price Range"
+              isFull
+              value={fields.from}
+              onChange={setFields.from}
+            />
+          </Field.Body>
+          <Field.Body
+            id="to"
+            label="To Price"
+            description="Lorem, ipsum dolor sit amet consectetur adipisicing"
+            tooltip="All prices should start from 50 dollars."
+            warning={validate(warnings, "to")}>
+            <Field.Number
+              id="Price Range"
+              isFull
+              value={fields.to}
+              onChange={setFields.to}
+            />
+          </Field.Body>
+        </div>
       </div>
     </form>
   );

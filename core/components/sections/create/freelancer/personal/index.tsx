@@ -27,34 +27,36 @@ const Personal = ({ warnings }: Props) => {
           onChange={setFields.biography}
         />
       </Field.Body>
-      <Field.Body
-        id="location"
-        label="Location"
-        description="Where do you live?"
-        tooltip="Any information needed here in the form are safe and private."
-        warning={validate(warnings, "location")}>
-        <Field.Text
+      <div className="grid grid-cols-2 gap-8">
+        <Field.Body
           id="location"
-          isFull
-          placeholder="Philippines"
-          value={fields.location}
-          onChange={setFields.location}
-        />
-      </Field.Body>
-      <Field.Body
-        id="phone"
-        label="Phone"
-        description="State your Phone Number"
-        tooltip="Any information needed here in the form are safe and private."
-        warning={validate(warnings, "phone")}>
-        <Field.Text
+          label="Location"
+          description="Where do you live?"
+          tooltip="Any information needed here in the form are safe and private."
+          warning={validate(warnings, "location")}>
+          <Field.Text
+            id="location"
+            isFull
+            placeholder="Philippines"
+            value={fields.location}
+            onChange={setFields.location}
+          />
+        </Field.Body>
+        <Field.Body
           id="phone"
-          isFull
-          placeholder="+63 123456789"
-          value={fields.phone}
-          onChange={setFields.phone}
-        />
-      </Field.Body>
+          label="Phone"
+          description="State your Phone Number"
+          tooltip="Any information needed here in the form are safe and private."
+          warning={validate(warnings, "phone")}>
+          <Field.Text
+            id="phone"
+            isFull
+            placeholder="+63 123456789"
+            value={fields.phone}
+            onChange={setFields.phone}
+          />
+        </Field.Body>
+      </div>
     </form>
   );
 };

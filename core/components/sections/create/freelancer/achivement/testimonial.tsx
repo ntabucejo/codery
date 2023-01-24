@@ -44,7 +44,7 @@ const Testimonial = ({ modal }: Props) => {
       description="How much is your starting price? You can negotiate with your client about the final amount later."
       state={modal.state}
       handleClose={modal.handleClose}
-      className="max-w-2xl">
+      className="max-w-5xl">
       <Field.Body
         id="name"
         label="Name"

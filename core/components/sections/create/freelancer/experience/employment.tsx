@@ -60,35 +60,37 @@ const Employment = ({ modal }: Props) => {
       description="How much is your starting price? You can negotiate with your client about the final amount later."
       state={modal.state}
       handleClose={modal.handleClose}
-      className="max-w-2xl">
-      <Field.Body
-        id="company"
-        label="Company"
-        description="Where do you live?"
-        tooltip="Any information needed here in the form are safe and private."
-        warning={validate(warnings, "company")}>
-        <Field.Text
+      className="max-w-5xl">
+      <div className="grid grid-cols-2 gap-8">
+        <Field.Body
+          id="company"
+          label="Company"
+          description="Where do you live?"
+          tooltip="Any information needed here in the form are safe and private."
+          warning={validate(warnings, "company")}>
+          <Field.Text
+            id="position"
+            isFull
+            placeholder="Software Developer"
+            value={fields.company}
+            onChange={setFields.company}
+          />
+        </Field.Body>
+        <Field.Body
           id="position"
-          isFull
-          placeholder="Software Developer"
-          value={fields.company}
-          onChange={setFields.company}
-        />
-      </Field.Body>
-      <Field.Body
-        id="position"
-        label="Position"
-        description="Where do you live?"
-        tooltip="Any information needed here in the form are safe and private."
-        warning={validate(warnings, "position")}>
-        <Field.Text
-          id="position"
-          isFull
-          placeholder="Software Developer"
-          value={fields.position}
-          onChange={setFields.position}
-        />
-      </Field.Body>
+          label="Position"
+          description="Where do you live?"
+          tooltip="Any information needed here in the form are safe and private."
+          warning={validate(warnings, "position")}>
+          <Field.Text
+            id="position"
+            isFull
+            placeholder="Software Developer"
+            value={fields.position}
+            onChange={setFields.position}
+          />
+        </Field.Body>
+      </div>
       <Field.Body
         id="description"
         label="Description"
@@ -103,7 +105,7 @@ const Employment = ({ modal }: Props) => {
           onChange={setFields.description}
         />
       </Field.Body>
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-3 gap-8">
         <Field.Body
           id="location"
           label="Location"

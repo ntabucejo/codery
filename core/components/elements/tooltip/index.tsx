@@ -12,7 +12,7 @@ type Props = {
 export const Tooltip = ({ children }: Props) => {
   return (
     <Popover className="relative">
-      <Popover.Button className="flex justify-center">
+      <Popover.Button className="flex justify-center" tabIndex={-999}>
         <Symbol Icon={QuestionMarkCircleIcon} size="small" />
       </Popover.Button>
       <Transition
