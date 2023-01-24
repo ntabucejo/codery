@@ -39,7 +39,7 @@ const User = ({ user }: Props) => {
             <Symbol Icon={ChatBubbleLeftRightIcon} />
             Messages
           </Button> */}
-          <Chat/>
+          <Chat />
         </div>
         <Menu user={user} />
       </div>
