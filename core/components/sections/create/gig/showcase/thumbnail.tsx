@@ -19,6 +19,9 @@ type Props = {
 const Thumbnail = ({ modal }: Props) => {
   const fields = stores.gig.thumbnail((state) => state.fields);
   const setFields = stores.gig.thumbnail((state) => state.setFields);
+  const { thumbnails: setThumbnails } = stores.gig.base(
+    (state) => state.setFields
+  );
   const clear = stores.gig.thumbnail((state) => state.clear);
   const [warnings, setWarnings] = useState<ZodIssue[]>([]);
   const fileId = "file";
@@ -37,8 +40,10 @@ const Thumbnail = ({ modal }: Props) => {
     event.preventDefault();
     const result = schemas.gig.thumbnail.safeParse(fields);
     if (result.success) {
-      const data = await handleUpload(event);
-      setFields.image(data);
+      const data = (await handleUpload(event)) as string;
+      setThumbnails({ ...fields, image: data });
+      handleClear();
+      if (!loading) modal.handleClose();
       return;
     }
     setWarnings(result.error.issues);

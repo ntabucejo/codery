@@ -10,7 +10,7 @@ type Gig = {
     description: (payload: ChangeEvent<HTMLTextAreaElement>) => void;
     category: (payload: { id: string; name: string }) => void;
     tags: (payload: { id: string; name: string }) => void;
-    thumbnails: (payload: { id: string; name: string }) => void;
+    thumbnails: (payload: z.infer<typeof schemas.gig.thumbnail>) => void;
     from: (payload: ChangeEvent<HTMLInputElement>) => void;
     to: (payload: ChangeEvent<HTMLInputElement>) => void;
     period: (payload: ChangeEvent<HTMLInputElement>) => void;
@@ -53,7 +53,13 @@ const gig = create<Gig>((set) => ({
           tags: [...state.fields.tags, payload],
         },
       })),
-    thumbnails: () => {},
+    thumbnails: (payload) =>
+      set((state) => ({
+        fields: {
+          ...state.fields,
+          thumbnails: [...state.fields.thumbnails, payload],
+        },
+      })),
     from: (payload) =>
       set((state) => ({
         fields: { ...state.fields, from: +payload.target.value },

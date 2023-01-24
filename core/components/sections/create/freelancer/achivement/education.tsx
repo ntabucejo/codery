@@ -60,6 +60,9 @@ let areas: { id: string; name: string }[] = [
 const Education = ({ modal }: Props) => {
   const fields = stores.freelancer.education((state) => state.fields);
   const setFields = stores.freelancer.education((state) => state.setFields);
+  const { educations: setEducations } = stores.freelancer.base(
+    (state) => state.setFields
+  );
   const clear = stores.freelancer.education((state) => state.clear);
   const [warnings, setWarnings] = useState<ZodIssue[]>([]);
 
@@ -67,6 +70,9 @@ const Education = ({ modal }: Props) => {
     event.preventDefault();
     const result = schemas.freelancer.education.safeParse(fields);
     if (result.success) {
+      setEducations(fields);
+      handleClear();
+      modal.handleClose();
       return;
     }
     setWarnings(result.error.issues);

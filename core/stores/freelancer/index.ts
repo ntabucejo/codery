@@ -10,9 +10,13 @@ type Freelancer = {
     location: (payload: ChangeEvent<HTMLInputElement>) => void;
     phone: (payload: ChangeEvent<HTMLInputElement>) => void;
     skills: (payload: { id: string; name: string }) => void;
-    testimonials: () => void;
-    employments: () => void;
-    educations: () => void;
+    testimonials: (
+      payload: z.infer<typeof schemas.freelancer.testimonial>
+    ) => void;
+    employments: (
+      payload: z.infer<typeof schemas.freelancer.employment>
+    ) => void;
+    educations: (payload: z.infer<typeof schemas.freelancer.education>) => void;
   };
   clear: () => void;
 };
@@ -49,9 +53,27 @@ const freelancer = create<Freelancer>((set) => ({
           skills: [...state.fields.skills, payload],
         },
       })),
-    testimonials: () => {},
-    employments: () => {},
-    educations: () => {},
+    testimonials: (payload) =>
+      set((state) => ({
+        fields: {
+          ...state.fields,
+          testimonials: [...state.fields.testimonials, payload],
+        },
+      })),
+    employments: (payload) =>
+      set((state) => ({
+        fields: {
+          ...state.fields,
+          employments: [...state.fields.employments, payload],
+        },
+      })),
+    educations: (payload) =>
+      set((state) => ({
+        fields: {
+          ...state.fields,
+          educations: [...state.fields.educations, payload],
+        },
+      })),
   },
   clear: () => set({ fields: initialState }),
 }));

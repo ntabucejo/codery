@@ -31,6 +31,9 @@ for (let year = 1960; year <= 2022; year++) {
 const Employment = ({ modal }: Props) => {
   const fields = stores.freelancer.employment((state) => state.fields);
   const setFields = stores.freelancer.employment((state) => state.setFields);
+  const { employments: setEmployments } = stores.freelancer.base(
+    (state) => state.setFields
+  );
   const clear = stores.freelancer.employment((state) => state.clear);
   const [warnings, setWarnings] = useState<ZodIssue[]>([]);
 
@@ -38,6 +41,9 @@ const Employment = ({ modal }: Props) => {
     event.preventDefault();
     const result = schemas.freelancer.employment.safeParse(fields);
     if (result.success) {
+      setEmployments(fields);
+      handleClear();
+      modal.handleClose();
       return;
     }
     setWarnings(result.error.issues);

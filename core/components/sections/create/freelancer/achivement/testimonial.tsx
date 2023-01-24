@@ -15,6 +15,9 @@ type Props = {
 const Testimonial = ({ modal }: Props) => {
   const fields = stores.freelancer.testimonial((state) => state.fields);
   const setFields = stores.freelancer.testimonial((state) => state.setFields);
+  const { testimonials: setTestimonials } = stores.freelancer.base(
+    (state) => state.setFields
+  );
   const clear = stores.freelancer.testimonial((state) => state.clear);
   const [warnings, setWarnings] = useState<ZodIssue[]>([]);
 
@@ -22,6 +25,9 @@ const Testimonial = ({ modal }: Props) => {
     event.preventDefault();
     const result = schemas.freelancer.testimonial.safeParse(fields);
     if (result.success) {
+      setTestimonials(fields);
+      handleClear();
+      modal.handleClose();
       return;
     }
     setWarnings(result.error.issues);
