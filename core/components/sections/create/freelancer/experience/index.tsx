@@ -15,7 +15,9 @@ const Experience = ({ warnings }: Props) => {
   const fields = stores.freelancer.base((state) => state.fields);
   const setFields = stores.freelancer.base((state) => state.setFields);
 
-  const { data: technologies } = useSWR("/api/data/technologies");
+  const { data: technologies } = useSWR("/api/data/technologies", {
+    fallback: [],
+  });
 
   const modalEmployment = useModal();
 

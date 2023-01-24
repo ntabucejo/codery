@@ -12,8 +12,12 @@ const General = ({ warnings }: Props) => {
   const fields = stores.gig.base((state) => state.fields);
   const setFields = stores.gig.base((state) => state.setFields);
 
-  const { data: technologies } = useSWR("/api/data/technologies");
-  const { data: categories } = useSWR("/api/data/categories");
+  const { data: technologies } = useSWR("/api/data/technologies", {
+    fallbackData: [],
+  });
+  const { data: categories } = useSWR("/api/data/categories", {
+    fallbackData: [],
+  });
 
   return (
     <form className="space-y-4">

@@ -17,6 +17,7 @@ const Query = ({ children }: Props) => {
     suspense: true,
     revalidateOnFocus: false,
     revalidateIfStale: false,
+    revalidateOnMount: true,
   };
 
   return (
