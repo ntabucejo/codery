@@ -3,14 +3,11 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 
 const handler = async (request: NextApiRequest, response: NextApiResponse) => {
   if (request.method === "POST") {
-    const { email } = request.query;
+    const { userId } = request.query;
     const { body } = request;
     try {
-      const user = await prisma.user.findUnique({
-        where: { email: String(email) },
-      });
       await prisma.freelancer.update({
-        where: { userId: user?.id },
+        where: { userId: String(userId) },
         data: {
           gigs: {
             create: {

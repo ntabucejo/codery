@@ -47,7 +47,7 @@ const Gig = ({ user }: Props) => {
     if (result.success) {
       try {
         const response = await axios.post(
-          `/api/data/users/${user.email}/gigs`,
+          `/api/data/users/${user.id}/gigs`,
           {
             ...fields,
             categoryId: fields.category.id,

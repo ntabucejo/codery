@@ -7,7 +7,8 @@ import stores from "@core/stores";
 import { type Modal as ModalType } from "@core/types/modal";
 import validate from "@core/utilities/validate";
 import schemas from "@core/validations/schemas";
-import { PhotoIcon } from "@heroicons/react/24/solid";
+import { CloudArrowUpIcon } from "@heroicons/react/24/outline";
+import { PhotoIcon, CloudArrowDownIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useState, useEffect, type FormEvent } from "react";
 import { ZodIssue } from "zod";
@@ -98,8 +99,19 @@ const Thumbnail = ({ modal }: Props) => {
             </div>
           </Field.Body>
           <div className="absolute bottom-8 left-8 flex gap-4">
-            <Button type="submit">
-              {loading ? "Uploading" : "Add Thumbnail"}
+            <Button type="submit" isDisabled={loading}>
+              {loading ? (
+                <>
+                  <Symbol
+                    Icon={CloudArrowUpIcon}
+                    isHoverDisabled
+                    className="text-white"
+                  />
+                  <span>Uploading Image</span>
+                </>
+              ) : (
+                "Add Thumbnail"
+              )}
             </Button>
             <Button variant="secondary" onClick={handleClear}>
               Clear
@@ -112,7 +124,7 @@ const Thumbnail = ({ modal }: Props) => {
             label="Title"
             description="Where do you live?"
             tooltip="Any information needed here in the form are safe and private."
-            warning={validate(warnings, "image")}>
+            warning={validate(warnings, "title")}>
             <Field.Text
               id="title"
               isFull

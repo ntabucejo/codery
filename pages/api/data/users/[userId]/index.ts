@@ -3,10 +3,10 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 
 const handler = async (request: NextApiRequest, response: NextApiResponse) => {
   if (request.method === "GET") {
-    const { email } = request.query;
+    const { userId } = request.query;
     try {
       const user = await prisma.user.findUnique({
-        where: { email: String(email) },
+        where: { id: String(userId) },
       });
       response.status(200).send(user);
     } catch (error) {

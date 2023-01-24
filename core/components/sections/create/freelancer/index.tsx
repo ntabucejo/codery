@@ -53,7 +53,7 @@ const Freelancer = ({ user }: Props) => {
     if (result.success) {
       try {
         const response = await axios.post(
-          `/api/data/users/${user.email}/freelancers`,
+          `/api/data/users/${user.id}/freelancers`,
           {
             ...fields,
             skills: fields.skills.map((skill) => {
