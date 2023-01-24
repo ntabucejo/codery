@@ -3,33 +3,25 @@ import Field from "@core/components/elements/field";
 import Symbol from "@core/components/elements/symbol";
 import Modal from "@core/components/layouts/modal";
 import useUpload from "@core/hooks/use-upload";
+import stores from "@core/stores";
 import { type Modal as ModalType } from "@core/types/modal";
-import {
-  type GigFields,
-  gigFields,
-  thumbnailErrors,
-  thumbnailSchema,
-  type ThumbnailErrors,
-} from "@core/validations/gig";
+import validate from "@core/utilities/validate";
+import schemas from "@core/validations/schemas";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
-import {
-  type Dispatch,
-  type SetStateAction,
-  useState,
-  useEffect,
-  type FormEvent,
-} from "react";
+import { useState, useEffect, type FormEvent } from "react";
+import { ZodIssue } from "zod";
 
 type Props = {
-  fields: GigFields;
-  setFields: Dispatch<SetStateAction<GigFields>>;
   modal: ModalType;
 };
 
-const Thumbnail = ({ fields, setFields, modal }: Props) => {
+const Thumbnail = ({ modal }: Props) => {
+  const fields = stores.gig.thumbnail((state) => state.fields);
+  const setFields = stores.gig.thumbnail((state) => state.setFields);
+  const clear = stores.gig.thumbnail((state) => state.clear);
+  const [warnings, setWarnings] = useState<ZodIssue[]>([]);
   const fileId = "file";
-  const [errors, setErrors] = useState<ThumbnailErrors>(thumbnailErrors);
 
   const {
     data,
@@ -42,46 +34,24 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const clearErrors = () => setErrors(thumbnailErrors);
-    const result = thumbnailSchema.safeParse(fields.thumbnail);
+    event.preventDefault();
+    const result = schemas.gig.thumbnail.safeParse(fields);
     if (result.success) {
-      clearErrors();
-      modal.handleClose();
       const data = await handleUpload(event);
-      setFields({
-        ...fields,
-        thumbnails: [
-          ...fields.thumbnails,
-          { ...fields.thumbnail, image: data },
-        ],
-        thumbnail: gigFields.thumbnail,
-      });
+      setFields.image(data);
       return;
     }
-    const validations = result.error.issues;
-    const updatedErrors = validations.map((validation) => {
-      return { name: validation.path[0], message: validation.message };
-    });
-    clearErrors();
-    for (const error of updatedErrors) {
-      setErrors((state) => ({ ...state, [error.name]: error.message }));
-    }
+    setWarnings(result.error.issues);
   };
 
   const handleClear = () => {
-    setFields({
-      ...fields,
-      thumbnail: gigFields.thumbnail,
-    });
-    setErrors(thumbnailErrors);
+    setWarnings([]);
+    clear();
   };
 
   useEffect(() => {
     if (data) {
-      setFields({
-        ...fields,
-        thumbnail: { ...fields.thumbnail, image: data },
-      });
+      setFields.image(data);
     }
   }, [data]);
 
@@ -102,7 +72,7 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
             label="Image"
             description="Get noticed by the right buyers with visual examples of your services."
             tooltip="By uploading images you will have a higher chance of getting a client."
-            error={errors.image}>
+            warning={validate(warnings, "image")}>
             <Field.File id="upload" name={fileId} />
             <div className="relative grid aspect-video items-center overflow-hidden rounded border">
               {data ? (
@@ -137,21 +107,13 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
             label="Title"
             description="Where do you live?"
             tooltip="Any information needed here in the form are safe and private."
-            error={errors.title}>
+            warning={validate(warnings, "image")}>
             <Field.Text
               id="title"
               isFull
               placeholder="Codery Clone Website"
-              value={fields.thumbnail.title}
-              onChange={(event) =>
-                setFields({
-                  ...fields,
-                  thumbnail: {
-                    ...fields.thumbnail,
-                    title: event.target.value,
-                  },
-                })
-              }
+              value={fields.title}
+              onChange={setFields.title}
             />
           </Field.Body>
           <Field.Body
@@ -159,21 +121,13 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
             label="Description"
             description="Where do you live?"
             tooltip="Any information needed here in the form are safe and private."
-            error={errors.description}>
+            warning={validate(warnings, "description")}>
             <Field.Textarea
               id="position"
               isFull
               placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, non. Vitae ut perspiciatis recusandae non incidunt deleniti possimus debitis magnam eos, aspernatur, quidem, dicta rem molestiae consectetur quibusdam? Consectetur, molestias!"
-              value={fields.thumbnail.description}
-              onChange={(event) =>
-                setFields({
-                  ...fields,
-                  thumbnail: {
-                    ...fields.thumbnail,
-                    description: event.target.value,
-                  },
-                })
-              }
+              value={fields.description}
+              onChange={setFields.description}
             />
           </Field.Body>
           <Field.Body
@@ -181,21 +135,13 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
             label="Repository"
             description="Where do you live?"
             tooltip="Any information needed here in the form are safe and private."
-            error={errors.repository}>
+            warning={validate(warnings, "repository")}>
             <Field.Text
               id="repository"
               isFull
               placeholder="Codery Clone Website"
-              value={fields.thumbnail.repository}
-              onChange={(event) =>
-                setFields({
-                  ...fields,
-                  thumbnail: {
-                    ...fields.thumbnail,
-                    repository: event.target.value,
-                  },
-                })
-              }
+              value={fields.repository}
+              onChange={setFields.repository}
             />
           </Field.Body>
           <Field.Body
@@ -203,21 +149,13 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
             label="Website"
             description="Where do you live?"
             tooltip="Any information needed here in the form are safe and private."
-            error={errors.website}>
+            warning={validate(warnings, "website")}>
             <Field.Text
               id="website"
               isFull
               placeholder="Codery Clone Website"
-              value={fields.thumbnail.website}
-              onChange={(event) =>
-                setFields({
-                  ...fields,
-                  thumbnail: {
-                    ...fields.thumbnail,
-                    website: event.target.value,
-                  },
-                })
-              }
+              value={fields.website}
+              onChange={setFields.website}
             />
           </Field.Body>
           <Button

@@ -5,7 +5,7 @@ type Props = {
   children: React.ReactNode;
   id: string;
   label: string;
-  description: string;
+  description?: string;
   tooltip?: string;
   warning?: ZodIssue;
   className?: string;

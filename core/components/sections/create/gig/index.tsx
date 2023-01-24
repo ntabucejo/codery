@@ -2,34 +2,28 @@
 
 import Button from "@core/components/elements/button";
 import Stages from "@core/components/elements/stages";
-import {
-  type GigFields,
-  gigSchema,
-  GigErrors,
-  gigFields,
-  gigErrors,
-} from "@core/validations/gig";
+import stores from "@core/stores";
+import schemas from "@core/validations/schemas";
 import { MouseEvent, useState } from "react";
+import { ZodIssue } from "zod";
 import General from "./general";
 import Publish from "./publish";
-import Share from "./share";
+import Showcase from "./showcase";
 
 const Gig = () => {
-  const [fields, setFields] = useState<GigFields>(gigFields);
-  const [errors, setErrors] = useState<GigErrors>(gigErrors);
+  const fields = stores.gig.base((state) => state.fields);
+  const [warnings, setWarnings] = useState<ZodIssue[]>([]);
 
   const panels = [
     {
       id: 1,
       title: "General",
-      content: (
-        <General fields={fields} setFields={setFields} errors={errors} />
-      ),
+      content: <General warnings={warnings} />,
     },
     {
       id: 2,
-      title: "Share",
-      content: <Share fields={fields} setFields={setFields} errors={errors} />,
+      title: "Showcase",
+      content: <Showcase warnings={warnings} />,
     },
     {
       id: 3,
@@ -38,22 +32,13 @@ const Gig = () => {
     },
   ];
 
-  const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const clearErrors = () => setErrors(gigErrors);
-    const result = gigSchema.safeParse(fields);
+    const result = schemas.gig.base.safeParse(fields);
     if (result.success) {
-      clearErrors();
       return;
     }
-    const validations = result.error.issues;
-    const updatedErrors = validations.map((validation) => {
-      return { name: validation.path[0], message: validation.message };
-    });
-    clearErrors();
-    for (const error of updatedErrors) {
-      setErrors((state) => ({ ...state, [error.name]: error.message }));
-    }
+    setWarnings(result.error.issues);
   };
 
   return (

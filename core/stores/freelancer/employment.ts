@@ -46,13 +46,13 @@ const employment = create<Employment>((set) => ({
       set((state) => ({
         fields: { ...state.fields, location: payload.target.value },
       })),
-    from: (year) =>
+    from: (payload) =>
       set((state) => ({
-        fields: { ...state.fields, from: year },
+        fields: { ...state.fields, from: payload },
       })),
-    to: (year) =>
+    to: (payload) =>
       set((state) => ({
-        fields: { ...state.fields, to: year },
+        fields: { ...state.fields, to: payload },
       })),
     isActive: (payload) =>
       set((state) => ({
