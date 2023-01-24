@@ -90,7 +90,7 @@ const Freelancer = ({ user }: Props) => {
 
   return (
     <section className="contain space-y-4">
-      <Stages name="CREATE / FREELANCER" panels={panels} />
+      <Stages name="BECOME FREELANCER" panels={panels} />
       <Button onClick={handleSubmit}>Submit</Button>
     </section>
   );

@@ -27,7 +27,7 @@ const Button = ({
   switch (variant) {
     case "primary": {
       const className =
-        "border border-primary-dark bg-primary-dark text-primary-light enabled:hover:border-black enabled:hover:bg-black focus:ring-1 clearance";
+        "border border-primary-dark bg-primary-dark text-primary-light enabled:hover:border-black enabled:hover:bg-black focus:ring-1 clearance disabled:bg-primary-dark/fade disabled:border-primary-dark/fade";
       style = className;
       break;
     }

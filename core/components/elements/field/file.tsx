@@ -10,7 +10,7 @@ const File = ({ id, name }: Props) => {
         id={id}
         type="file"
         name={name}
-        className="file:clearance file:smooth w-[100px] cursor-pointer bg-transparent file:max-w-fit file:rounded file:border file:border-solid file:bg-white file:hover:bg-primary-dark file:hover:text-primary-light"
+        className="file:clearance file:smooth w-full cursor-pointer bg-transparent file:rounded file:border file:border-solid file:bg-white file:hover:bg-primary-dark file:hover:text-primary-light"
       />
     </div>
   );

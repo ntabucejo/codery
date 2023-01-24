@@ -67,7 +67,7 @@ const Thumbnail = ({ modal }: Props) => {
       description="Get noticed by the right buyers with visual examples of your services."
       state={modal.state}
       handleClose={modal.handleClose}
-      className="max-w-5xl">
+      className="max-w-5xl pb-16">
       <div className="grid grid-cols-[1fr,2fr] gap-8">
         <form
           onSubmit={handleSubmit}
