@@ -13,7 +13,7 @@ const Bottom = () => {
       />
       <div className="flex items-center gap-2">
         <Symbol Icon={PaperClipIcon} />
-        <Button className="bg-transparent border-none enabled:hover:bg-transparent">
+        <Button className="border-none bg-transparent enabled:hover:bg-transparent">
           <Symbol Icon={PaperAirplaneIcon} />
         </Button>
       </div>

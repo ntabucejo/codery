@@ -12,7 +12,7 @@ const Overview = () => {
         <AboutMe />
       </div>
       <Heading number={1}>I will develop fix deploy responsive</Heading>
-      <Chat/>
+      <Chat />
     </section>
   );
 };

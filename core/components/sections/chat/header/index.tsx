@@ -5,7 +5,7 @@ import React from "react";
 type Props = {
   name?: string;
   profession?: string;
-  onClick?: React.MouseEventHandler<HTMLButtonElement> ;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const Header = ({ name, profession, onClick }: Props) => {

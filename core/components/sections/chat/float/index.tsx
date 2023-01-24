@@ -21,7 +21,7 @@ const Chat = () => {
     <div className="fixed bottom-10 right-20 ">
       {/* chat icon */}
       <Button
-      className="py-3 animate-shake"
+        className="animate-shake py-3"
         onClick={() => {
           setOpenChat(!openChat);
           setOpenMessage(false);

@@ -1,17 +1,18 @@
 import Symbol from "@core/components/elements/symbol";
 import Transition from "@core/components/layouts/transition";
 import { Popover } from "@headlessui/react";
+import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
 import {
-  ChatBubbleLeftRightIcon,
-  
-} from "@heroicons/react/24/outline";
-import { SpeakerWaveIcon, Cog6ToothIcon,EnvelopeIcon,} from "@heroicons/react/24/solid";
+  SpeakerWaveIcon,
+  Cog6ToothIcon,
+  EnvelopeIcon,
+} from "@heroicons/react/24/solid";
 import InboxMessage from "./inbox-message";
 
 const Chat = () => {
   return (
     <Popover className="relative">
-      <Popover.Button className="group flex items-center gap-2 p-2 outline-none text-sm font-semibold text-primary-dark/fade hover:text-primary-dark">
+      <Popover.Button className="group flex items-center gap-2 p-2 text-sm font-semibold text-primary-dark/fade outline-none hover:text-primary-dark">
         <Symbol
           Icon={ChatBubbleLeftRightIcon}
           className="text-primary-dark/fade group-hover:text-primary-dark"
