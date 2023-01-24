@@ -1,3 +1,4 @@
+import Chat from "../../chat/float";
 import Heading from "../heading";
 import AboutMe from "./about-me";
 import Carousel from "./carousel";
@@ -11,6 +12,7 @@ const Overview = () => {
         <AboutMe />
       </div>
       <Heading number={1}>I will develop fix deploy responsive</Heading>
+      <Chat/>
     </section>
   );
 };
