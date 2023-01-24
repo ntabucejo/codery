@@ -10,10 +10,20 @@ import Achievement from "./achivement";
 import schemas from "@core/validations/schemas";
 import stores from "@core/stores";
 import { ZodIssue } from "zod";
+import { Technology } from "@prisma/client";
+import axios from "axios";
+import { usePathname, useRouter } from "next/navigation";
 
-const Freelancer = () => {
+type Props = {
+  technologies: Technology[];
+};
+
+const Freelancer = ({ technologies }: Props) => {
   const fields = stores.freelancer.base((state) => state.fields);
   const [warnings, setWarnings] = useState<ZodIssue[]>([]);
+
+  const router = useRouter();
+  const pathName = usePathname();
 
   const panels = [
     {
@@ -24,7 +34,7 @@ const Freelancer = () => {
     {
       id: 2,
       title: "Experience",
-      content: <Experience warnings={warnings} />,
+      content: <Experience warnings={warnings} technologies={technologies} />,
     },
     {
       id: 3,
@@ -42,9 +52,41 @@ const Freelancer = () => {
     event.preventDefault();
     const result = schemas.freelancer.base.safeParse(fields);
     if (result.success) {
-      return;
+      try {
+        const response = await axios.post(
+          "/api/data/cld4mfisa0000uifkho5eov3r/freelancers",
+          {
+            ...fields,
+            skills: fields.skills.map((skill) => {
+              return { technologyId: skill.id };
+            }),
+            educations: fields.educations.map((education) => {
+              return {
+                ...education,
+                degree: education.degree.name,
+                area: education.area.name,
+                from: education.degree.name,
+                to: education.degree.name,
+              };
+            }),
+            employments: fields.employments.map((employment) => {
+              return {
+                ...employment,
+                from: employment.from.name,
+                to: employment.to.name,
+              };
+            }),
+          }
+        );
+        if (response.status === 201) {
+          router.push(`${pathName?.split("/")[1]}/dashboard`);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      setWarnings(result.error.issues);
     }
-    setWarnings(result.error.issues);
   };
 
   return (

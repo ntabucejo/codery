@@ -22,9 +22,9 @@ type Freelancer = {
 };
 
 const initialState = {
-  biography: "",
-  location: "",
-  phone: "",
+  biography: "1234567890",
+  location: "123456789012345678",
+  phone: "12345678900",
   skills: [],
   testimonials: [],
   employments: [],

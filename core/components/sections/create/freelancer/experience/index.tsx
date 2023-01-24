@@ -3,24 +3,16 @@ import Field from "@core/components/elements/field";
 import useModal from "@core/hooks/use-modal";
 import stores from "@core/stores";
 import validate from "@core/utilities/validate";
-import cuid from "cuid";
+import { Technology } from "@prisma/client";
 import { ZodIssue } from "zod";
 import Employment from "./employment";
 
-const options = [
-  { id: cuid(), name: "Wade Cooper" },
-  { id: cuid(), name: "Arlene Mccoy" },
-  { id: cuid(), name: "Devon Webb" },
-  { id: cuid(), name: "Tom Cook" },
-  { id: cuid(), name: "Tanya Fox" },
-  { id: cuid(), name: "Hellen Schmidt" },
-];
-
 type Props = {
   warnings: ZodIssue[];
+  technologies: Technology[];
 };
 
-const Experience = ({ warnings }: Props) => {
+const Experience = ({ warnings, technologies }: Props) => {
   const fields = stores.freelancer.base((state) => state.fields);
   const setFields = stores.freelancer.base((state) => state.setFields);
 
@@ -35,7 +27,7 @@ const Experience = ({ warnings }: Props) => {
         tooltip="All prices should start from 50 dollars."
         warning={validate(warnings, "skills")}>
         <Field.Select.Multiple
-          options={options}
+          options={technologies}
           values={fields.skills}
           setValues={setFields.skills}
         />

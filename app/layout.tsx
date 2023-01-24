@@ -1,4 +1,6 @@
 import Navbar from "@core/components/sections/navbar";
+import prisma from "@core/libraries/prisma";
+import stores from "@core/stores";
 import "@core/styles/globals.css";
 import { Inter } from "@next/font/google";
 import Providers from "./providers";
@@ -11,7 +13,12 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Layout = ({ children }: Props) => {
+const Layout = async ({ children }: Props) => {
+  const { setTechnologies } = stores.contents.getState();
+  const technologies = await prisma.technology.findMany();
+  console.log({ technologies });
+  setTechnologies(technologies);
+
   return (
     <html lang="en">
       <head />
