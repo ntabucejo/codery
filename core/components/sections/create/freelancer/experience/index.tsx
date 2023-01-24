@@ -3,18 +3,19 @@ import Field from "@core/components/elements/field";
 import useModal from "@core/hooks/use-modal";
 import stores from "@core/stores";
 import validate from "@core/utilities/validate";
-import { Technology } from "@prisma/client";
+import useSWR from "swr";
 import { ZodIssue } from "zod";
 import Employment from "./employment";
 
 type Props = {
   warnings: ZodIssue[];
-  technologies: Technology[];
 };
 
-const Experience = ({ warnings, technologies }: Props) => {
+const Experience = ({ warnings }: Props) => {
   const fields = stores.freelancer.base((state) => state.fields);
   const setFields = stores.freelancer.base((state) => state.setFields);
+
+  const { data: technologies } = useSWR("/api/data/technologies");
 
   const modalEmployment = useModal();
 

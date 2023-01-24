@@ -3,12 +3,12 @@ import { type NextApiRequest, type NextApiResponse } from "next";
 
 const handler = async (request: NextApiRequest, response: NextApiResponse) => {
   if (request.method === "POST") {
-    const { userId } = request.query;
+    const { email } = request.query;
     const { body } = request;
     console.log(body);
     try {
       await prisma.user.update({
-        where: { id: String(userId) },
+        where: { email: String(email) },
         data: {
           biography: body.biography,
           phone: body.phone,
@@ -39,7 +39,7 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
           },
         },
       });
-      response.status(201).send({ message: "Nice one" });
+      response.status(201).send({ message: "OK" });
     } catch (error) {
       console.error(error);
       response.status(500).send({ error });

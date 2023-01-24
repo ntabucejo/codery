@@ -1,3 +1,4 @@
+import Query from "@core/providers/query";
 import Session from "@core/providers/session";
 
 type Props = {
@@ -5,7 +6,11 @@ type Props = {
 };
 
 const Providers = ({ children }: Props) => {
-  return <Session>{children}</Session>;
+  return (
+    <Session>
+      <Query>{children}</Query>
+    </Session>
+  );
 };
 
 export default Providers;

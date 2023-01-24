@@ -1,4 +1,3 @@
-import contents from "./contents";
 import freelancer from "./freelancer";
 import education from "./freelancer/education";
 import employment from "./freelancer/employment";
@@ -17,7 +16,6 @@ const stores = {
     base: gig,
     thumbnail: thumbnail,
   },
-  contents: contents,
 };
 
 export default stores;

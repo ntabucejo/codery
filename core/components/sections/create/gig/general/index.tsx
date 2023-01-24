@@ -1,17 +1,8 @@
 import Field from "@core/components/elements/field";
 import stores from "@core/stores";
 import validate from "@core/utilities/validate";
-import cuid from "cuid";
+import useSWR from "swr";
 import { ZodIssue } from "zod";
-
-const options = [
-  { id: cuid(), name: "Wade Cooper" },
-  { id: cuid(), name: "Arlene Mccoy" },
-  { id: cuid(), name: "Devon Webb" },
-  { id: cuid(), name: "Tom Cook" },
-  { id: cuid(), name: "Tanya Fox" },
-  { id: cuid(), name: "Hellen Schmidt" },
-];
 
 type Props = {
   warnings: ZodIssue[];
@@ -20,6 +11,9 @@ type Props = {
 const General = ({ warnings }: Props) => {
   const fields = stores.gig.base((state) => state.fields);
   const setFields = stores.gig.base((state) => state.setFields);
+
+  const { data: technologies } = useSWR("/api/data/technologies");
+  const { data: categories } = useSWR("/api/data/categories");
 
   return (
     <form className="space-y-4">
@@ -58,7 +52,7 @@ const General = ({ warnings }: Props) => {
         tooltip="All prices should start from 50 dollars."
         warning={validate(warnings, "category")}>
         <Field.Select.Combo
-          options={options}
+          options={categories}
           value={fields.category}
           setValue={setFields.category}
         />
@@ -85,7 +79,7 @@ const General = ({ warnings }: Props) => {
           warning={validate(warnings, "tags")}
           className="col-span-2 row-span-2">
           <Field.Select.Multiple
-            options={options}
+            options={technologies}
             values={fields.tags}
             setValues={setFields.tags}
           />

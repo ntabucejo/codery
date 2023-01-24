@@ -10,20 +10,19 @@ import Achievement from "./achivement";
 import schemas from "@core/validations/schemas";
 import stores from "@core/stores";
 import { ZodIssue } from "zod";
-import { Technology } from "@prisma/client";
 import axios from "axios";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { User } from "@prisma/client";
 
 type Props = {
-  technologies: Technology[];
+  user: User;
 };
 
-const Freelancer = ({ technologies }: Props) => {
+const Freelancer = ({ user }: Props) => {
   const fields = stores.freelancer.base((state) => state.fields);
   const [warnings, setWarnings] = useState<ZodIssue[]>([]);
 
   const router = useRouter();
-  const pathName = usePathname();
 
   const panels = [
     {
@@ -34,7 +33,7 @@ const Freelancer = ({ technologies }: Props) => {
     {
       id: 2,
       title: "Experience",
-      content: <Experience warnings={warnings} technologies={technologies} />,
+      content: <Experience warnings={warnings} />,
     },
     {
       id: 3,
@@ -54,7 +53,7 @@ const Freelancer = ({ technologies }: Props) => {
     if (result.success) {
       try {
         const response = await axios.post(
-          "/api/data/cld4mfisa0000uifkho5eov3r/freelancers",
+          `/api/data/users/${user.email}/freelancers`,
           {
             ...fields,
             skills: fields.skills.map((skill) => {
@@ -79,7 +78,7 @@ const Freelancer = ({ technologies }: Props) => {
           }
         );
         if (response.status === 201) {
-          router.push(`${pathName?.split("/")[1]}/dashboard`);
+          router.push(`${user.username}/dashboard`);
         }
       } catch (error) {
         console.error(error);

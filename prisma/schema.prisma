@@ -122,15 +122,18 @@ model Gig {
   id          String @id @default(cuid())
   title       String
   description String @db.Text
+  period      Int
+  from        Int
+  to          Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  freelancer   Freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  freelancer   Freelancer  @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId String
-  category     Category   @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  category     Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId   String
-  showcases    Showcase[]
+  thumbnails   Thumbnail[]
   contracts    Contract[]
   reviews      Review[]
   offers       Offer[]
@@ -195,9 +198,13 @@ model Category {
   gigs Gig[]
 }
 
-model Showcase {
-  id    String @id @default(cuid())
-  image String
+model Thumbnail {
+  id          String @id @default(cuid())
+  image       String
+  title       String
+  description String
+  repository String
+  website     String
 
   gig   Gig    @relation(fields: [gigId], references: [id], onDelete: Cascade)
   gigId String
