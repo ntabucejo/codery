@@ -114,9 +114,9 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
               )}
             </div>
           </Field.Body>
-          <div className="flex w-full gap-4">
+          <div className="absolute bottom-8 left-8 flex gap-4">
             <Button type="submit">
-              {loading ? "Uploading" : "Add Showcase"}
+              {loading ? "Uploading" : "Add Thumbnail"}
             </Button>
             <Button
               variant="secondary"
@@ -170,6 +170,50 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
                   thumbnail: {
                     ...fields.thumbnail,
                     description: event.target.value,
+                  },
+                })
+              }
+            />
+          </Field.Body>
+          <Field.Body
+            id="repository"
+            label="Repository"
+            description="Where do you live?"
+            tooltip="Any information needed here in the form are safe and private."
+            error={errors.title}>
+            <Field.Text
+              id="repository"
+              isFull
+              placeholder="Codery Clone Website"
+              value={fields.thumbnail.repository}
+              onChange={(event) =>
+                setFields({
+                  ...fields,
+                  thumbnail: {
+                    ...fields.thumbnail,
+                    repository: event.target.value,
+                  },
+                })
+              }
+            />
+          </Field.Body>
+          <Field.Body
+            id="website"
+            label="Website"
+            description="Where do you live?"
+            tooltip="Any information needed here in the form are safe and private."
+            error={errors.title}>
+            <Field.Text
+              id="website"
+              isFull
+              placeholder="Codery Clone Website"
+              value={fields.thumbnail.website}
+              onChange={(event) =>
+                setFields({
+                  ...fields,
+                  thumbnail: {
+                    ...fields.thumbnail,
+                    website: event.target.value,
                   },
                 })
               }

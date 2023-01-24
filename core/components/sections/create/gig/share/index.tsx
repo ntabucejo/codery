@@ -23,7 +23,7 @@ const Share = ({ fields, setFields, errors }: Props) => {
         description="Get noticed by the right buyers with visual examples of your services."
         tooltip="By uploading images you will have a higher chance of getting a client."
         error={errors.thumbnails}>
-        <Button onClick={modalShowcase.handleOpen}>Add Showcase</Button>
+        <Button onClick={modalShowcase.handleOpen}>Add Thumbnail</Button>
         {fields.thumbnails.length ? (
           <ul className="grid grid-cols-4 gap-4">
             {fields.thumbnails.map((thumbnail) => (
