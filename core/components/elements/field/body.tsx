@@ -1,3 +1,4 @@
+import { ZodIssue } from "zod";
 import Tooltip from "../tooltip";
 
 type Props = {
@@ -6,7 +7,7 @@ type Props = {
   label: string;
   description: string;
   tooltip?: string;
-  error?: string;
+  warning?: ZodIssue;
   className?: string;
 };
 
@@ -16,7 +17,7 @@ const Body = ({
   label,
   description,
   tooltip,
-  error,
+  warning,
   className,
 }: Props) => {
   return (
@@ -33,7 +34,9 @@ const Body = ({
         </p>
       </div>
       {children}
-      {error ? <span className="text-xs text-red-500">{error}</span> : null}
+      {warning ? (
+        <span className="text-xs text-red-500">{warning.message}</span>
+      ) : null}
     </div>
   );
 };

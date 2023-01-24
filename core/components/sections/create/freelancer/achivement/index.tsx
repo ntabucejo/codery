@@ -1,21 +1,17 @@
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import useModal from "@core/hooks/use-modal";
-import {
-  type FreelancerFields,
-  type FreelancerErrors,
-} from "@core/validations/freelancer";
-import { type Dispatch, type SetStateAction } from "react";
+import stores from "@core/stores";
+import { ZodIssue } from "zod";
 import Education from "./education";
 import Testimonial from "./testimonial";
 
 type Props = {
-  fields: FreelancerFields;
-  setFields: Dispatch<SetStateAction<FreelancerFields>>;
-  errors: FreelancerErrors;
+  warnings: ZodIssue[];
 };
+const Achievement = ({ warnings }: Props) => {
+  const fields = stores.freelancer.base((state) => state.fields);
 
-const Achievement = ({ fields, setFields, errors }: Props) => {
   const modalEducation = useModal();
   const modalTestimonial = useModal();
 
@@ -25,8 +21,7 @@ const Achievement = ({ fields, setFields, errors }: Props) => {
         id="education"
         label="Education"
         description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars."
-        error={errors.educations}>
+        tooltip="All prices should start from 50 dollars.">
         <Button onClick={modalEducation.handleOpen}>Add Education</Button>
         {fields.educations.length ? (
           <ul className="grid grid-cols-4 gap-4">
@@ -45,18 +40,13 @@ const Achievement = ({ fields, setFields, errors }: Props) => {
             ))}
           </ul>
         ) : null}
-        <Education
-          fields={fields}
-          setFields={setFields}
-          modal={modalEducation}
-        />
+        <Education modal={modalEducation} />
       </Field.Body>
       <Field.Body
         id="testimonial"
         label="Testimonial"
         description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars."
-        error={errors.testimonials}>
+        tooltip="All prices should start from 50 dollars.">
         <Button onClick={modalTestimonial.handleOpen}>Add Testimonial</Button>
         {fields.testimonials.length ? (
           <ul className="grid grid-cols-4 gap-4">
@@ -70,11 +60,7 @@ const Achievement = ({ fields, setFields, errors }: Props) => {
             ))}
           </ul>
         ) : null}
-        <Testimonial
-          fields={fields}
-          setFields={setFields}
-          modal={modalTestimonial}
-        />
+        <Testimonial modal={modalTestimonial} />
       </Field.Body>
     </form>
   );

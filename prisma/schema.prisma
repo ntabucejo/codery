@@ -66,7 +66,7 @@ model Freelancer {
   gigs         Gig[]
   offers       Offer[]
   comments     Comment[]
-  skill        Skill[]
+  skills       Skill[]
   contracts    Contract[]
   employments  Employment[]
   educations   Education[]
@@ -81,7 +81,8 @@ model Employment {
   description String @db.Text
   position    String
   location    String
-  year        String
+  from        String
+  to          String
   isActive    String
 
   freelancer   Freelancer? @relation(fields: [freelancerId], references: [id])
@@ -95,8 +96,8 @@ model Education {
   school String
   degree String
   area   String
-  start  String
-  end    String
+  from   String
+  to     String
 
   freelancer   Freelancer? @relation(fields: [freelancerId], references: [id])
   freelancerId String?

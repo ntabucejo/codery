@@ -1,25 +1,15 @@
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Modal from "@core/components/layouts/modal";
+import stores from "@core/stores";
 import { type Modal as ModalType } from "@core/types/modal";
-import {
-  educationErrors,
-  educationSchema,
-  freelancerFields,
-  type EducationErrors,
-  type FreelancerFields,
-} from "@core/validations/freelancer";
+import validate from "@core/utilities/validate";
+import schemas from "@core/validations/schemas";
 import cuid from "cuid";
-import {
-  MouseEvent,
-  useState,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
+import { MouseEvent, useState } from "react";
+import { ZodIssue } from "zod";
 
 type Props = {
-  fields: FreelancerFields;
-  setFields: Dispatch<SetStateAction<FreelancerFields>>;
   modal: ModalType;
 };
 
@@ -67,39 +57,24 @@ let areas: { id: string; name: string }[] = [
   new Area(cuid(), "Hardware"),
 ];
 
-const Education = ({ fields, setFields, modal }: Props) => {
-  const [errors, setErrors] = useState<EducationErrors>(educationErrors);
+const Education = ({ modal }: Props) => {
+  const fields = stores.freelancer.education((state) => state.fields);
+  const setFields = stores.freelancer.education((state) => state.setFields);
+  const clear = stores.freelancer.education((state) => state.clear);
+  const [warnings, setWarnings] = useState<ZodIssue[]>([]);
 
-  const handleSubmit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const clearErrors = () => setErrors(educationErrors);
-    const result = educationSchema.safeParse(fields.education);
+    const result = schemas.freelancer.education.safeParse(fields);
     if (result.success) {
-      clearErrors();
-      modal.handleClose();
-      setFields({
-        ...fields,
-        educations: [...fields.educations, fields.education],
-        education: freelancerFields.education,
-      });
       return;
     }
-    const validations = result.error.issues;
-    const updatedErrors = validations.map((validation) => {
-      return { name: validation.path[0], message: validation.message };
-    });
-    clearErrors();
-    for (const error of updatedErrors) {
-      setErrors((state) => ({ ...state, [error.name]: error.message }));
-    }
+    setWarnings(result.error.issues);
   };
 
   const handleClear = () => {
-    setFields({
-      ...fields,
-      education: freelancerFields.education,
-    });
-    setErrors(educationErrors);
+    setWarnings([]);
+    clear();
   };
 
   return (
@@ -114,21 +89,13 @@ const Education = ({ fields, setFields, modal }: Props) => {
         label="School"
         description="Where do you live?"
         tooltip="Any information needed here in the form are safe and private."
-        error={errors.school}>
+        warning={validate(warnings, "school")}>
         <Field.Text
           id="school"
           isFull
           placeholder="Juan Jose University"
-          value={fields.education.school}
-          onChange={(event) =>
-            setFields({
-              ...fields,
-              education: {
-                ...fields.education,
-                school: event.target.value,
-              },
-            })
-          }
+          value={fields.school}
+          onChange={setFields.school}
         />
       </Field.Body>
       <div className="grid grid-cols-2 gap-y-4 gap-x-8">
@@ -137,12 +104,11 @@ const Education = ({ fields, setFields, modal }: Props) => {
           label="Degree"
           description="How much is your starting price? "
           tooltip="All prices should start from 50 dollars."
-          error={errors.degree}>
+          warning={validate(warnings, "degree")}>
           <Field.Select.Combo
             options={degrees}
-            keys={["education", "degree"]}
-            value={fields.education.degree}
-            setValue={setFields}
+            value={fields.degree}
+            setValue={setFields.degree}
           />
         </Field.Body>
         <Field.Body
@@ -150,38 +116,35 @@ const Education = ({ fields, setFields, modal }: Props) => {
           label="Area"
           description="How much is your starting price? "
           tooltip="All prices should start from 50 dollars."
-          error={errors.area}>
+          warning={validate(warnings, "area")}>
           <Field.Select.Combo
             options={areas}
-            keys={["education", "area"]}
-            value={fields.education.area}
-            setValue={setFields}
+            value={fields.area}
+            setValue={setFields.area}
           />
         </Field.Body>
         <Field.Body
-          id="start"
-          label="Start Year"
+          id="from"
+          label="From Year"
           description="How much is your starting price? "
           tooltip="All prices should start from 50 dollars."
-          error={errors.start}>
+          warning={validate(warnings, "from")}>
           <Field.Select.Combo
             options={years}
-            keys={["education", "start"]}
-            value={fields.education.start}
-            setValue={setFields}
+            value={fields.from}
+            setValue={setFields.from}
           />
         </Field.Body>
         <Field.Body
-          id="end"
-          label="End Year"
+          id="to"
+          label="To Year"
           description="How much is your starting price? "
           tooltip="All prices should start from 50 dollars."
-          error={errors.end}>
+          warning={validate(warnings, "to")}>
           <Field.Select.Combo
             options={years}
-            keys={["education", "end"]}
-            value={fields.education.end}
-            setValue={setFields}
+            value={fields.to}
+            setValue={setFields.to}
           />
         </Field.Body>
       </div>

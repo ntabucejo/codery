@@ -1,17 +1,16 @@
 import Field from "@core/components/elements/field";
-import {
-  FreelancerErrors,
-  type FreelancerFields,
-} from "@core/validations/freelancer";
-import { type Dispatch, type SetStateAction } from "react";
+import stores from "@core/stores";
+import validate from "@core/utilities/validate";
+import { ZodIssue } from "zod";
 
 type Props = {
-  fields: FreelancerFields;
-  setFields: Dispatch<SetStateAction<FreelancerFields>>;
-  errors: FreelancerErrors;
+  warnings: ZodIssue[];
 };
 
-const Personal = ({ fields, setFields, errors }: Props) => {
+const Personal = ({ warnings }: Props) => {
+  const fields = stores.freelancer.base((state) => state.fields);
+  const setFields = stores.freelancer.base((state) => state.setFields);
+
   return (
     <form className="space-y-4">
       <Field.Body
@@ -19,15 +18,13 @@ const Personal = ({ fields, setFields, errors }: Props) => {
         label="Biography"
         description="Tell me about yourself"
         tooltip="Any information needed here in the form are safe and private."
-        error={errors.biography}>
+        warning={validate(warnings, "biography")}>
         <Field.Textarea
           id="biography"
           isFull
           placeholder="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate, soluta explicabo qui quidem, suscipit doloremque voluptas perspiciatis dicta optio nam temporibus minus aliquid voluptatum ratione corporis est laboriosam? Mollitia, non!"
           value={fields.biography}
-          onChange={(event) =>
-            setFields({ ...fields, biography: event.target.value })
-          }
+          onChange={setFields.biography}
         />
       </Field.Body>
       <Field.Body
@@ -35,15 +32,13 @@ const Personal = ({ fields, setFields, errors }: Props) => {
         label="Location"
         description="Where do you live?"
         tooltip="Any information needed here in the form are safe and private."
-        error={errors.location}>
+        warning={validate(warnings, "location")}>
         <Field.Text
           id="location"
           isFull
           placeholder="Philippines"
           value={fields.location}
-          onChange={(event) =>
-            setFields({ ...fields, location: event.target.value })
-          }
+          onChange={setFields.location}
         />
       </Field.Body>
       <Field.Body
@@ -51,15 +46,13 @@ const Personal = ({ fields, setFields, errors }: Props) => {
         label="Phone"
         description="State your Phone Number"
         tooltip="Any information needed here in the form are safe and private."
-        error={errors.phone}>
+        warning={validate(warnings, "phone")}>
         <Field.Text
           id="phone"
           isFull
           placeholder="+63 123456789"
           value={fields.phone}
-          onChange={(event) =>
-            setFields({ ...fields, phone: event.target.value })
-          }
+          onChange={setFields.phone}
         />
       </Field.Body>
     </form>

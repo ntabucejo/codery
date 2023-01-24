@@ -1,19 +1,11 @@
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import useModal from "@core/hooks/use-modal";
-import {
-  FreelancerErrors,
-  type FreelancerFields,
-} from "@core/validations/freelancer";
+import stores from "@core/stores";
+import validate from "@core/utilities/validate";
 import cuid from "cuid";
-import { type Dispatch, type SetStateAction } from "react";
+import { ZodIssue } from "zod";
 import Employment from "./employment";
-
-type Props = {
-  fields: FreelancerFields;
-  setFields: Dispatch<SetStateAction<FreelancerFields>>;
-  errors: FreelancerErrors;
-};
 
 const options = [
   { id: cuid(), name: "Wade Cooper" },
@@ -24,7 +16,14 @@ const options = [
   { id: cuid(), name: "Hellen Schmidt" },
 ];
 
-const Experience = ({ fields, setFields, errors }: Props) => {
+type Props = {
+  warnings: ZodIssue[];
+};
+
+const Experience = ({ warnings }: Props) => {
+  const fields = stores.freelancer.base((state) => state.fields);
+  const setFields = stores.freelancer.base((state) => state.setFields);
+
   const modalEmployment = useModal();
 
   return (
@@ -34,21 +33,18 @@ const Experience = ({ fields, setFields, errors }: Props) => {
         label="Skills"
         description="How much is your starting price? You can negotiate with your client about the final amount later."
         tooltip="All prices should start from 50 dollars."
-        error={errors["skills"]}>
+        warning={validate(warnings, "skills")}>
         <Field.Select.Multiple
           options={options}
-          keys={["skills"]}
-          value={fields.skills}
-          setValue={setFields}
+          values={fields.skills}
+          setValues={setFields.skills}
         />
       </Field.Body>
-
       <Field.Body
         id="employment"
         label="Employment"
         description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars."
-        error={errors.employments}>
+        tooltip="All prices should start from 50 dollars.">
         <Button onClick={modalEmployment.handleOpen}>Add Employment</Button>
         {fields.employments.length ? (
           <ul className="grid grid-cols-4 gap-4">
@@ -67,11 +63,7 @@ const Experience = ({ fields, setFields, errors }: Props) => {
             ))}
           </ul>
         ) : null}
-        <Employment
-          fields={fields}
-          setFields={setFields}
-          modal={modalEmployment}
-        />
+        <Employment modal={modalEmployment} />
       </Field.Body>
     </form>
   );
