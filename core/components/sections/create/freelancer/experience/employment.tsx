@@ -65,6 +65,14 @@ const Employment = ({ fields, setFields, modal }: Props) => {
     }
   };
 
+  const handleClear = () => {
+    setFields({
+      ...fields,
+      employment: freelancerFields.employment,
+    });
+    setErrors(employmentErrors);
+  };
+
   return (
     <Modal
       title="Employment"
@@ -198,14 +206,7 @@ const Employment = ({ fields, setFields, modal }: Props) => {
       </Field.Body>
       <div className="flex w-full gap-4">
         <Button onClick={handleSubmit}>Add Employment</Button>
-        <Button
-          variant="secondary"
-          onClick={() => {
-            setFields({
-              ...fields,
-              employment: freelancerFields.employment,
-            });
-          }}>
+        <Button variant="secondary" onClick={handleClear}>
           Clear
         </Button>
         <Button

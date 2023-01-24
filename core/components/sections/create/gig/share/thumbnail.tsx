@@ -68,6 +68,14 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
     }
   };
 
+  const handleClear = () => {
+    setFields({
+      ...fields,
+      thumbnail: gigFields.thumbnail,
+    });
+    setErrors(thumbnailErrors);
+  };
+
   useEffect(() => {
     if (data) {
       setFields({
@@ -118,14 +126,7 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
             <Button type="submit">
               {loading ? "Uploading" : "Add Thumbnail"}
             </Button>
-            <Button
-              variant="secondary"
-              onClick={() =>
-                setFields({
-                  ...fields,
-                  thumbnail: gigFields.thumbnail,
-                })
-              }>
+            <Button variant="secondary" onClick={handleClear}>
               Clear
             </Button>
           </div>
@@ -180,7 +181,7 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
             label="Repository"
             description="Where do you live?"
             tooltip="Any information needed here in the form are safe and private."
-            error={errors.title}>
+            error={errors.repository}>
             <Field.Text
               id="repository"
               isFull
@@ -202,7 +203,7 @@ const Thumbnail = ({ fields, setFields, modal }: Props) => {
             label="Website"
             description="Where do you live?"
             tooltip="Any information needed here in the form are safe and private."
-            error={errors.title}>
+            error={errors.website}>
             <Field.Text
               id="website"
               isFull

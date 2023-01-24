@@ -49,6 +49,14 @@ const Testimonial = ({ fields, setFields, modal }: Props) => {
     }
   };
 
+  const handleClear = () => {
+    setFields({
+      ...fields,
+      testimonial: freelancerFields.testimonial,
+    });
+    setErrors(testimonialErrors);
+  };
+
   return (
     <Modal
       title="Testimonial"
@@ -170,14 +178,7 @@ const Testimonial = ({ fields, setFields, modal }: Props) => {
       </Field.Body>
       <div className="flex w-full gap-4">
         <Button onClick={handleSubmit}>Add Testimonial</Button>
-        <Button
-          variant="secondary"
-          onClick={() => {
-            setFields({
-              ...fields,
-              testimonial: freelancerFields.testimonial,
-            });
-          }}>
+        <Button variant="secondary" onClick={handleClear}>
           Clear
         </Button>
         <Button

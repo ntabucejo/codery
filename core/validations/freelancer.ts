@@ -49,12 +49,11 @@ export const freelancerFields: FreelancerFields = {
   phone: "",
   skills: [],
   testimonial: {
-    name: "Nikko Abucejo",
-    email: "ntabucejo@gmail.com",
-    link: "https://www.google.com/search?client=firefox-b-d&q=engineer",
-    position: "Developer",
-    message:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente tenetur quod eligendi ducimus cumque modi cum. Excepturi, perferendis facilis. Sed tempore aperiam, repellendus at architecto fugit amet quidem in libero? Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente tenetur quod eligendi ducimus cumque modi cum. Excepturi, perferendis facilis. Sed tempore aperiam, repellendus at architecto fugit amet quidem in libero?",
+    name: "",
+    email: "",
+    link: "",
+    position: "",
+    message: "",
   },
   testimonials: [],
   employment: {

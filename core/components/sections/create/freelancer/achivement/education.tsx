@@ -94,6 +94,14 @@ const Education = ({ fields, setFields, modal }: Props) => {
     }
   };
 
+  const handleClear = () => {
+    setFields({
+      ...fields,
+      education: freelancerFields.education,
+    });
+    setErrors(educationErrors);
+  };
+
   return (
     <Modal
       title="Education"
@@ -166,14 +174,7 @@ const Education = ({ fields, setFields, modal }: Props) => {
       </div>
       <div className="flex w-full gap-4">
         <Button onClick={handleSubmit}>Add Education</Button>
-        <Button
-          variant="secondary"
-          onClick={() => {
-            setFields({
-              ...fields,
-              education: freelancerFields.education,
-            });
-          }}>
+        <Button variant="secondary" onClick={handleClear}>
           Clear
         </Button>
         <Button
