@@ -1,6 +1,5 @@
 "use client";
 
-import Button from "@core/components/elements/button";
 import Stages from "@core/components/elements/stages";
 import stores from "@core/stores";
 import schemas from "@core/validations/schemas";
@@ -10,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { MouseEvent, useState } from "react";
 import { ZodIssue } from "zod";
 import General from "./general";
-import Publish from "./publish";
+import Overview from "./overview";
 import Showcase from "./showcase";
 
 type Props = {
@@ -59,8 +58,8 @@ const Gig = ({ user }: Props) => {
     },
     {
       id: 3,
-      title: "Publish",
-      content: <Publish warnings={warnings} handleSubmit={handleSubmit} />,
+      title: "Overview",
+      content: <Overview warnings={warnings} handleSubmit={handleSubmit} />,
     },
   ];
   return (

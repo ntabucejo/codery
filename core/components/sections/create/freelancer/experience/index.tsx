@@ -5,6 +5,7 @@ import stores from "@core/stores";
 import validate from "@core/utilities/validate";
 import useSWR from "swr";
 import { ZodIssue } from "zod";
+import Card from "../../card";
 import Employment from "./employment";
 
 type Props = {
@@ -41,19 +42,13 @@ const Experience = ({ warnings }: Props) => {
         description="Share us your work experiences. This will be a huge step to get you a client.">
         <Button onClick={modalEmployment.handleOpen}>Add Employment</Button>
         {fields.employments.length ? (
-          <ul className="grid grid-cols-4 gap-4">
+          <ul className="grid grid-cols-5 gap-4">
             {fields.employments.map((employment, index) => (
-              <li key={index} className="space-y-4 rounded border bg-white p-4">
-                <div>
-                  <h4 className="font-semibold">{employment.position}</h4>
-                  <h5 className="text-xs text-primary-dark/fade">
-                    {employment.location}
-                  </h5>
-                </div>
-                <p className="text-sm text-primary-dark/fade">
-                  {employment.description}
-                </p>
-              </li>
+              <Card
+                key={index}
+                title={employment.company}
+                subtitle={employment.position}
+              />
             ))}
           </ul>
         ) : null}

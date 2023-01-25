@@ -66,7 +66,7 @@ const General = ({ warnings }: Props) => {
         <Field.Body
           id="tags"
           label="Technologies"
-          description="Tag your Gig with techonologies words that are relevant to the services you offer. Use all 5 tags to get found."
+          description="Tag your Gig with techonologies words that are relevant to the services you offer."
           tooltip="Choose the technologies you will use for this gig."
           warning={validate(warnings, "tags")}
           className="col-span-2">

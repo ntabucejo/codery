@@ -5,7 +5,6 @@ import { useState, type MouseEvent } from "react";
 import Experience from "./experience";
 import Personal from "./personal";
 import Overview from "./overview";
-import Button from "@core/components/elements/button";
 import Achievement from "./achivement";
 import schemas from "@core/validations/schemas";
 import stores from "@core/stores";
