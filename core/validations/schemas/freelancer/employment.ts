@@ -4,11 +4,11 @@ const employment = z.object({
   company: z
     .string()
     .min(1, "Company Name should have at lease 1 valid character.")
-    .max(15, "Company Name should not exceed more than 15 valid characters."),
+    .max(50, "Company Name should not exceed more than 50 valid characters."),
   position: z
     .string()
     .min(1, "Position should have at lease 1 valid character.")
-    .max(15, "Position should not exceed more than 15 valid characters."),
+    .max(50, "Position should not exceed more than 50 valid characters."),
   description: z
     .string()
     .min(10, "Description should have at lease 10 valid characters.")

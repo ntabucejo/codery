@@ -22,7 +22,7 @@ const gig = z.object({
   thumbnails: thumbnail
     .array()
     .min(1, "Each Gig should have at least 1 thumbnail.")
-    .max(8, "Each Gig should not have more than 8 thumbnails.")
+    .max(10, "Each Gig should not have more than 10 thumbnails.")
     .optional(),
   from: z
     .number()

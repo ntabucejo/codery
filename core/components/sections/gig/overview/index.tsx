@@ -1,17 +1,23 @@
-import Button from "@core/components/elements/button";
+import Balancer from "react-wrap-balancer";
+
+import serialize from "@core/utilities/serialize";
 import {
   Category,
   Freelancer,
   Gig,
+  Tag,
+  Technology,
   Thumbnail,
   User as UserType,
 } from "@prisma/client";
-import About from "./about";
 import Carousel from "./carousel";
 import Details from "./details";
 
 type Props = {
   gig: Gig & {
+    tags: (Tag & {
+      technology: Technology | null;
+    })[];
     category: Category;
     thumbnails: Thumbnail[];
     freelancer: Freelancer & {
@@ -23,14 +29,21 @@ type Props = {
 const Overview = ({ gig }: Props) => {
   return (
     <section className="contain space-y-4">
-      <Details gig={gig} />
-      <div className="grid grid-cols-[6fr,2fr] gap-4">
-        <Carousel thumbnails={gig.thumbnails} />
-        <About freelancer={gig.freelancer} />
+      <div className="grid grid-cols-4 gap-4">
+        <div className="col-span-3 overflow-hidden rounded">
+          <Carousel thumbnails={serialize(gig.thumbnails)} />
+        </div>
+        <div className="">
+          <Details gig={serialize(gig)} />
+        </div>
       </div>
-      <div className="flex gap-4">
-        <Button>ORDER NOW {`$${gig.from} - $${gig.to}`}</Button>
-        <Button variant="tertiary">Add To Favorites</Button>
+      <div className="flex flex-col gap-2">
+        <Balancer>
+          <h1 className="text-4xl font-extrabold">{gig.title}</h1>
+        </Balancer>
+        <Balancer>
+          <p>{gig.description}</p>
+        </Balancer>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
+import NoImage from "@core/components/elements/no-image";
 import Symbol from "@core/components/elements/symbol";
 import Modal from "@core/components/layouts/modal";
 import useUpload from "@core/hooks/use-upload";
@@ -80,21 +81,18 @@ const Thumbnail = ({ modal }: Props) => {
             tooltip="Showcase your talent by uploading images you will have a higher chance of getting a client."
             warning={validate(warnings, "image")}>
             <Field.File id="upload" name={fileId} />
-            <div className="relative grid aspect-video items-center overflow-hidden rounded border">
+            <div>
               {data ? (
-                <Image src={data} alt={data} fill className="object-contain" />
-              ) : (
-                <div className="mx-auto flex flex-col items-center">
-                  <Symbol
-                    Icon={PhotoIcon}
-                    size="large"
-                    isHoverDisabled
-                    className="animate-bounce"
+                <div className="relative grid aspect-video items-center overflow-hidden rounded border">
+                  <Image
+                    src={data}
+                    alt={data}
+                    fill
+                    className="object-contain"
                   />
-                  <span className="text-sm font-semibold text-primary-dark/fade">
-                    No Image Uploaded
-                  </span>
                 </div>
+              ) : (
+                <NoImage />
               )}
             </div>
           </Field.Body>
