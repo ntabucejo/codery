@@ -1,8 +1,14 @@
 import prisma from "@core/libraries/prisma";
 
-const useGigs = async (userId?: string) => {
+const useGigs = async (username?: string) => {
   const gigs = await prisma.gig.findMany({
-    where: { freelancerId: userId },
+    where: {
+      freelancer: {
+        user: {
+          username: username,
+        },
+      },
+    },
     include: {
       category: true,
       thumbnails: true,

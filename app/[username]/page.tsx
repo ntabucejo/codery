@@ -9,10 +9,16 @@ import useUser from "@core/hooks/use-user";
 import { MapPinIcon, AtSymbolIcon, UserIcon } from "@heroicons/react/24/solid";
 import moment from "moment";
 
-const Page = async () => {
-  const user = await useUser();
+type Props = {
+  params: {
+    username: string;
+  };
+};
+
+const Page = async ({ params }: Props) => {
+  const user = await useUser(params.username);
   const freelancer = await useFreelancer();
-  const gigs = await useGigs(freelancer?.id);
+  const gigs = await useGigs(params.username);
 
   return (
     <>
