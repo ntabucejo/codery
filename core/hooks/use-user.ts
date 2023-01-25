@@ -1,5 +1,13 @@
 import prisma from "@core/libraries/prisma";
+import { Prisma } from "@prisma/client";
 import useSession from "./use-session";
+
+const x: Prisma.UserFindUniqueArgs = {
+  where: { username: "" },
+  include: {
+    freelancer: true,
+  },
+};
 
 const useUser = async (username: string) => {
   const session = await useSession();

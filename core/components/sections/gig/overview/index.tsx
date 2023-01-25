@@ -1,4 +1,5 @@
 import Button from "@core/components/elements/button";
+import serialize from "@core/utilities/serialize";
 import {
   Category,
   Freelancer,
@@ -25,8 +26,8 @@ const Overview = ({ gig }: Props) => {
     <section className="contain space-y-4">
       <Details gig={gig} />
       <div className="grid grid-cols-[6fr,2fr] gap-4">
-        <Carousel thumbnails={gig.thumbnails} />
-        <About freelancer={gig.freelancer} />
+        <Carousel thumbnails={serialize(gig.thumbnails)} />
+        <About freelancer={serialize(gig.freelancerf)} />
       </div>
       <div className="flex gap-4">
         <Button>ORDER NOW {`$${gig.from} - $${gig.to}`}</Button>
