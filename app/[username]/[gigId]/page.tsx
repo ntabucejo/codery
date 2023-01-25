@@ -1,5 +1,5 @@
 import Gig from "@core/components/sections/gig";
-import useGig from "@core/hooks/use-gig";
+import prisma from "@core/libraries/prisma";
 
 type Props = {
   params: {
@@ -9,7 +9,18 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
-  const gig = await useGig(params.gigId);
+  const gig = await prisma.gig.findUnique({
+    where: { id: params.gigId },
+    include: {
+      category: true,
+      thumbnails: true,
+      freelancer: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
   const { Overview, Reviews } = Gig;
 
   return (

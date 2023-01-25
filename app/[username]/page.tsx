@@ -3,9 +3,8 @@ import Pin from "@core/components/elements/pin";
 import Route from "@core/components/elements/route";
 import Gigs from "@core/components/sections/gigs";
 import Hero from "@core/components/sections/hero";
-import useFreelancer from "@core/hooks/use-freelancer";
-import useGigs from "@core/hooks/use-gigs";
 import useUser from "@core/hooks/use-user";
+import prisma from "@core/libraries/prisma";
 import { MapPinIcon, AtSymbolIcon, UserIcon } from "@heroicons/react/24/solid";
 import moment from "moment";
 
@@ -16,9 +15,24 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
-  const user = await useUser(params.username);
-  const freelancer = await useFreelancer();
-  const gigs = await useGigs(params.username);
+  const user = await useUser({
+    where: { username: params.username },
+  });
+  const freelancer = await prisma.freelancer.findUnique({
+    where: { userId: user?.id },
+  });
+  const gigs = await prisma.gig.findMany({
+    where: { freelancerId: freelancer?.id },
+    include: {
+      category: true,
+      thumbnails: true,
+      freelancer: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
 
   return (
     <>

@@ -1,9 +1,19 @@
 import Gigs from "@core/components/sections/gigs";
 import Hero from "@core/components/sections/hero";
-import useGigs from "@core/hooks/use-gigs";
+import prisma from "@core/libraries/prisma";
 
 const Page = async () => {
-  const gigs = await useGigs();
+  const gigs = await prisma.gig.findMany({
+    include: {
+      category: true,
+      thumbnails: true,
+      freelancer: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
 
   return (
     <>
