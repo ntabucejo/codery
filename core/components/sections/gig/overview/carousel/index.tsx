@@ -14,7 +14,7 @@ const Carousel = ({ thumbnails }: Props) => {
   const [index, setIndex] = useState(0);
 
   return (
-    <div className="group relative aspect-video w-full rounded border overflow-hidden">
+    <div className="group relative aspect-video w-full overflow-hidden rounded border">
       <Image
         src={thumbnails[index].image}
         alt={thumbnails[index].title}

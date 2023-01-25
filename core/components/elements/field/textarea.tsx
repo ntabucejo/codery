@@ -6,10 +6,17 @@ type Props = {
   placeholder?: string;
   value?: string;
   onChange?: ChangeEventHandler<HTMLTextAreaElement>;
-  isDisabled?: boolean
+  isDisabled?: boolean;
 };
 
-const Textarea = ({ id, isFull, placeholder, value, onChange, isDisabled }: Props) => {
+const Textarea = ({
+  id,
+  isFull,
+  placeholder,
+  value,
+  onChange,
+  isDisabled,
+}: Props) => {
   return (
     <div>
       <textarea

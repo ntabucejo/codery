@@ -23,7 +23,6 @@ const Gig = ({ user }: Props) => {
 
   const router = useRouter();
 
-  
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const result = schemas.gig.base.safeParse(fields);
@@ -46,7 +45,7 @@ const Gig = ({ user }: Props) => {
       setWarnings(result.error.issues);
     }
   };
-  
+
   const panels = [
     {
       id: 1,

@@ -5,7 +5,7 @@ type Props = {
   isFull?: boolean;
   value?: number;
   onChange?: ChangeEventHandler<HTMLInputElement>;
-  isDisabled?: boolean
+  isDisabled?: boolean;
 };
 
 const Number = ({ id, isFull, value, onChange, isDisabled }: Props) => {

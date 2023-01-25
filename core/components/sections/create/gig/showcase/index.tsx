@@ -27,7 +27,10 @@ const Showcase = ({ warnings }: Props) => {
 
         <div>
           <h6 className="font-semibold">Images (up to 8)</h6>
-          <p className="text-sm text-primary-dark/fade">Get noticed by the right buyers with visual examples of your services.</p>
+          <p className="text-sm text-primary-dark/fade">
+            Get noticed by the right buyers with visual examples of your
+            services.
+          </p>
         </div>
 
         {fields.thumbnails?.length ? (

@@ -4,8 +4,14 @@ import employment from "./employment";
 import testimonial from "./testimonial";
 
 const freelancer = z.object({
-  biography: z.string().min(1,"Biography should have at lease 1 valid character.").max(500, "Biography should not exceed more than 500 valid characters."),
-  location: z.string().min(1,"Country should have at lease 1 valid character.").max(50, "Country should not exceed more than 50 valid characters."),
+  biography: z
+    .string()
+    .min(1, "Biography should have at lease 1 valid character.")
+    .max(500, "Biography should not exceed more than 500 valid characters."),
+  location: z
+    .string()
+    .min(1, "Country should have at lease 1 valid character.")
+    .max(50, "Country should not exceed more than 50 valid characters."),
   phone: z.string().min(9).max(11),
   skills: z
     .object({

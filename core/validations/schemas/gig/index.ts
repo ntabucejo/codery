@@ -10,7 +10,10 @@ const gig = z.object({
     .string()
     .min(10, "Description must have at least 10 characters.")
     .max(1000, "Description must not exceed to 1000 characters."),
-  category: z.object({ id: z.string().cuid("Gig should have a category."), name: z.string() }),
+  category: z.object({
+    id: z.string().cuid("Gig should have a category."),
+    name: z.string(),
+  }),
   tags: z
     .object({ id: z.string().cuid("Gig should have a tag."), name: z.string() })
     .array()
@@ -21,7 +24,10 @@ const gig = z.object({
     .min(1, "Each Gig should have at least 1 thumbnail.")
     .max(8, "Each Gig should not have more than 8 thumbnails.")
     .optional(),
-  from: z.number().positive("Price should be positive only.").min(5, "Price should starts with 5 dollars."),
+  from: z
+    .number()
+    .positive("Price should be positive only.")
+    .min(5, "Price should starts with 5 dollars."),
   to: z
     .number()
     .positive("Price should be positive only.")

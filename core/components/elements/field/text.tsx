@@ -7,7 +7,7 @@ type Props = {
   defaultValue?: string;
   value?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
-  isDisabled?: boolean
+  isDisabled?: boolean;
 };
 
 const Text = ({
@@ -17,7 +17,7 @@ const Text = ({
   onChange,
   value,
   defaultValue,
-  isDisabled
+  isDisabled,
 }: Props) => {
   return (
     <div>
