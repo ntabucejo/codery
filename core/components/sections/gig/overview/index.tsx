@@ -27,7 +27,7 @@ const Overview = ({ gig }: Props) => {
       <Details gig={gig} />
       <div className="grid grid-cols-[6fr,2fr] gap-4">
         <Carousel thumbnails={serialize(gig.thumbnails)} />
-        <About freelancer={serialize(gig.freelancerf)} />
+        <About freelancer={serialize(gig.freelancer)} />
       </div>
       <div className="flex gap-4">
         <Button>ORDER NOW {`$${gig.from} - $${gig.to}`}</Button>

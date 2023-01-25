@@ -9,7 +9,6 @@ import {
   Thumbnail,
   User,
 } from "@prisma/client";
-import cuid from "cuid";
 import Image from "next/image";
 import Link from "next/link";
 
