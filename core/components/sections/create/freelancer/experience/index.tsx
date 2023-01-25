@@ -25,9 +25,9 @@ const Experience = ({ warnings }: Props) => {
     <form className="space-y-4">
       <Field.Body
         id="skills"
-        label="Skills"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars."
+        label="Share us your Skills"
+        description="In what technologies are you skilled to do?"
+        tooltip="Choose from the technologies below, This will take a huge step to get you a client."
         warning={validate(warnings, "skills")}>
         <Field.Select.Multiple
           options={technologies}
@@ -38,8 +38,7 @@ const Experience = ({ warnings }: Props) => {
       <Field.Body
         id="employment"
         label="Employment"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars.">
+        description="Share us your work experiences. This will be a huge step to get you a client.">
         <Button onClick={modalEmployment.handleOpen}>Add Employment</Button>
         {fields.employments.length ? (
           <ul className="grid grid-cols-4 gap-4">

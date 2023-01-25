@@ -16,16 +16,25 @@ const Showcase = ({ warnings }: Props) => {
   const modalShowcase = useModal();
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <Field.Body
         id="thumbnail"
         label="Thumbnail"
-        description="Get noticed by the right buyers with visual examples of your services."
+        description="Encourage buyers to choose your Gig by featuring a variety of your work."
         tooltip="By uploading images you will have a higher chance of getting a client."
         warning={validate(warnings, "thumbnails")}>
         <Button onClick={modalShowcase.handleOpen}>Add Thumbnail</Button>
-        {fields.thumbnails.length ? (
-          <ul className="grid grid-cols-4 gap-4">
+
+        <div>
+          <h6 className="font-semibold">Images (up to 8)</h6>
+          <p className="text-sm text-primary-dark/fade">
+            Get noticed by the right buyers with visual examples of your
+            services.
+          </p>
+        </div>
+
+        {fields.thumbnails?.length ? (
+          <ul className="mt-4 grid grid-cols-4 gap-4">
             {fields.thumbnails.map((thumbnail) => (
               <li
                 key={thumbnail.image}

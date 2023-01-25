@@ -5,9 +5,10 @@ type Props = {
   isFull?: boolean;
   value?: number;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  isDisabled?: boolean;
 };
 
-const Number = ({ id, isFull, value, onChange }: Props) => {
+const Number = ({ id, isFull, value, onChange, isDisabled }: Props) => {
   return (
     <div>
       <input
@@ -15,6 +16,7 @@ const Number = ({ id, isFull, value, onChange }: Props) => {
         type="number"
         value={value}
         onChange={onChange}
+        disabled={isDisabled}
         className={`${isFull ? "w-full" : ""} clearance rounded border text-sm`}
       />
     </div>

@@ -41,15 +41,14 @@ const Testimonial = ({ modal }: Props) => {
   return (
     <Modal
       title="Testimonial"
-      description="How much is your starting price? You can negotiate with your client about the final amount later."
+      description="Share us all the testimonials you receive. This will take an advantage to the client's."
       state={modal.state}
       handleClose={modal.handleClose}
       className="max-w-5xl">
       <Field.Body
         id="name"
         label="Name"
-        description="Where do you live?"
-        tooltip="Any information needed here in the form are safe and private."
+        description="Tell us the testimonial's name."
         warning={validate(warnings, "name")}>
         <Field.Text
           id="name"
@@ -63,8 +62,7 @@ const Testimonial = ({ modal }: Props) => {
         <Field.Body
           id="position"
           label="Position"
-          description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private."
+          description="Tell us the testimonial's position."
           warning={validate(warnings, "position")}>
           <Field.Text
             id="position"
@@ -76,9 +74,8 @@ const Testimonial = ({ modal }: Props) => {
         </Field.Body>
         <Field.Body
           id="email"
-          label="Email"
-          description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private."
+          label="Email Address"
+          description="Tell us the testimonial's email address."
           warning={validate(warnings, "email")}>
           <Field.Text
             id="email"
@@ -92,8 +89,7 @@ const Testimonial = ({ modal }: Props) => {
       <Field.Body
         id="message"
         label="Message"
-        description="Where do you live?"
-        tooltip="Any information needed here in the form are safe and private."
+        description="Share us their testimonial about you."
         warning={validate(warnings, "message")}>
         <Field.Textarea
           id="message"

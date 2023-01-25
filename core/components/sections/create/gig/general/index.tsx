@@ -22,13 +22,13 @@ const General = ({ warnings }: Props) => {
   return (
     <form className="space-y-4">
       <Field.Body
-        id="Project Title"
-        label="Project Title"
-        description="This will help your gig to recognize instantaneously."
-        tooltip="This is about the description of your gig"
+        id="title"
+        label="Gig Title"
+        description="As your Gig storefront, your title is the most important place to include keywords that buyers would likely use to search for a service like yours."
+        tooltip="This is your Gig title. Choose wisely, you can only use 80 characters."
         warning={validate(warnings, "title")}>
         <Field.Text
-          id="Project Title"
+          id="title"
           isFull
           placeholder="I will..."
           value={fields.title}
@@ -36,13 +36,13 @@ const General = ({ warnings }: Props) => {
         />
       </Field.Body>
       <Field.Body
-        id="Project Description"
-        label="Project Description"
+        id="description"
+        label="Gig Description"
         description="Briefly Describe Your Gig."
-        tooltip="Clients will know what category or language you can do about this gig."
+        tooltip="Describe what you are offering. Be as detailed as possible so buyers will be able to understand if this meets their needs. Should be at least 120 characters."
         warning={validate(warnings, "description")}>
         <Field.Textarea
-          id="Project Description"
+          id="description"
           isFull
           placeholder="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Recusandae quisquam aut fugit ipsum nisi. Quaerat maiores laboriosam iure sunt vero tenetur minima quos exercitationem perspiciatis pariatur. Dolor laborum optio ipsa!"
           value={fields.description}
@@ -51,10 +51,10 @@ const General = ({ warnings }: Props) => {
       </Field.Body>
       <div className="grid grid-cols-4 gap-4">
         <Field.Body
-          id="Project Category"
-          label="Project Category"
-          description="How much is your starting price? You can negotiate with your client about the final amount later."
-          tooltip="All prices should start from 50 dollars."
+          id="category"
+          label="Category"
+          description="Choose the category most suitable for your Gig."
+          tooltip="Please choose the category most suitable for your Gig."
           warning={validate(warnings, "category")}
           className="col-span-2">
           <Field.Select.Combo
@@ -64,10 +64,10 @@ const General = ({ warnings }: Props) => {
           />
         </Field.Body>
         <Field.Body
-          id="Technologies"
+          id="tags"
           label="Technologies"
-          description="How much is your starting price? You can negotiate with your client about the final amount later."
-          tooltip="All prices should start from 50 dollars."
+          description="Tag your Gig with techonologies words that are relevant to the services you offer. Use all 5 tags to get found."
+          tooltip="Choose the technologies you will use for this gig."
           warning={validate(warnings, "tags")}
           className="col-span-2">
           <Field.Select.Multiple
@@ -77,10 +77,10 @@ const General = ({ warnings }: Props) => {
           />
         </Field.Body>
         <Field.Body
-          id="Delivery Period"
-          label="Delivery Period"
-          description="How much is your starting price? You can negotiate with your client about the final amount later."
-          tooltip="All prices should start from 50 dollars."
+          id="period"
+          label="Delivery Time"
+          description="Choose when you can finish your service."
+          tooltip="Delivery Time is the amount of time you have to work on the package, starting from when a buyer places the order."
           warning={validate(warnings, "period")}
           className="col-span-2">
           <Field.Number
@@ -92,12 +92,12 @@ const General = ({ warnings }: Props) => {
         <div className="col-span-2 grid grid-cols-2 gap-8">
           <Field.Body
             id="from"
-            label="From Price"
-            description="Lorem, ipsum dolor sit amet consectetur adipisicing"
-            tooltip="All prices should start from 50 dollars."
+            label="Starting Price"
+            description="Set your starting price."
+            tooltip="All prices should start from 5 dollars."
             warning={validate(warnings, "from")}>
             <Field.Number
-              id="Price Range"
+              id="from"
               isFull
               value={fields.from}
               onChange={setFields.from}
@@ -105,12 +105,12 @@ const General = ({ warnings }: Props) => {
           </Field.Body>
           <Field.Body
             id="to"
-            label="To Price"
-            description="Lorem, ipsum dolor sit amet consectetur adipisicing"
-            tooltip="All prices should start from 50 dollars."
+            label="Up to"
+            description="Set your highest price based on your skill."
+            tooltip="You can set your maximum price up to 1000 dollars."
             warning={validate(warnings, "to")}>
             <Field.Number
-              id="Price Range"
+              id="to"
               isFull
               value={fields.to}
               onChange={setFields.to}

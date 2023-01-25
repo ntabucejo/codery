@@ -57,16 +57,15 @@ const Employment = ({ modal }: Props) => {
   return (
     <Modal
       title="Employment"
-      description="How much is your starting price? You can negotiate with your client about the final amount later."
+      description="Tell us your work experience."
       state={modal.state}
       handleClose={modal.handleClose}
       className="max-w-5xl">
       <div className="grid grid-cols-2 gap-8">
         <Field.Body
           id="company"
-          label="Company"
-          description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private."
+          label="Company Name"
+          description="State the Company Name."
           warning={validate(warnings, "company")}>
           <Field.Text
             id="position"
@@ -79,8 +78,7 @@ const Employment = ({ modal }: Props) => {
         <Field.Body
           id="position"
           label="Position"
-          description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private."
+          description="In what position you are working?"
           warning={validate(warnings, "position")}>
           <Field.Text
             id="position"
@@ -94,8 +92,7 @@ const Employment = ({ modal }: Props) => {
       <Field.Body
         id="description"
         label="Description"
-        description="Where do you live?"
-        tooltip="Any information needed here in the form are safe and private."
+        description="Tell us what are your responsibilities at work."
         warning={validate(warnings, "description")}>
         <Field.Textarea
           id="description"
@@ -108,9 +105,8 @@ const Employment = ({ modal }: Props) => {
       <div className="grid grid-cols-3 gap-8">
         <Field.Body
           id="location"
-          label="Location"
-          description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private."
+          label="Country"
+          description="In which Country does your Company in?"
           warning={validate(warnings, "location")}>
           <Field.Text
             id="location"
@@ -123,8 +119,7 @@ const Employment = ({ modal }: Props) => {
         <Field.Body
           id="from"
           label="From Year"
-          description="How much is your starting price? "
-          tooltip="All prices should start from 50 dollars."
+          description="In what year did you start your work?"
           warning={validate(warnings, "from")}>
           <Field.Select.Combo
             options={years}
@@ -135,8 +130,7 @@ const Employment = ({ modal }: Props) => {
         <Field.Body
           id="to"
           label="To Year"
-          description="How much is your starting price? "
-          tooltip="All prices should start from 50 dollars."
+          description="In what year did you end your work?"
           warning={validate(warnings, "to")}>
           <Field.Select.Combo
             options={years}
@@ -147,9 +141,8 @@ const Employment = ({ modal }: Props) => {
       </div>
       <Field.Body
         id="active"
-        label="Active"
-        description="How much is your starting price? "
-        tooltip="All prices should start from 50 dollars."
+        label="Are you currently working here?"
+        description="Check the box if your are still working here."
         warning={validate(warnings, "isActive")}>
         <Field.Check
           id="active"

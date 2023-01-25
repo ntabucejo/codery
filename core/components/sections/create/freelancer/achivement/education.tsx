@@ -86,15 +86,14 @@ const Education = ({ modal }: Props) => {
   return (
     <Modal
       title="Education"
-      description="How much is your starting price? You can negotiate with your client about the final amount later."
+      description="Describe your educational background. It will help clients get to know you!"
       state={modal.state}
       handleClose={modal.handleClose}
       className="max-w-5xl">
       <Field.Body
         id="school"
-        label="School"
-        description="Where do you live?"
-        tooltip="Any information needed here in the form are safe and private."
+        label="University Name"
+        description="State your university's name."
         warning={validate(warnings, "school")}>
         <Field.Text
           id="school"
@@ -107,9 +106,8 @@ const Education = ({ modal }: Props) => {
       <div className="grid grid-cols-2 gap-y-4 gap-x-8">
         <Field.Body
           id="degree"
-          label="Degree"
-          description="How much is your starting price? "
-          tooltip="All prices should start from 50 dollars."
+          label="Field"
+          description="What is your major field?"
           warning={validate(warnings, "degree")}>
           <Field.Select.List
             options={degrees}
@@ -120,8 +118,7 @@ const Education = ({ modal }: Props) => {
         <Field.Body
           id="area"
           label="Area"
-          description="How much is your starting price? "
-          tooltip="All prices should start from 50 dollars."
+          description="In what area in your field are you in?"
           warning={validate(warnings, "area")}>
           <Field.Select.List
             options={areas}
@@ -132,8 +129,7 @@ const Education = ({ modal }: Props) => {
         <Field.Body
           id="from"
           label="From Year"
-          description="How much is your starting price? "
-          tooltip="All prices should start from 50 dollars."
+          description="In what year did you start to study this field?"
           warning={validate(warnings, "from")}>
           <Field.Select.List
             options={years}
@@ -144,7 +140,7 @@ const Education = ({ modal }: Props) => {
         <Field.Body
           id="to"
           label="To Year"
-          description="How much is your starting price? "
+          description="In what year did you Graduate?"
           tooltip="All prices should start from 50 dollars."
           warning={validate(warnings, "to")}>
           <Field.Select.List
