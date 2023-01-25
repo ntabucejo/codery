@@ -7,7 +7,7 @@ const useUser = async () => {
     where: { email: session?.user?.email! || "!" },
   });
 
-  return { user };
+  return user;
 };
 
 export default useUser;

@@ -8,7 +8,7 @@ import moment from "moment";
 import Image from "next/image";
 
 const Page = async () => {
-  const { user } = await useUser();
+  const user = await useUser();
 
   return (
     <>

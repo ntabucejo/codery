@@ -3,7 +3,7 @@ import useUser from "@core/hooks/use-user";
 import serialize from "@core/utilities/serialize";
 
 const Page = async () => {
-  const { user } = await useUser();
+  const user = await useUser();
 
   return (
     <>

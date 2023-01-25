@@ -27,7 +27,7 @@ const categories = [
 ];
 
 const Navbar = async () => {
-  const { user } = await useUser();
+  const user = await useUser();
   const providers = await getProviders();
 
   return (
