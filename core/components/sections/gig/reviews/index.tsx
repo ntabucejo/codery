@@ -1,10 +1,10 @@
-import Heading from "../heading";
+import Label from "../label";
 import Review from "./review";
 
 const Reviews = () => {
   return (
     <section className="contain space-y-4">
-      <Heading number={2}>Reviews</Heading>
+      <Label>Reviews</Label>
       <Review
         name="cpnbarbosa"
         location="Cambodia"
