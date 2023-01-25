@@ -20,8 +20,8 @@ const Achievement = ({ warnings }: Props) => {
       <Field.Body
         id="education"
         label="Education"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars.">
+        description="Describe your educational background. It will help clients get to know you!"
+        tooltip="Describe your educational background. It will help clients get to know you!">
         <Button onClick={modalEducation.handleOpen}>Add Education</Button>
         {fields.educations.length ? (
           <ul className="grid grid-cols-4 gap-4">
@@ -45,8 +45,8 @@ const Achievement = ({ warnings }: Props) => {
       <Field.Body
         id="testimonial"
         label="Testimonial"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars.">
+        description="Share us all the testimonials you receive. This will take an advantage to the client's."
+        tooltip="Share us all the testimonials you receive. This will take an advantage to the client's.">
         <Button onClick={modalTestimonial.handleOpen}>Add Testimonial</Button>
         {fields.testimonials.length ? (
           <ul className="grid grid-cols-4 gap-4">
