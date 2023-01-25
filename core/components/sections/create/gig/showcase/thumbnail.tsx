@@ -64,7 +64,7 @@ const Thumbnail = ({ modal }: Props) => {
   return (
     <Modal
       title="Thumbnail"
-      description="Get noticed by the right buyers with visual examples of your services."
+      description="Encourage buyers to choose your Gig by featuring a variety of your work."
       state={modal.state}
       handleClose={modal.handleClose}
       className="max-w-5xl pb-16">
@@ -77,7 +77,7 @@ const Thumbnail = ({ modal }: Props) => {
             id="image"
             label="Image"
             description="Get noticed by the right buyers with visual examples of your services."
-            tooltip="By uploading images you will have a higher chance of getting a client."
+            tooltip="Showcase your talent by uploading images you will have a higher chance of getting a client."
             warning={validate(warnings, "image")}>
             <Field.File id="upload" name={fileId} />
             <div className="relative grid aspect-video items-center overflow-hidden rounded border">
@@ -122,8 +122,7 @@ const Thumbnail = ({ modal }: Props) => {
           <Field.Body
             id="title"
             label="Title"
-            description="Where do you live?"
-            tooltip="Any information needed here in the form are safe and private."
+            description="Briefly descript your thumbnail."
             warning={validate(warnings, "title")}>
             <Field.Text
               id="title"
@@ -136,8 +135,7 @@ const Thumbnail = ({ modal }: Props) => {
           <Field.Body
             id="description"
             label="Description"
-            description="Where do you live?"
-            tooltip="Any information needed here in the form are safe and private."
+            description="Briefly describe the details about your thumbnail."
             warning={validate(warnings, "description")}>
             <Field.Textarea
               id="position"
@@ -150,8 +148,8 @@ const Thumbnail = ({ modal }: Props) => {
           <Field.Body
             id="repository"
             label="Repository"
-            description="Where do you live?"
-            tooltip="Any information needed here in the form are safe and private."
+            description="State the repository of your thumbnail."
+            tooltip="Repository is likely the link of your project codes."
             warning={validate(warnings, "repository")}>
             <Field.Text
               id="repository"
@@ -164,8 +162,8 @@ const Thumbnail = ({ modal }: Props) => {
           <Field.Body
             id="website"
             label="Website"
-            description="Where do you live?"
-            tooltip="Any information needed here in the form are safe and private."
+            description="State the website URL of your thumbnail."
+            tooltip="Website URL is a link where users can see and use  your website."
             warning={validate(warnings, "website")}>
             <Field.Text
               id="website"
