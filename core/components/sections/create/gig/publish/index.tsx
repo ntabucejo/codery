@@ -16,7 +16,7 @@ type Props = {
 const Publish = ({ handleSubmit, warnings }: Props) => {
   const fields = stores.gig.base((state) => state.fields);
 
-  const thumbnails = fields.thumbnails.map((thumbnail, index) => {
+  const thumbnails = fields.thumbnails?.map((thumbnail, index) => {
     return {
       ...thumbnail,
       id: index,
@@ -86,7 +86,7 @@ const Publish = ({ handleSubmit, warnings }: Props) => {
         </div>
 
         <Field.Body id="thumbnail" label="Thumbnail">
-          {thumbnails.length ? (
+          {thumbnails?.length ? (
             // @ts-ignore
             <Carousel thumbnails={fields.thumbnails} />
           ) : (
@@ -105,8 +105,9 @@ const Publish = ({ handleSubmit, warnings }: Props) => {
         </Field.Body>
       </div>
 
-      <div>
-        <Button onClick={handleSubmit}>Create Gig</Button>
+      <div className="flex items-center gap-2">
+        <Button variant="secondary" onClick={handleSubmit}>Save</Button>
+        <Button onClick={handleSubmit}>Create</Button>
       </div>
     </div>
   );
