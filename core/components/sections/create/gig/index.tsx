@@ -23,24 +23,6 @@ const Gig = ({ user }: Props) => {
 
   const router = useRouter();
 
-  const panels = [
-    {
-      id: 1,
-      title: "General",
-      content: <General warnings={warnings} />,
-    },
-    {
-      id: 2,
-      title: "Showcase",
-      content: <Showcase warnings={warnings} />,
-    },
-    {
-      id: 3,
-      title: "Publish",
-      content: <Publish />,
-    },
-  ];
-
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const result = schemas.gig.base.safeParse(fields);
@@ -64,12 +46,26 @@ const Gig = ({ user }: Props) => {
     }
   };
 
+  const panels = [
+    {
+      id: 1,
+      title: "General",
+      content: <General warnings={warnings} />,
+    },
+    {
+      id: 2,
+      title: "Showcase",
+      content: <Showcase warnings={warnings} />,
+    },
+    {
+      id: 3,
+      title: "Publish",
+      content: <Publish warnings={warnings} handleSubmit={handleSubmit} />,
+    },
+  ];
   return (
     <section className="contain space-y-4">
       <Stages name="CREATE GIG" panels={panels} />
-      <Button variant="primary" onClick={handleSubmit}>
-        Submit
-      </Button>
     </section>
   );
 };

@@ -57,7 +57,7 @@ const gig = create<Gig>((set) => ({
       set((state) => ({
         fields: {
           ...state.fields,
-          thumbnails: [...state.fields.thumbnails, payload],
+          thumbnails: [...state.fields.thumbnails!, payload],
         },
       })),
     from: (payload) =>

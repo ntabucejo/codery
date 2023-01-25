@@ -16,8 +16,8 @@ const Personal = ({ warnings }: Props) => {
       <Field.Body
         id="biography"
         label="Biography"
-        description="Tell me about yourself"
-        tooltip="Any information needed here in the form are safe and private."
+        description="Tell me about yourself."
+        tooltip="Tell us about yourself. Clients are also interested in learning about you as a person."
         warning={validate(warnings, "biography")}>
         <Field.Textarea
           id="biography"
@@ -30,9 +30,9 @@ const Personal = ({ warnings }: Props) => {
       <div className="grid grid-cols-2 gap-8">
         <Field.Body
           id="location"
-          label="Location"
+          label="Country"
           description="Where do you live?"
-          tooltip="Any information needed here in the form are safe and private."
+          tooltip="State what country are you in. Clients are also interested in connecting with you as a person."
           warning={validate(warnings, "location")}>
           <Field.Text
             id="location"
@@ -45,8 +45,8 @@ const Personal = ({ warnings }: Props) => {
         <Field.Body
           id="phone"
           label="Phone"
-          description="State your Phone Number"
-          tooltip="Any information needed here in the form are safe and private."
+          description="State your Phone Number."
+          tooltip="Clients can reach you through your mobile phone."
           warning={validate(warnings, "phone")}>
           <Field.Text
             id="phone"

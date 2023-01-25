@@ -20,22 +20,24 @@ const Achievement = ({ warnings }: Props) => {
       <Field.Body
         id="education"
         label="Education"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars.">
+        description="Describe your educational background. It will help clients get to know you!"
+        tooltip="Describe your educational background. It will help clients get to know you!">
         <Button onClick={modalEducation.handleOpen}>Add Education</Button>
         {fields.educations.length ? (
           <ul className="grid grid-cols-4 gap-4">
             {fields.educations.map((education, index) => (
               <li key={index} className="space-y-4 rounded border bg-white p-4">
                 <div>
-                  <h4 className="font-semibold">{education.school}</h4>
-                  <h5 className="text-xs text-primary-dark/fade">
-                    {education.degree?.name}
-                  </h5>
+                  <h6 className="text-sm opacity-90">
+                    B.Sc - {education.degree?.name}
+                  </h6>
+                  <h6 className="text-sm text-primary-dark/fade">
+                    {education.school}
+                  </h6>
+                  <h6 className="mt-2 text-xs text-primary-dark/fade">
+                    Graduated {education.to.name}
+                  </h6>
                 </div>
-                <p className="text-sm text-primary-dark/fade">
-                  {education.area?.name}
-                </p>
               </li>
             ))}
           </ul>
@@ -45,17 +47,22 @@ const Achievement = ({ warnings }: Props) => {
       <Field.Body
         id="testimonial"
         label="Testimonial"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        tooltip="All prices should start from 50 dollars.">
+        description="Share us all the testimonials you receive. This will take an advantage to the client's."
+        tooltip="Share us all the testimonials you receive. This will take an advantage to the client's.">
         <Button onClick={modalTestimonial.handleOpen}>Add Testimonial</Button>
         {fields.testimonials.length ? (
           <ul className="grid grid-cols-4 gap-4">
             {fields.testimonials.map((testimonial, index) => (
-              <li key={index} className="rounded border bg-white p-4">
-                <h4 className="font-semibold">{testimonial.name}</h4>
-                <h5 className="text-xs text-primary-dark/fade">
-                  {testimonial.email}
-                </h5>
+              <li key={index} className="space-y-4 rounded border bg-white p-4">
+                <div>
+                  <h6 className="text-sm opacity-90">{testimonial.name}</h6>
+                  <h6 className="text-sm text-primary-dark/fade">
+                    {testimonial.position}
+                  </h6>
+                  <h6 className="mt-2 text-xs text-primary-dark/fade">
+                    {testimonial.email}
+                  </h6>
+                </div>
               </li>
             ))}
           </ul>

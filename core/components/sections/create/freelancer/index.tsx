@@ -24,29 +24,6 @@ const Freelancer = ({ user }: Props) => {
 
   const router = useRouter();
 
-  const panels = [
-    {
-      id: 1,
-      title: "Personal",
-      content: <Personal warnings={warnings} />,
-    },
-    {
-      id: 2,
-      title: "Experience",
-      content: <Experience warnings={warnings} />,
-    },
-    {
-      id: 3,
-      title: "Achievement",
-      content: <Achievement warnings={warnings} />,
-    },
-    {
-      id: 4,
-      title: "Overview",
-      content: <Overview />,
-    },
-  ];
-
   const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     const result = schemas.freelancer.base.safeParse(fields);
@@ -88,10 +65,32 @@ const Freelancer = ({ user }: Props) => {
     }
   };
 
+  const panels = [
+    {
+      id: 1,
+      title: "Personal",
+      content: <Personal warnings={warnings} />,
+    },
+    {
+      id: 2,
+      title: "Experience",
+      content: <Experience warnings={warnings} />,
+    },
+    {
+      id: 3,
+      title: "Achievement",
+      content: <Achievement warnings={warnings} />,
+    },
+    {
+      id: 4,
+      title: "Overview",
+      content: <Overview warnings={warnings} handleSubmit={handleSubmit} />,
+    },
+  ];
+
   return (
     <section className="contain space-y-4">
       <Stages name="BECOME FREELANCER" panels={panels} />
-      <Button onClick={handleSubmit}>Submit</Button>
     </section>
   );
 };

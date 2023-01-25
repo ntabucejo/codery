@@ -14,12 +14,12 @@ const Carousel = ({ thumbnails }: Props) => {
   const [index, setIndex] = useState(0);
 
   return (
-    <div className="group relative aspect-video w-full">
+    <div className="group relative aspect-video w-full overflow-hidden rounded border">
       <Image
         src={thumbnails[index].image}
         alt={thumbnails[index].title}
         fill
-        className="rounded object-cover"
+        className="rounded object-contain"
       />
       <div className="smooth absolute z-30 flex h-full w-full items-center justify-between px-4 opacity-0 group-hover:opacity-100">
         <Button
@@ -55,7 +55,7 @@ const Carousel = ({ thumbnails }: Props) => {
               className={`${
                 idx === index ? "border-2 brightness-[0.6]" : ""
               } smooth relative aspect-video overflow-hidden rounded`}>
-              <Image src={image} alt={image} fill className="object-cover" />
+              <Image src={image} alt={image} fill className="object-contain" />
             </button>
           ))}
         </div>

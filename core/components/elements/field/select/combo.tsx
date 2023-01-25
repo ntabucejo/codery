@@ -17,15 +17,21 @@ type Option = {
 };
 
 type Props = {
-  options: Option[];
+  options?: Option[];
   value: {
     id: string;
     name: string;
   };
-  setValue: Dispatch<SetStateAction<any>>;
+  setValue?: Dispatch<SetStateAction<any>>;
+  isDisabled?: boolean;
 };
 
-const Combo = ({ options, value, setValue }: Props) => {
+const Combo = ({
+  options = [],
+  value,
+  isDisabled,
+  setValue = () => {},
+}: Props) => {
   const [selected, setSelected] = useState<Option>(value);
   const [query, setQuery] = useState("");
 
@@ -46,7 +52,7 @@ const Combo = ({ options, value, setValue }: Props) => {
   }, [selected]);
 
   return (
-    <Combobox value={selected} onChange={setSelected}>
+    <Combobox value={selected} onChange={setSelected} disabled={isDisabled}>
       <div className="relative text-sm">
         <Combobox.Input
           className="clearance w-full rounded border"
