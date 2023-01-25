@@ -7,6 +7,7 @@ type Props = {
   defaultValue?: string;
   value?: string;
   onChange?: ChangeEventHandler<HTMLInputElement>;
+  isDisabled?: boolean
 };
 
 const Text = ({
@@ -16,6 +17,7 @@ const Text = ({
   onChange,
   value,
   defaultValue,
+  isDisabled
 }: Props) => {
   return (
     <div>
@@ -26,6 +28,7 @@ const Text = ({
         defaultValue={defaultValue}
         value={value}
         onChange={onChange}
+        disabled={isDisabled}
         className={`${isFull ? "w-full" : ""} clearance rounded border text-sm`}
       />
     </div>

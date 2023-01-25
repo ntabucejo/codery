@@ -6,9 +6,10 @@ type Props = {
   placeholder?: string;
   value?: string;
   onChange?: ChangeEventHandler<HTMLTextAreaElement>;
+  isDisabled?: boolean
 };
 
-const Textarea = ({ id, isFull, placeholder, value, onChange }: Props) => {
+const Textarea = ({ id, isFull, placeholder, value, onChange, isDisabled }: Props) => {
   return (
     <div>
       <textarea
@@ -17,6 +18,7 @@ const Textarea = ({ id, isFull, placeholder, value, onChange }: Props) => {
         value={value}
         onChange={onChange}
         placeholder={placeholder}
+        disabled={isDisabled}
         className={`${isFull ? "w-full" : ""} clearance rounded border text-sm`}
       />
     </div>
