@@ -5,11 +5,11 @@ import User from "./user";
 import { getProviders } from "next-auth/react";
 import useUser from "@core/hooks/use-user";
 import serialize from "@core/utilities/serialize";
-import useCategories from "@core/hooks/use-categories";
+import prisma from "@core/libraries/prisma";
 
 const Navbar = async () => {
   const user = await useUser();
-  const categories = await useCategories();
+  const categories = await prisma.category.findMany();
   const providers = await getProviders();
 
   return (
