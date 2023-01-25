@@ -4,17 +4,26 @@ import employment from "./employment";
 import testimonial from "./testimonial";
 
 const freelancer = z.object({
-  biography: z.string().min(1).max(500),
-  location: z.string().min(1).max(50),
+  biography: z.string().min(1,"Biography should have at lease 1 valid character.").max(500, "Biography should not exceed more than 500 valid characters."),
+  location: z.string().min(1,"Country should have at lease 1 valid character.").max(50, "Country should not exceed more than 50 valid characters."),
   phone: z.string().min(9).max(11),
   skills: z
-    .object({ id: z.string().cuid(), name: z.string() })
+    .object({
+      id: z.string().cuid("This field cannot be blank."),
+      name: z.string(),
+    })
     .array()
-    .min(1)
-    .max(15),
-  testimonials: testimonial.array().max(8),
-  employments: employment.array().max(8),
-  educations: education.array().max(8),
+    .min(1, "Skills should have at lease 1 valid character.")
+    .max(15, "Skills should not exceed more than 15 skills."),
+  testimonials: testimonial
+    .array()
+    .max(8, "Testimonials should not exceed more than 8 testimonials."),
+  employments: employment
+    .array()
+    .max(8, "Employments should not exceed more than 8 employments."),
+  educations: education
+    .array()
+    .max(8, "Education should not exceed more than 8 education."),
 });
 
 export default freelancer;

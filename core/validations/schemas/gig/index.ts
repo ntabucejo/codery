@@ -12,7 +12,7 @@ const gig = z.object({
     .max(1000, "Description must not exceed to 1000 characters."),
   category: z.object({ id: z.string().cuid("Gig should have a category."), name: z.string() }),
   tags: z
-    .object({ id: z.string().cuid(), name: z.string() })
+    .object({ id: z.string().cuid("Gig should have a tag."), name: z.string() })
     .array()
     .min(1, "Each Gig should have at least 1 tag.")
     .max(12, "Gig should not have more than 12 tags."),
