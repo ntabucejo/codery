@@ -28,14 +28,16 @@ const Achievement = ({ warnings }: Props) => {
             {fields.educations.map((education, index) => (
               <li key={index} className="space-y-4 rounded border bg-white p-4">
                 <div>
-                  <h4 className="font-semibold">{education.school}</h4>
-                  <h5 className="text-xs text-primary-dark/fade">
-                    {education.degree?.name}
-                  </h5>
+                  <h6 className="text-sm opacity-90">
+                    B.Sc - {education.degree?.name}
+                  </h6>
+                  <h6 className="text-sm text-primary-dark/fade">
+                    {education.school}
+                  </h6>
+                  <h6 className="mt-2 text-xs text-primary-dark/fade">
+                    Graduated {education.to.name}
+                  </h6>
                 </div>
-                <p className="text-sm text-primary-dark/fade">
-                  {education.area?.name}
-                </p>
               </li>
             ))}
           </ul>
@@ -51,11 +53,16 @@ const Achievement = ({ warnings }: Props) => {
         {fields.testimonials.length ? (
           <ul className="grid grid-cols-4 gap-4">
             {fields.testimonials.map((testimonial, index) => (
-              <li key={index} className="rounded border bg-white p-4">
-                <h4 className="font-semibold">{testimonial.name}</h4>
-                <h5 className="text-xs text-primary-dark/fade">
-                  {testimonial.email}
-                </h5>
+              <li key={index} className="space-y-4 rounded border bg-white p-4">
+                <div>
+                  <h6 className="text-sm opacity-90">{testimonial.name}</h6>
+                  <h6 className="text-sm text-primary-dark/fade">
+                    {testimonial.position}
+                  </h6>
+                  <h6 className="mt-2 text-xs text-primary-dark/fade">
+                    {testimonial.email}
+                  </h6>
+                </div>
               </li>
             ))}
           </ul>
