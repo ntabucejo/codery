@@ -14,8 +14,8 @@ const gig = z.object({
     .min(1)
     .max(12),
   thumbnails: thumbnail.array().min(1).max(8),
-  from: z.number().positive(),
-  to: z.number().positive(),
+  from: z.number().positive().min(5),
+  to: z.number().positive().max(10000),
   period: z.number().positive(),
   isPublished: z.boolean(),
 });
