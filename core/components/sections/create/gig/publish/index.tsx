@@ -107,7 +107,7 @@ const Publish = ({ handleSubmit, warnings }: Props) => {
 
       <div className="flex items-center gap-2">
         <Button variant="secondary" onClick={handleSubmit}>Save</Button>
-        <Button onClick={handleSubmit}>Create</Button>
+        <Button onClick={handleSubmit}>Publish Gig</Button>
       </div>
     </div>
   );
