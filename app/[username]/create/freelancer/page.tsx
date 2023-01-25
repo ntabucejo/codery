@@ -1,10 +1,13 @@
-import Stages from "@core/components/elements/stages";
 import Create from "@core/components/sections/create";
+import useUser from "@core/hooks/use-user";
+import serialize from "@core/utilities/serialize";
 
-const Page = () => {
+const Page = async () => {
+  const user = await useUser();
+
   return (
     <>
-      <Create.Freelancer />
+      <Create.Freelancer user={serialize(user)} />
     </>
   );
 };

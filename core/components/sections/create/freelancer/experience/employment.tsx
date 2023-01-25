@@ -1,28 +1,16 @@
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Modal from "@core/components/layouts/modal";
-import {
-  EmploymentErrors,
-  employmentErrors,
-  employmentSchema,
-  freelancerFields,
-  type FreelancerFields,
-} from "@core/validations/freelancer";
-import { type State } from "@core/types/modal";
+import stores from "@core/stores";
+import { type Modal as ModalType } from "@core/types/modal";
+import validate from "@core/utilities/validate";
+import schemas from "@core/validations/schemas";
 import cuid from "cuid";
-import {
-  type MouseEvent,
-  type Dispatch,
-  type SetStateAction,
-  useState,
-} from "react";
+import { useState, type MouseEvent } from "react";
+import { ZodIssue } from "zod";
 
 type Props = {
-  fields: FreelancerFields;
-  setFields: Dispatch<SetStateAction<FreelancerFields>>;
-  modalState: State;
-  handleOpenModal: () => void;
-  handleCloseModal: () => void;
+  modal: ModalType;
 };
 
 class Year {
@@ -40,87 +28,52 @@ for (let year = 1960; year <= 2022; year++) {
   years.unshift(new Year(cuid(), year.toString()));
 }
 
-const Employment = ({
-  fields,
-  setFields,
-  modalState,
-  handleOpenModal,
-  handleCloseModal,
-}: Props) => {
-  const [errors, setErrors] = useState<EmploymentErrors>(employmentErrors);
+const Employment = ({ modal }: Props) => {
+  const fields = stores.freelancer.employment((state) => state.fields);
+  const setFields = stores.freelancer.employment((state) => state.setFields);
+  const { employments: setEmployments } = stores.freelancer.base(
+    (state) => state.setFields
+  );
+  const clear = stores.freelancer.employment((state) => state.clear);
+  const [warnings, setWarnings] = useState<ZodIssue[]>([]);
 
-  const handleSumbit = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleSubmit = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    const clearErrors = () => setErrors(employmentErrors);
-    const result = employmentSchema.safeParse(fields.employment);
+    const result = schemas.freelancer.employment.safeParse(fields);
     if (result.success) {
-      clearErrors();
-      handleCloseModal();
-      setFields({
-        ...fields,
-        employments: [...fields.employments, fields.employment],
-        employment: freelancerFields.employment,
-      });
+      setEmployments(fields);
+      handleClear();
+      modal.handleClose();
       return;
     }
-    const validations = result.error.issues;
-    const updatedErrors = validations.map((validation) => {
-      return { name: validation.path[0], message: validation.message };
-    });
-    clearErrors();
-    for (const error of updatedErrors) {
-      setErrors((state) => ({ ...state, [error.name]: error.message }));
-    }
+    setWarnings(result.error.issues);
+  };
+
+  const handleClear = () => {
+    setWarnings([]);
+    clear();
   };
 
   return (
-    <Field.Body
-      id="employment"
-      label="Employment"
+    <Modal
+      title="Employment"
       description="How much is your starting price? You can negotiate with your client about the final amount later."
-      tooltip="All prices should start from 50 dollars.">
-      <Button onClick={handleOpenModal}>Add Employment</Button>
-      <ul className="grid grid-cols-4 gap-4">
-        {fields.employments.map((employment, index) => (
-          <li key={index} className="space-y-4 rounded border bg-white p-4">
-            <div>
-              <h4 className="font-semibold">{employment.position}</h4>
-              <h5 className="text-xs text-primary-dark/fade">
-                {employment.location}
-              </h5>
-            </div>
-            <p className="text-sm text-primary-dark/fade">
-              {employment.description}
-            </p>
-          </li>
-        ))}
-      </ul>
-      <Modal
-        title="Employment"
-        description="How much is your starting price? You can negotiate with your client about the final amount later."
-        state={modalState}
-        handleClose={handleCloseModal}
-        className="max-w-2xl">
+      state={modal.state}
+      handleClose={modal.handleClose}
+      className="max-w-5xl">
+      <div className="grid grid-cols-2 gap-8">
         <Field.Body
           id="company"
           label="Company"
           description="Where do you live?"
           tooltip="Any information needed here in the form are safe and private."
-          error={errors.company}>
+          warning={validate(warnings, "company")}>
           <Field.Text
             id="position"
             isFull
             placeholder="Software Developer"
-            value={fields.employment.company}
-            onChange={(event) =>
-              setFields({
-                ...fields,
-                employment: {
-                  ...fields.employment,
-                  company: event.target.value,
-                },
-              })
-            }
+            value={fields.company}
+            onChange={setFields.company}
           />
         </Field.Body>
         <Field.Body
@@ -128,124 +81,96 @@ const Employment = ({
           label="Position"
           description="Where do you live?"
           tooltip="Any information needed here in the form are safe and private."
-          error={errors.position}>
+          warning={validate(warnings, "position")}>
           <Field.Text
             id="position"
             isFull
             placeholder="Software Developer"
-            value={fields.employment.position}
-            onChange={(event) =>
-              setFields({
-                ...fields,
-                employment: {
-                  ...fields.employment,
-                  position: event.target.value,
-                },
-              })
-            }
+            value={fields.position}
+            onChange={setFields.position}
           />
         </Field.Body>
-        <Field.Body
+      </div>
+      <Field.Body
+        id="description"
+        label="Description"
+        description="Where do you live?"
+        tooltip="Any information needed here in the form are safe and private."
+        warning={validate(warnings, "description")}>
+        <Field.Textarea
           id="description"
-          label="Description"
+          isFull
+          placeholder="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque voluptatum enim blanditiis nobis facilis modi ut. Libero temporibus ipsum, quisquam sapiente aliquid magnam nobis optio, dolorum ipsam reiciendis, consectetur provident."
+          value={fields.description}
+          onChange={setFields.description}
+        />
+      </Field.Body>
+      <div className="grid grid-cols-3 gap-8">
+        <Field.Body
+          id="location"
+          label="Location"
           description="Where do you live?"
           tooltip="Any information needed here in the form are safe and private."
-          error={errors.description}>
-          <Field.Textarea
-            id="description"
+          warning={validate(warnings, "location")}>
+          <Field.Text
+            id="location"
             isFull
-            placeholder="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eaque voluptatum enim blanditiis nobis facilis modi ut. Libero temporibus ipsum, quisquam sapiente aliquid magnam nobis optio, dolorum ipsam reiciendis, consectetur provident."
-            value={fields.employment.description}
-            onChange={(event) =>
-              setFields({
-                ...fields,
-                employment: {
-                  ...fields.employment,
-                  description: event.target.value,
-                },
-              })
-            }
+            placeholder="Philippines"
+            value={fields.location}
+            onChange={setFields.location}
           />
         </Field.Body>
-        <div className="grid grid-cols-2 gap-8">
-          <Field.Body
-            id="location"
-            label="Location"
-            description="Where do you live?"
-            tooltip="Any information needed here in the form are safe and private."
-            error={errors.location}>
-            <Field.Text
-              id="location"
-              isFull
-              placeholder="Philippines"
-              value={fields.employment.location}
-              onChange={(event) =>
-                setFields({
-                  ...fields,
-                  employment: {
-                    ...fields.employment,
-                    location: event.target.value,
-                  },
-                })
-              }
-            />
-          </Field.Body>
-          <Field.Body
-            id="year"
-            label="Year"
-            description="How much is your starting price? "
-            tooltip="All prices should start from 50 dollars."
-            error={errors.year}>
-            <Field.Select.Combo
-              options={years}
-              keys={["employment", "year"]}
-              value={fields.employment.year}
-              setValue={setFields}
-            />
-          </Field.Body>
-        </div>
         <Field.Body
-          id="active"
-          label="Active"
+          id="from"
+          label="From Year"
           description="How much is your starting price? "
           tooltip="All prices should start from 50 dollars."
-          error={errors.isActive}>
-          <Field.Check
-            id="active"
-            isChecked={fields.employment.isActive}
-            onChange={(event) =>
-              setFields({
-                ...fields,
-                employment: {
-                  ...fields.employment,
-                  isActive: event.target.checked,
-                },
-              })
-            }>
-            Still Active?
-          </Field.Check>
+          warning={validate(warnings, "from")}>
+          <Field.Select.Combo
+            options={years}
+            value={fields.from}
+            setValue={setFields.from}
+          />
         </Field.Body>
-        <div className="flex w-full gap-4">
-          <Button onClick={handleSumbit}>Add Employment</Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              setFields({
-                ...fields,
-                employment: freelancerFields.employment,
-              });
-            }}>
-            Clear
-          </Button>
-          <Button
-            variant="tertiary"
-            onClick={handleCloseModal}
-            className="ml-auto">
-            Close
-          </Button>
-        </div>
-      </Modal>
-    </Field.Body>
+        <Field.Body
+          id="to"
+          label="To Year"
+          description="How much is your starting price? "
+          tooltip="All prices should start from 50 dollars."
+          warning={validate(warnings, "to")}>
+          <Field.Select.Combo
+            options={years}
+            value={fields.to}
+            setValue={setFields.to}
+          />
+        </Field.Body>
+      </div>
+      <Field.Body
+        id="active"
+        label="Active"
+        description="How much is your starting price? "
+        tooltip="All prices should start from 50 dollars."
+        warning={validate(warnings, "isActive")}>
+        <Field.Check
+          id="active"
+          isChecked={fields.isActive}
+          onChange={setFields.isActive}>
+          Still Active?
+        </Field.Check>
+      </Field.Body>
+      <div className="flex w-full gap-4">
+        <Button onClick={handleSubmit}>Add Employment</Button>
+        <Button variant="secondary" onClick={handleClear}>
+          Clear
+        </Button>
+        <Button
+          variant="tertiary"
+          onClick={modal.handleClose}
+          className="ml-auto">
+          Close
+        </Button>
+      </div>
+    </Modal>
   );
 };
 

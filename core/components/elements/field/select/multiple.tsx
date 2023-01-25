@@ -18,17 +18,15 @@ type Option = {
 
 type Props = {
   options: Option[];
-  keys: string[];
-  value: {
+  values: {
     id: string;
     name: string;
   }[];
-  setValue: Dispatch<SetStateAction<any>>;
+  setValues: Dispatch<SetStateAction<any>>;
 };
 
-const Multiple = ({ options, keys, value, setValue }: Props) => {
+const Multiple = ({ options, values, setValues }: Props) => {
   const [selected, setSelected] = useState<Option | null>(null);
-  const [items, setItems] = useState<Option[]>(value);
   const [query, setQuery] = useState("");
 
   const filteredOptions =
@@ -42,34 +40,18 @@ const Multiple = ({ options, keys, value, setValue }: Props) => {
         );
 
   const isSelectedOnItems = () => {
-    if (selected && items.find((item) => item.id === selected.id)) return true;
+    if (selected && values.find((item) => item.id === selected.id)) return true;
     return false;
   };
 
   useEffect(() => {
     if (selected && !isSelectedOnItems()) {
-      setItems((state) => [...state, selected]);
-      if (keys.length === 1) {
-        // @ts-ignore
-        setValue((state) => ({
-          ...state,
-          [keys[0]]: [...state[keys[0]], selected],
-        }));
-      } else if (keys.length === 2) {
-        // @ts-ignore
-        setValue((state) => ({
-          ...state,
-          [keys[0]]: {
-            ...state[keys[0]],
-            [keys[1]]: [...state[keys[1]], selected],
-          },
-        }));
-      }
+      setValues(selected);
     }
   }, [selected]);
 
   return (
-    <div className={`${items.length ? "space-y-2" : ""}`}>
+    <div className={`${values.length ? "space-y-2" : ""}`}>
       <Combobox value={selected} onChange={setSelected}>
         <div className="relative text-sm">
           <Combobox.Input
@@ -119,11 +101,11 @@ const Multiple = ({ options, keys, value, setValue }: Props) => {
         </div>
       </Combobox>
       <ul className="flex flex-wrap gap-2">
-        {items.map((item) => (
+        {values.map((value) => (
           <li
-            key={item.id}
-            className="rounded bg-primary-dark/fade px-2 py-1 text-sm text-primary-light">
-            {item.name}
+            key={value.id}
+            className="rounded border bg-white px-2 py-1 text-sm text-primary-dark">
+            {value.name}
           </li>
         ))}
       </ul>

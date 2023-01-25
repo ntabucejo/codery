@@ -4,7 +4,6 @@ import {
   BellIcon,
   ShoppingCartIcon,
   BanknotesIcon,
-  ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/outline";
 import Button from "@core/components/elements/button";
 import Symbol from "../../../elements/symbol";
