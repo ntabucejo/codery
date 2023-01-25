@@ -5,29 +5,11 @@ import User from "./user";
 import { getProviders } from "next-auth/react";
 import useUser from "@core/hooks/use-user";
 import serialize from "@core/utilities/serialize";
-
-const categories = [
-  "Typescript",
-  "JavaScript",
-  "Python",
-  "C++",
-  "Unity",
-  "Artificial Intelligence",
-  "Robotics",
-  "Web Development",
-  "Word Press",
-  "Web Flow",
-  "Application",
-  "React Native",
-  "NextJs",
-  "Rust",
-  "Svelte",
-  "API Service",
-  "Discord Bots",
-];
+import useCategories from "@core/hooks/use-categories";
 
 const Navbar = async () => {
   const user = await useUser();
+  const categories = await useCategories();
   const providers = await getProviders();
 
   return (
@@ -50,7 +32,7 @@ const Navbar = async () => {
       {/* Lower Nav */}
       <ul className="flex gap-4 overflow-x-auto scrollbar-hide">
         {categories.map((category) => (
-          <Route key={category} to={category} href="#" />
+          <Route key={category.id} to={category.name} href="#" />
         ))}
       </ul>
     </nav>
