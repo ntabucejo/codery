@@ -20,7 +20,7 @@ type Props = {
 const Gigs = ({ data: gigs }: Props) => {
   return (
     <section className="contain">
-      <ul className="grid gap-4 tablet:grid-cols-2 laptop:grid-cols-3 desktop:grid-cols-4">
+      <ul className="grid gap-4 book:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 desktop:grid-cols-5">
         {gigs.map((gig) => (
           <Gig key={gig.id} data={gig} />
         ))}
