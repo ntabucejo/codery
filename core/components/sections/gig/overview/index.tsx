@@ -23,15 +23,15 @@ type Props = {
 const Overview = ({ gig }: Props) => {
   return (
     <section className="contain space-y-4">
+      <Details gig={gig} />
       <div className="grid grid-cols-[6fr,2fr] gap-4">
         <Carousel thumbnails={gig.thumbnails} />
-        <About freelancer={gig.freelancer}/>
+        <About freelancer={gig.freelancer} />
       </div>
       <div className="flex gap-4">
         <Button>ORDER NOW {`$${gig.from} - $${gig.to}`}</Button>
         <Button variant="tertiary">Add To Favorites</Button>
       </div>
-      <Details gig={gig} />
     </section>
   );
 };

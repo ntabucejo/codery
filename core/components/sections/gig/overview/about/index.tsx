@@ -12,7 +12,7 @@ type Props = {
 
 const About = ({ freelancer }: Props) => {
   return (
-    <div className="flex flex-col gap-4 rounded bg-white p-4">
+    <div className="flex flex-col gap-4 rounded p-4">
       <div className="flex items-center gap-3 pr-2">
         <Avatar src={freelancer.user.image!} alt="Avatar" size="medium" />
         <div className="flex flex-col">
