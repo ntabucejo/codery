@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Modal from "@core/components/layouts/modal";

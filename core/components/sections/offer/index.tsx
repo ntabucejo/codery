@@ -74,7 +74,7 @@ const CustomOffer = () => {
         </div>
       </Modal>
 
-      <PaymentModal modal={paymentModal}/>
+      <PaymentModal modal={paymentModal} />
     </>
   );
 };
