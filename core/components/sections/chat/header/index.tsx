@@ -6,22 +6,27 @@ type Props = {
   name?: string;
   profession?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  isFloated?: boolean;
 };
 
-const Header = ({ name, profession, onClick }: Props) => {
+const Header = ({ name, profession, onClick, isFloated = false }: Props) => {
   return (
     <div className="relative flex w-full items-center space-x-4">
       <div className="flex w-full flex-col leading-tight">
         <div className="grid grid-cols-[1fr,auto] items-center">
           <span className="mr-3 font-semibold  text-primary-dark">{name}</span>
-          <div className="flex items-end gap-1">
-            <button onClick={onClick}>
-              <Symbol Icon={MinusIcon} size="medium" />
-            </button>
-            <button onClick={onClick}>
-              <Symbol Icon={XMarkIcon} size="medium" />
-            </button>
-          </div>
+          {isFloated ? (
+            <div className="flex items-end gap-1">
+              <button onClick={onClick}>
+                <Symbol Icon={MinusIcon} size="medium" />
+              </button>
+              <button onClick={onClick}>
+                <Symbol Icon={XMarkIcon} size="medium" />
+              </button>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <span className="text-xs text-gray-600">{profession}</span>
       </div>
