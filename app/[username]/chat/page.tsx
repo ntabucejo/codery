@@ -12,6 +12,7 @@ import CreateOffer from "@core/components/modals/offer";
 import prisma from "@core/libraries/prisma";
 import useUser from "@core/hooks/use-user";
 import serialize from "@core/utilities/serialize";
+import CustomOffer from "@core/components/sections/offer";
 
 type Props = {
   params: {
@@ -53,7 +54,6 @@ const Chat = async ({ params }: Props) => {
         <div className="ml-auto">
           <CreateOffer gigs={serialize(gigs)} />
         </div>
-
       </div>
       <div className="grid grid-cols-[auto,1fr] gap-4">
         <div className="flex h-[700px] flex-col overflow-y-scroll rounded border-l border-r border-t">
@@ -104,7 +104,8 @@ const Chat = async ({ params }: Props) => {
           />
         </div>
 
-        <div className="grid h-[700px] w-full grid-rows-[auto,1fr,auto] space-y-4 rounded border p-3">
+        <div className="relative grid h-[700px] w-full grid-rows-[auto,1fr,auto] space-y-4 rounded border p-3">
+          <CustomOffer />
           <Header name="Anderson Vanhron" profession="ReactJS Developer" />
           <hr />
           <div
