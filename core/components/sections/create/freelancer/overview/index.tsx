@@ -90,10 +90,10 @@ const Overview = ({ warnings, handleSubmit }: Props) => {
       </Field.Body>
 
       <div className="flex items-center gap-2">
+        <Button onClick={handleSubmit}>Become a Freelancer</Button>
         <Button variant="secondary" onClick={handleSubmit}>
           Save
         </Button>
-        <Button onClick={handleSubmit}>Become a Freelancer</Button>
       </div>
     </div>
   );

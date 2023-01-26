@@ -19,7 +19,7 @@ const freelancer = z.object({
       name: z.string(),
     })
     .array()
-    .min(1, "Skills should have at lease 1 valid character.")
+    .min(1, "This field cannot be blank.")
     .max(15, "Skills should not exceed more than 15 skills."),
   testimonials: testimonial
     .array()

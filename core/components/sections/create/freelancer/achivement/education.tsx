@@ -109,7 +109,7 @@ const Education = ({ modal }: Props) => {
           label="Field"
           description="What is your major field?"
           warning={validate(warnings, "degree")}>
-          <Field.Select.List
+          <Field.Select.Combo
             options={degrees}
             value={fields.degree}
             setValue={setFields.degree}
@@ -120,7 +120,7 @@ const Education = ({ modal }: Props) => {
           label="Area"
           description="In what area in your field are you in?"
           warning={validate(warnings, "area")}>
-          <Field.Select.List
+          <Field.Select.Combo
             options={areas}
             value={fields.area}
             setValue={setFields.area}
@@ -131,7 +131,7 @@ const Education = ({ modal }: Props) => {
           label="From Year"
           description="In what year did you start to study this field?"
           warning={validate(warnings, "from")}>
-          <Field.Select.List
+          <Field.Select.Combo
             options={years}
             value={fields.from}
             setValue={setFields.from}
@@ -143,7 +143,7 @@ const Education = ({ modal }: Props) => {
           description="In what year did you Graduate?"
           tooltip="All prices should start from 50 dollars."
           warning={validate(warnings, "to")}>
-          <Field.Select.List
+          <Field.Select.Combo
             options={years}
             value={fields.to}
             setValue={setFields.to}

@@ -108,16 +108,17 @@ const Multiple = ({
           </div>
         </Combobox>
       ) : null}
-
-      <ul className="flex flex-wrap gap-2">
-        {values.map((value) => (
-          <li
-            key={value.id}
-            className="rounded border bg-white px-2 py-1 text-sm text-primary-dark">
-            {value.name}
-          </li>
-        ))}
-      </ul>
+      {values.length ? (
+        <ul className="flex flex-wrap gap-2">
+          {values.map((value) => (
+            <li
+              key={value.id}
+              className="rounded border bg-white px-2 py-1 text-sm text-primary-dark">
+              {value.name}
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 };

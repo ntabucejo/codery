@@ -7,13 +7,14 @@ import Button from "@core/components/elements/button";
 import validate from "@core/utilities/validate";
 import Symbol from "@core/components/elements/symbol";
 import { PhotoIcon } from "@heroicons/react/24/outline";
+import NoImage from "@core/components/elements/no-image";
 
 type Props = {
   handleSubmit: (event: MouseEvent<HTMLButtonElement>) => Promise<void>;
   warnings: ZodIssue[];
 };
 
-const Publish = ({ handleSubmit, warnings }: Props) => {
+const Overview = ({ handleSubmit, warnings }: Props) => {
   const fields = stores.gig.base((state) => state.fields);
 
   const thumbnails = fields.thumbnails?.map((thumbnail, index) => {
@@ -90,29 +91,19 @@ const Publish = ({ handleSubmit, warnings }: Props) => {
             // @ts-ignore
             <Carousel thumbnails={fields.thumbnails} />
           ) : (
-            <div className="mx-auto flex aspect-video flex-col items-center justify-center rounded border">
-              <Symbol
-                Icon={PhotoIcon}
-                size="large"
-                isHoverDisabled
-                className="animate-bounce"
-              />
-              <span className="text-sm font-semibold text-primary-dark/fade">
-                No Image Uploaded
-              </span>
-            </div>
+            <NoImage />
           )}
         </Field.Body>
       </div>
 
       <div className="flex items-center gap-2">
+        <Button onClick={handleSubmit}>Publish Gig</Button>
         <Button variant="secondary" onClick={handleSubmit}>
           Save
         </Button>
-        <Button onClick={handleSubmit}>Publish Gig</Button>
       </div>
     </div>
   );
 };
 
-export default Publish;
+export default Overview;

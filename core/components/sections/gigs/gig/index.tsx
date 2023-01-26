@@ -9,7 +9,6 @@ import {
   Thumbnail,
   User,
 } from "@prisma/client";
-import cuid from "cuid";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -25,9 +24,9 @@ type Props = {
 
 const Gig = ({ data: gig }: Props) => {
   return (
-    <li className="smooth overflow-hidden rounded border hover:cursor-pointer hover:shadow">
+    <li className="smooth overflow-hidden rounded border bg-white hover:cursor-pointer hover:shadow-lg">
       <Link href={`/${gig.freelancer.user.username}/${gig.id}`}>
-        <div className="relative aspect-video w-full overflow-hidden">
+        <div className="relative aspect-video w-full overflow-hidden rounded">
           <Image
             src={gig.thumbnails[0].image}
             alt="Gig Image"
@@ -36,7 +35,7 @@ const Gig = ({ data: gig }: Props) => {
           />
         </div>
         {/* Details */}
-        <div className="space-y-4 p-2">
+        <div className="space-y-4 p-4">
           <div className="flex items-center gap-4">
             <Avatar
               src={gig.freelancer.user.image!}
