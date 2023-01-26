@@ -12,7 +12,7 @@ import {
 } from "@prisma/client";
 import Carousel from "./carousel";
 import Details from "./details";
-import Chat from "../../chat/float";
+import Chat from "../../chat/float/gig";
 
 type Props = {
   gig: Gig & {

@@ -5,9 +5,9 @@ import Transition from "@core/components/layouts/transition";
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import GreetMessage from "./greet-message";
-import Header from "../header";
-import Message from "../chat-piece";
-import Bottom from "../bottom";
+import Header from "../../header";
+import Message from "../../chat-piece";
+import Bottom from "../../bottom";
 
 const Chat = () => {
   const [openChat, setOpenChat] = useState(false);
