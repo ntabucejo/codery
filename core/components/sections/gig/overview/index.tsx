@@ -12,6 +12,7 @@ import {
 } from "@prisma/client";
 import Carousel from "./carousel";
 import Details from "./details";
+import Chat from "../../chat/float";
 
 type Props = {
   gig: Gig & {
@@ -45,6 +46,7 @@ const Overview = ({ gig }: Props) => {
           <Details gig={serialize(gig)} />
         </div>
       </div>
+      <Chat />
     </section>
   );
 };
