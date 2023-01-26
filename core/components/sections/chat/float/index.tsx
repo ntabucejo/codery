@@ -39,7 +39,7 @@ const Chat = () => {
       {/* chat floated */}
       {openChat && (
         <Transition.Fade show={openChat}>
-          <div className="absolute bottom-0 right-[73px] grid h-96 w-96 grid-rows-[auto,1fr,auto] space-y-4  rounded bg-white p-4 shadow-md">
+          <div className="absolute bottom-0 right-[73px] grid h-[400px] w-96 grid-rows-[auto,1fr,auto] space-y-4  rounded bg-white p-4 shadow-md">
             {/* freelancer name and career */}
             <Header
               name="Anderson Vanhron"
