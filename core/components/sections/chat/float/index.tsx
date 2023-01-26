@@ -6,7 +6,7 @@ import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import GreetMessage from "./greet-message";
 import Header from "../header";
-import Message from "../message";
+import Message from "../chat-piece";
 import Bottom from "../bottom";
 
 const Chat = () => {
@@ -40,14 +40,13 @@ const Chat = () => {
       {openChat && (
         <Transition.Fade show={openChat}>
           <div className="absolute bottom-0 right-[73px] grid h-[400px] w-96 grid-rows-[auto,1fr,auto] space-y-4  rounded bg-white p-4 shadow-md">
-            {/* freelancer name and career */}
             <Header
               name="Anderson Vanhron"
               profession="ReactJS Developer"
               onClick={() => setOpenChat(!openChat)}
+              isFloated
             />
 
-            {/* messages */}
             <div
               id="messages"
               className="scrollbar-thumb-primary-dark scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex flex-col space-y-2 overflow-y-auto">
@@ -59,7 +58,6 @@ const Chat = () => {
               <Message>Yea' sure.</Message>
             </div>
 
-            {/* input field and buttons */}
             <Bottom />
           </div>
         </Transition.Fade>
