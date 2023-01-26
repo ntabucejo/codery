@@ -3,7 +3,7 @@ import { z } from "zod";
 const thumbnail = z.object({
   title: z
     .string()
-    .min(1, "Title should have at lease 1 valid characters.")
+    .min(5, "Title should have at lease 5 valid characters.")
     .max(80, "Title should not exceed more than 80 valid characters."),
   description: z
     .string()
