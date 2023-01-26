@@ -29,14 +29,6 @@ type Props = {
 const Overview = ({ gig }: Props) => {
   return (
     <section className="contain space-y-4">
-      <div className="grid grid-cols-4 gap-4">
-        <div className="col-span-3 overflow-hidden rounded">
-          <Carousel thumbnails={serialize(gig.thumbnails)} />
-        </div>
-        <div className="">
-          <Details gig={serialize(gig)} />
-        </div>
-      </div>
       <div className="flex flex-col gap-2">
         <Balancer>
           <h1 className="text-4xl font-extrabold">{gig.title}</h1>
@@ -44,6 +36,14 @@ const Overview = ({ gig }: Props) => {
         <Balancer>
           <p>{gig.description}</p>
         </Balancer>
+      </div>
+      <div className="grid grid-cols-4 gap-4">
+        <div className="col-span-3 overflow-hidden rounded">
+          <Carousel thumbnails={serialize(gig.thumbnails)} />
+        </div>
+        <div className="">
+          <Details gig={serialize(gig)} />
+        </div>
       </div>
     </section>
   );
