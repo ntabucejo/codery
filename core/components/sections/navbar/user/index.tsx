@@ -10,7 +10,7 @@ import Symbol from "../../../elements/symbol";
 import Menu from "./menu";
 import { MinusIcon } from "@heroicons/react/24/solid";
 import type { User as UserType } from "@prisma/client";
-import Chat from "../../chat/navbar";
+import Chat from "../../chat/float/navbar";
 
 type Props = {
   user: UserType;
@@ -34,10 +34,6 @@ const User = ({ user }: Props) => {
             <Symbol Icon={BanknotesIcon} />
             Offers
           </Button>
-          {/* <Button variant="tertiary">
-            <Symbol Icon={ChatBubbleLeftRightIcon} />
-            Messages
-          </Button> */}
           <Chat />
         </div>
         <Menu user={user} />

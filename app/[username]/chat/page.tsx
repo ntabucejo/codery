@@ -8,8 +8,40 @@ import {
   BarsArrowUpIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
+import CreateOffer from "@core/components/modals/offer";
+import prisma from "@core/libraries/prisma";
+import useUser from "@core/hooks/use-user";
+import serialize from "@core/utilities/serialize";
+import CustomOffer from "@core/components/sections/offer";
 
-const Inbox = () => {
+type Props = {
+  params: {
+    username: string;
+  };
+};
+
+const Chat = async ({ params }: Props) => {
+  const user = await useUser({
+    where: { username: params.username },
+  });
+
+  const freelancer = await prisma.freelancer.findUnique({
+    where: { userId: user?.id },
+  });
+
+  const gigs = await prisma.gig.findMany({
+    where: { freelancerId: freelancer?.id },
+    include: {
+      category: true,
+      thumbnails: true,
+      freelancer: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+
   return (
     <section className="contain space-y-4">
       <div className="flex gap-48">
@@ -19,8 +51,10 @@ const Inbox = () => {
           <Symbol Icon={BarsArrowUpIcon} />
           <Symbol Icon={BarsArrowDownIcon} />
         </div>
+        <div className="ml-auto">
+          <CreateOffer gigs={serialize(gigs)} />
+        </div>
       </div>
-
       <div className="grid grid-cols-[auto,1fr] gap-4">
         <div className="flex h-[700px] flex-col overflow-y-scroll rounded border-l border-r border-t">
           <InboxMessage
@@ -70,7 +104,8 @@ const Inbox = () => {
           />
         </div>
 
-        <div className="grid w-full grid-rows-[auto,1fr,auto] space-y-4 rounded border p-3 h-[700px]">
+        <div className="relative grid h-[700px] w-full grid-rows-[auto,1fr,auto] space-y-4 rounded border p-3">
+          <CustomOffer />
           <Header name="Anderson Vanhron" profession="ReactJS Developer" />
           <hr />
           <div
@@ -105,4 +140,4 @@ const Inbox = () => {
   );
 };
 
-export default Inbox;
+export default Chat;
