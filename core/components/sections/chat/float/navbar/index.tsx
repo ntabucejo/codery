@@ -7,7 +7,7 @@ import {
   Cog6ToothIcon,
   EnvelopeIcon,
 } from "@heroicons/react/24/solid";
-import InboxMessage from "../inbox-message";
+import InboxMessage from "../../inbox-message";
 
 const Chat = () => {
   return (
