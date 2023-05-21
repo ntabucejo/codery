@@ -21,7 +21,7 @@ const User = ({ user }: Props) => {
     <>
       <MinusIcon className="icon -ml-2 -mr-4 rotate-90 text-primary-dark/fade" />
       <div className="flex items-center gap-4">
-        <div className="flex">
+        {/* <div className="flex">
           <Button variant="tertiary">
             <Symbol Icon={BellIcon} />
             Notifications
@@ -35,7 +35,7 @@ const User = ({ user }: Props) => {
             Offers
           </Button>
           <Chat />
-        </div>
+        </div> */}
         <Menu user={user} />
       </div>
     </>

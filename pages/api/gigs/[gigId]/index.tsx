@@ -11,6 +11,14 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
       where: {
         id: String(gigId),
       },
+      include: {
+        thumbnails: true,
+        freelancer: {
+          include: {
+            user: true,
+          },
+        },
+      },
     });
 
     return response.json(gig);
