@@ -5,7 +5,7 @@ import React from "react";
 
 const Bottom = () => {
   return (
-    <div className="flex items-center gap-3 border-lime-500">
+    <div className="p-3 my-auto flex items-center gap-3">
       <input
         type="text"
         placeholder="Write your message!"

@@ -5,9 +5,9 @@ import Transition from "@core/components/layouts/transition";
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import GreetMessage from "./greet-message";
-import Header from "../../header";
+import Header from "./header";
 import Message from "../../chat-piece";
-import Bottom from "../../bottom";
+import Bottom from "./bottom";
 import {
   usePathname,
   useRouter,
@@ -16,6 +16,7 @@ import {
 } from "next/navigation";
 import useSWR from "swr";
 import { URLSearchParams } from "next/dist/compiled/@edge-runtime/primitives/url";
+import Image from "next/image";
 
 const Chat = () => {
   const [openChat, setOpenChat] = useState(false);
@@ -24,14 +25,14 @@ const Chat = () => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const segments = useSelectedLayoutSegments();
 
-  console.log(segments);
+  console.log(pathname?.split("/")[2]);
 
   const chat = searchParams.get("chat");
 
-  // const { data } = useSWR(`/api/gigs/${gigId}`);
+  const { data: gig } = useSWR(`/api/gigs/${pathname?.split("/")[2]}`);
 
+  console.log({ gig });
   useEffect(() => {
     setOpenMessage(true);
   }, []);
@@ -70,22 +71,43 @@ const Chat = () => {
       {/* chat floated */}
       {openChat && (
         <Transition.Fade show={openChat}>
-          <div className="absolute bottom-0 right-[73px] grid h-[400px] w-96 grid-rows-[auto,1fr,auto] space-y-4  rounded bg-white p-4 shadow-md">
+          <div className="absolute bottom-0 right-[73px] grid h-[500px] w-96 grid-rows-[auto,auto,1fr,auto] rounded bg-white shadow-md">
             <Header
-              name="Anderson Vanhron"
-              profession="ReactJS Developer"
+              name={gig.freelancer.user.name}
+              location={gig.freelancer.user.location}
               onClick={() => {
                 handleOpenChat();
               }}
-              isFloated
             />
+            
+            {/* gig */}
+            <div className="my-2 flex items-center gap-5 border bg-slate-200 px-4">
+              <div className="relative h-14 w-14">
+                <Image
+                  src={gig.thumbnails[0].image}
+                  alt={gig.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-xs">Gig Order:</span>
+                <div className="text-sm font-semibold">{gig.title}</div>
+              </div>
+            </div>
 
+            {/* messages */}
             <div
               id="messages"
-              className="scrollbar-thumb-primary-dark scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex flex-col space-y-2 overflow-y-auto">
+              className="scrollbar-thumb-primary-dark scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex flex-col space-y-2 overflow-y-auto px-4">
+              {/* messages */}
               <Message isLeft>Since we both agreed about the terms.</Message>
               <Message>Yea' sure.</Message>
               <Message isLeft>Since we both agreed about the terms.</Message>
+              <Message>Yea' sure.</Message>
+              <Message>Yea' sure.</Message>
+              <Message>Yea' sure.</Message>
+              <Message>Yea' sure.</Message>
               <Message>Yea' sure.</Message>
               <Message>Yea' sure.</Message>
               <Message>Yea' sure.</Message>

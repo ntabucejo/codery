@@ -1,7 +1,6 @@
-import Bottom from "@core/components/sections/chat/bottom";
-import InboxMessage from "@core/components/sections/chat/inbox-message";
+import Bottom from "@core/components/sections/chat/float/gig/bottom";
 import Message from "@core/components/sections/chat/chat-piece";
-import Header from "../../../core/components/sections/chat/header";
+import Header from "../../../core/components/sections/chat/float/gig/header";
 import Symbol from "@core/components/elements/symbol";
 import {
   BarsArrowDownIcon,
@@ -13,6 +12,7 @@ import prisma from "@core/libraries/prisma";
 import useUser from "@core/hooks/use-user";
 import serialize from "@core/utilities/serialize";
 import CustomOffer from "@core/components/sections/offer";
+import InboxMessage from "@core/components/sections/chat/float/navbar/message";
 
 type Props = {
   params: {
@@ -106,7 +106,7 @@ const Chat = async ({ params }: Props) => {
 
         <div className="relative grid h-[700px] w-full grid-rows-[auto,1fr,auto] space-y-4 rounded border p-3">
           <CustomOffer />
-          <Header name="Anderson Vanhron" profession="ReactJS Developer" />
+          <Header name="Anderson Vanhron" />
           <hr />
           <div
             id="messages"
