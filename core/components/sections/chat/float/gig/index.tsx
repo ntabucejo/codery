@@ -8,23 +8,54 @@ import GreetMessage from "./greet-message";
 import Header from "../../header";
 import Message from "../../chat-piece";
 import Bottom from "../../bottom";
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+  useSelectedLayoutSegments,
+} from "next/navigation";
+import useSWR from "swr";
+import { URLSearchParams } from "next/dist/compiled/@edge-runtime/primitives/url";
 
 const Chat = () => {
   const [openChat, setOpenChat] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const segments = useSelectedLayoutSegments();
+
+  console.log(segments);
+
+  const chat = searchParams.get("chat");
+
+  // const { data } = useSWR(`/api/gigs/${gigId}`);
+
   useEffect(() => {
     setOpenMessage(true);
   }, []);
 
+  useEffect(() => {
+    if (!chat) return;
+    setOpenChat(Number(chat) ? true : false);
+  }, [pathname, chat]);
+
+  const handleOpenChat = () => {
+    setOpenChat(!openChat);
+    const params = new URLSearchParams();
+    params.set("chat", chat === "1" ? "0" : "1");
+    const chatPathname = pathname?.split("chat=1").join("").split("chat=0");
+    router.replace(`${chatPathname}?${params}`);
+  };
+
   return (
-    <div className="fixed bottom-10 right-20 ">
+    <div className="fixed bottom-10 right-20 z-[9999] ">
       {/* chat icon */}
       <Button
         className="animate-shake py-3"
         onClick={() => {
-          setOpenChat(!openChat);
-          setOpenMessage(false);
+          handleOpenChat();
         }}>
         <Symbol
           Icon={ChatBubbleLeftRightIcon}
@@ -43,7 +74,9 @@ const Chat = () => {
             <Header
               name="Anderson Vanhron"
               profession="ReactJS Developer"
-              onClick={() => setOpenChat(!openChat)}
+              onClick={() => {
+                handleOpenChat();
+              }}
               isFloated
             />
 

@@ -16,7 +16,8 @@ import {
   User,
 } from "@prisma/client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import Group from "./group";
 
 type Props = {
@@ -37,6 +38,13 @@ type Props = {
 
 const Details = ({ gig }: Props) => {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const handleMakeOrder = () => {
+    router.replace(`${pathname}?chat=1`);
+  };
+
+  useEffect(() => {}, []);
 
   return (
     <div className="flex flex-col gap-4 rounded p-4">
@@ -52,7 +60,9 @@ const Details = ({ gig }: Props) => {
         </div>
       </div>
       <div className="flex gap-4">
-        <Button isFull>Order {`$${gig.from} - $${gig.to}`}</Button>
+        <Button onClick={handleMakeOrder} isFull>
+          Order {`$${gig.from} - $${gig.to}`}
+        </Button>
         <Button variant="secondary">Message Me</Button>
       </div>
       <Group name="About Me">
