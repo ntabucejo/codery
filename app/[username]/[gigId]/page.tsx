@@ -2,8 +2,6 @@ import Gig from "@core/components/sections/gig";
 import Gigs from "@core/components/sections/gigs";
 import useUser from "@core/hooks/use-user";
 import prisma from "@core/libraries/prisma";
-import { serialize } from "v8";
-import Chat from "../chat/page";
 
 type Props = {
   params: {

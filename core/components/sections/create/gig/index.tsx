@@ -35,7 +35,7 @@ const Gig = ({ user }: Props) => {
           }),
         });
         if (response.status === 201) {
-          router.push(`${user.username}/dashboard`);
+          router.push("/");
         }
       } catch (error) {
         console.log(error);

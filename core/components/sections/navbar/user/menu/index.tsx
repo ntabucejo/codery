@@ -10,14 +10,18 @@ import {
   ArrowLeftOnRectangleIcon,
   BriefcaseIcon,
   PlusCircleIcon,
+  DocumentDuplicateIcon,
+  ChartBarIcon,
 } from "@heroicons/react/24/outline";
 import Button from "@core/components/elements/button";
 import { signOut } from "next-auth/react";
 import Symbol from "@core/components/elements/symbol";
-import type { User } from "@prisma/client";
+import type { Freelancer, User } from "@prisma/client";
 
 type Props = {
-  user: User;
+  user: User & {
+    freelancer: Freelancer | null;
+  };
   className?: string;
 };
 
@@ -47,20 +51,32 @@ const Menu = ({ user, className }: Props) => {
           </div>
 
           <ul className="border-y p-2">
-            <Route Icon={UserIcon} href={`/${user.username}`}>
+            <Route Icon={UserIcon} href={`/${user.username}/profile`}>
               Profile
             </Route>
-            <Route Icon={ChartPieIcon} href="#">
+            <Route Icon={ChartPieIcon} href="/">
               Dashboard
             </Route>
-            <Route Icon={PlusCircleIcon} href={`/${user.username}/create/gig`}>
-              Create Gig
+
+            <Route Icon={ChartBarIcon} href="#">
+              Report Statistics
             </Route>
-            <Route
-              Icon={BriefcaseIcon}
-              href={`/${user.username}/create/freelancer`}>
-              Become Freelancer
-            </Route>
+
+            {user.freelancer ? (
+              <Route
+                Icon={PlusCircleIcon}
+                href={`/${user.username}/create/gig`}>
+                Create Gig
+              </Route>
+            ) : null}
+
+            {!user.freelancer ? (
+              <Route
+                Icon={BriefcaseIcon}
+                href={`/${user.username}/create/freelancer`}>
+                Become Freelancer
+              </Route>
+            ) : null}
           </ul>
 
           <div className="flex gap-2 px-2">

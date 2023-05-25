@@ -7,6 +7,7 @@ import useUser from "@core/hooks/use-user";
 import prisma from "@core/libraries/prisma";
 import { MapPinIcon, AtSymbolIcon, UserIcon } from "@heroicons/react/24/solid";
 import moment from "moment";
+import Panels from "./panels";
 
 type Props = {
   params: {
@@ -20,6 +21,16 @@ const Page = async ({ params }: Props) => {
   });
   const freelancer = await prisma.freelancer.findUnique({
     where: { userId: user?.id },
+    include: {
+      educations: true,
+      employments: true,
+      testimonials: true,
+      skills: {
+        include: {
+          technology: true
+        }
+      },
+    },
   });
   const gigs = await prisma.gig.findMany({
     where: { freelancerId: freelancer?.id },
@@ -63,14 +74,7 @@ const Page = async ({ params }: Props) => {
           </div>
         </div>
       </section>
-      <section className="contain border-y py-2">
-        <ul className="flex gap-6">
-          <Route to="Gigs" href="#" />
-          <Route to="About Me" href="#" />
-          <Route to="Message Me" href="#" />
-        </ul>
-      </section>
-      {freelancer ? <Gigs data={gigs} /> : null}
+      <Panels freelancer={freelancer!} gigs={gigs}/>
     </>
   );
 };
