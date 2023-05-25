@@ -8,6 +8,7 @@ import serialize from "@core/utilities/serialize";
 import prisma from "@core/libraries/prisma";
 import Chat from "../chat/float/navbar";
 import useSession from "@core/hooks/use-session";
+import Button from "@core/components/elements/button";
 
 const Navbar = async () => {
   const session = await useSession();
@@ -43,8 +44,6 @@ const Navbar = async () => {
     },
   });
 
-  console.log({ asFreelancerMessages });
-
   return (
     <nav className="contain space-y-4">
       {/* Upper Nav */}
@@ -60,6 +59,7 @@ const Navbar = async () => {
           asClientMessages={asClientMessages}
           asFreelancerMessages={asFreelancerMessages}
         />
+
         {user ? (
           <User user={serialize(user)} />
         ) : (

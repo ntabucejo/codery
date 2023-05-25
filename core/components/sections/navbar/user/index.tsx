@@ -1,19 +1,14 @@
 "use client";
 
-import {
-  BellIcon,
-  ShoppingCartIcon,
-  BanknotesIcon,
-} from "@heroicons/react/24/outline";
+import { ShoppingCartIcon, BanknotesIcon } from "@heroicons/react/24/outline";
 import Button from "@core/components/elements/button";
 import Symbol from "../../../elements/symbol";
 import Menu from "./menu";
 import { MinusIcon } from "@heroicons/react/24/solid";
-import type { User as UserType } from "@prisma/client";
-import Chat from "../../chat/float/navbar";
+import type { Freelancer, User } from "@prisma/client";
 
 type Props = {
-  user: UserType;
+  user: User & { freelancer: Freelancer | null };
 };
 
 const User = ({ user }: Props) => {
@@ -21,21 +16,16 @@ const User = ({ user }: Props) => {
     <>
       <MinusIcon className="icon -ml-2 -mr-4 rotate-90 text-primary-dark/fade" />
       <div className="flex items-center gap-4">
-        {/* <div className="flex">
-          <Button variant="tertiary">
-            <Symbol Icon={BellIcon} />
-            Notifications
-          </Button>
+        <div className="flex">
           <Button variant="tertiary">
             <Symbol Icon={ShoppingCartIcon} />
-            Orders
+            Contracts
           </Button>
           <Button variant="tertiary">
             <Symbol Icon={BanknotesIcon} />
             Offers
           </Button>
-          <Chat />
-        </div> */}
+        </div>
         <Menu user={user} />
       </div>
     </>

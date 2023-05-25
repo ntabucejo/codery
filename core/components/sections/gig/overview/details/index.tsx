@@ -59,12 +59,14 @@ const Details = ({ gig }: Props) => {
           </Pin>
         </div>
       </div>
-      <div className="flex gap-4">
-        <Button onClick={handleMakeOrder} isFull>
-          Order {`$${gig.from} - $${gig.to}`}
-        </Button>
-        <Button variant="secondary">Message Me</Button>
-      </div>
+      {!gig.freelancer ? (
+        <div className="flex gap-4">
+          <Button onClick={handleMakeOrder} isFull>
+            Order {`$${gig.from} - $${gig.to}`}
+          </Button>
+          <Button variant="secondary">Message Me</Button>
+        </div>
+      ) : null}
       <Group name="About Me">
         <p className="text-sm">{gig.freelancer.user.biography}</p>
       </Group>
