@@ -25,7 +25,7 @@ type Props = {
 const Gig = ({ data: gig }: Props) => {
   return (
     <li className="smooth overflow-hidden rounded border bg-white hover:cursor-pointer hover:shadow-lg">
-      <Link href={`gig./${gig.freelancer.user.username}/${gig.id}`}>
+      <Link href={`/${gig.freelancer.user.username}/${gig.id}`}>
         <div className="relative aspect-video w-full overflow-hidden rounded">
           <Image
             src={gig.thumbnails[0].image}
