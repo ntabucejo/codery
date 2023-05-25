@@ -46,6 +46,7 @@ model User {
   client     Client?
   accounts   Account[]
   favorites  Favorite[]
+  messages   Message[]
 }
 
 model Client {
@@ -56,7 +57,6 @@ model Client {
   contracts Contract[]
   offers    Offer[]
   reviews   Review[]
-  messages  Message[]
 }
 
 model Freelancer {
@@ -141,7 +141,6 @@ model Gig {
   offers       Offer[]
   tags         Tag[]
   favorites    Favorite[]
-  messages     Message[]
 
   @@unique([title])
   @@index([freelancerId])
@@ -292,18 +291,15 @@ model Comment {
 
 model Message {
   id           String     @id @default(cuid())
-  client       Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientId     String
   freelancer   Freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId String
-  gig          Gig        @relation(fields: [gigId], references: [id])
-  gigId        String
 
-  text String @db.Text
+  text   String @db.Text
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   @@index([freelancerId])
-  @@index([clientId])
-  @@index([gigId])
+  @@index([userId])
 }
 
 enum Status {

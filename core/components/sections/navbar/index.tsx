@@ -6,11 +6,44 @@ import { getProviders } from "next-auth/react";
 import useUser from "@core/hooks/use-user";
 import serialize from "@core/utilities/serialize";
 import prisma from "@core/libraries/prisma";
+import Chat from "../chat/float/navbar";
+import useSession from "@core/hooks/use-session";
 
 const Navbar = async () => {
-  const user = await useUser();
+  const session = await useSession();
+  const user = await prisma.user.findUnique({
+    where: { email: session?.user?.email! || "!" },
+    include: {
+      freelancer: true,
+    },
+  });
+
   const categories = await prisma.category.findMany();
   const providers = await getProviders();
+
+  const asClientMessages = await prisma.message.findMany({
+    where: {
+      userId: user?.id || "!",
+    },
+    include: {
+      freelancer: {
+        include: {
+          user: true,
+        },
+      },
+    },
+  });
+
+  const asFreelancerMessages = await prisma.message.findMany({
+    where: {
+      freelancerId: user?.freelancer?.id || "!",
+    },
+    include: {
+      user: true,
+    },
+  });
+
+  console.log({ asFreelancerMessages });
 
   return (
     <nav className="contain space-y-4">
@@ -23,6 +56,10 @@ const Navbar = async () => {
           <Route to="Explore" href="#" isBold />
           <Route to="About" href="#" isBold />
         </ul>
+        <Chat
+          asClientMessages={asClientMessages}
+          asFreelancerMessages={asFreelancerMessages}
+        />
         {user ? (
           <User user={serialize(user)} />
         ) : (

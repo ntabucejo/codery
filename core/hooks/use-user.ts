@@ -12,6 +12,9 @@ const useUser = async (query?: Prisma.UserFindUniqueArgs) => {
     }
     const user = await prisma.user.findUnique({
       where: { email: session?.user?.email! || "!" },
+      include: {
+        freelancer: true
+      }
     });
     return user;
   };

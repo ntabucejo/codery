@@ -1,6 +1,9 @@
 import Gig from "@core/components/sections/gig";
 import Gigs from "@core/components/sections/gigs";
+import useUser from "@core/hooks/use-user";
 import prisma from "@core/libraries/prisma";
+import { serialize } from "v8";
+import Chat from "../chat/page";
 
 type Props = {
   params: {
@@ -10,6 +13,7 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
+  const user = await useUser();
   const gig = await prisma.gig.findUnique({
     where: { id: params.gigId },
     include: {
@@ -30,6 +34,7 @@ const Page = async ({ params }: Props) => {
           user: true,
         },
       },
+      reviews: true,
     },
   });
 
@@ -60,7 +65,7 @@ const Page = async ({ params }: Props) => {
     <div className="space-y-12">
       <Overview gig={gig!} />
       {myGigs.length ? <Gigs label="Gigs I also offer" data={myGigs} /> : null}
-      <Reviews />
+      <Reviews gigId={gig!.id} userId={String(user?.id)} />
     </div>
   );
 };

@@ -2,12 +2,15 @@
 import Button from "@core/components/elements/button";
 import Symbol from "@core/components/elements/symbol";
 import Transition from "@core/components/layouts/transition";
-import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/solid";
+import {
+  ChatBubbleLeftRightIcon,
+  PaperAirplaneIcon,
+  PaperClipIcon,
+} from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import GreetMessage from "./greet-message";
 import Header from "./header";
 import Message from "../../chat-piece";
-import Bottom from "./bottom";
 import {
   usePathname,
   useRouter,
@@ -17,22 +20,45 @@ import {
 import useSWR from "swr";
 import { URLSearchParams } from "next/dist/compiled/@edge-runtime/primitives/url";
 import Image from "next/image";
+import { useSession } from "next-auth/react";
+import {
+  Client,
+  Freelancer,
+  Gig,
+  Message as MessageType,
+  Thumbnail,
+  User,
+} from "@prisma/client";
+import cuid from "cuid";
 
-const Chat = () => {
+type Props = {
+  user: User;
+  gig: Gig & {
+    thumbnails: Thumbnail[];
+    freelancer: Freelancer & {
+      user: User;
+    };
+  };
+};
+
+const Chat = ({ user, gig }: Props) => {
   const [openChat, setOpenChat] = useState(false);
   const [openMessage, setOpenMessage] = useState(false);
-
+  const [fields, setFields] = useState({
+    text: "",
+  });
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  console.log(pathname?.split("/")[2]);
-
   const chat = searchParams.get("chat");
 
-  const { data: gig } = useSWR(`/api/gigs/${pathname?.split("/")[2]}`);
+  const { data: messages, mutate } = useSWR<
+    (MessageType & { freelancer?: Freelancer })[]
+  >(`/api/messages?clientId=${user.id}&freelancerId=${gig.freelancerId}`, {
+    refreshInterval: 1000,
+  });
 
-  console.log({ gig });
   useEffect(() => {
     setOpenMessage(true);
   }, []);
@@ -49,6 +75,36 @@ const Chat = () => {
     const chatPathname = pathname?.split("chat=1").join("").split("chat=0");
     router.replace(`${chatPathname}?${params}`);
   };
+
+  console.log({ messages });
+
+  const handleSendChat = async () => {
+    if (user.id === gig.freelancer.userId) return;
+    const sender =
+      user.id === gig.freelancer.userId ? gig.freelancerId : user.id;
+    mutate(
+      [
+        ...messages!,
+        {
+          id: cuid(),
+          userId: sender,
+          freelancerId: gig.freelancerId,
+          text: fields.text,
+        },
+      ],
+      { revalidate: false }
+    );
+    await fetch(
+      `/api/messages?clientId=${user.id}&freelancerId=${gig.freelancerId}`,
+      {
+        method: "POST",
+        body: JSON.stringify({ text: fields.text }),
+      }
+    );
+    mutate();
+  };
+
+  console.log({ messages });
 
   return (
     <div className="fixed bottom-10 right-20 z-[9999] ">
@@ -73,13 +129,13 @@ const Chat = () => {
         <Transition.Fade show={openChat}>
           <div className="absolute bottom-0 right-[73px] grid h-[500px] w-96 grid-rows-[auto,auto,1fr,auto] rounded bg-white shadow-md">
             <Header
-              name={gig.freelancer.user.name}
-              location={gig.freelancer.user.location}
+              name={gig.freelancer.user.name!}
+              location={gig.freelancer.user.location!}
               onClick={() => {
                 handleOpenChat();
               }}
             />
-            
+
             {/* gig */}
             <div className="my-2 flex items-center gap-5 border bg-slate-200 px-4">
               <div className="relative h-14 w-14">
@@ -92,28 +148,45 @@ const Chat = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-xs">Gig Order:</span>
-                <div className="text-sm font-semibold">{gig.title}</div>
+                {/* @ts-ignore */}
+                <marquee className="w-full truncate text-sm font-semibold">
+                  {gig.title}
+                  {/* @ts-ignore */}
+                </marquee>
               </div>
             </div>
 
             {/* messages */}
-            <div
-              id="messages"
-              className="scrollbar-thumb-primary-dark scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch flex flex-col space-y-2 overflow-y-auto px-4">
-              {/* messages */}
-              <Message isLeft>Since we both agreed about the terms.</Message>
-              <Message>Yea' sure.</Message>
-              <Message isLeft>Since we both agreed about the terms.</Message>
-              <Message>Yea' sure.</Message>
-              <Message>Yea' sure.</Message>
-              <Message>Yea' sure.</Message>
-              <Message>Yea' sure.</Message>
-              <Message>Yea' sure.</Message>
-              <Message>Yea' sure.</Message>
-              <Message>Yea' sure.</Message>
+            <div className="flex flex-col gap-2 overflow-y-scroll">
+              {messages?.map((message) => (
+                <Message
+                  isLeft={user.id === message.freelancer?.userId}
+                  key={message.id}>
+                  {message.text}
+                </Message>
+              ))}
             </div>
 
-            <Bottom />
+            {/* send chat */}
+            <div className="my-auto flex items-center gap-3 p-3">
+              <input
+                type="text"
+                placeholder="Write your message!"
+                className="w-full rounded-md bg-gray-200 py-3 pl-3 text-gray-600 placeholder-gray-600 placeholder:text-sm focus:placeholder-gray-400 focus:outline-none"
+                onChange={(event) =>
+                  setFields({ ...fields, text: event.target.value })
+                }
+              />
+
+              <div className="flex items-center gap-2">
+                <Symbol Icon={PaperClipIcon} />
+                <Button
+                  onClick={handleSendChat}
+                  className="border-none bg-transparent enabled:hover:bg-transparent">
+                  <Symbol Icon={PaperAirplaneIcon} />
+                </Button>
+              </div>
+            </div>
           </div>
         </Transition.Fade>
       )}

@@ -46,7 +46,6 @@ const Overview = ({ gig }: Props) => {
           <p>{gig.description}</p>
         </Balancer>
       </div>
-      <Chat />
     </section>
   );
 };
