@@ -11,7 +11,7 @@ const CustomOffer = () => {
 
   return (
     <>
-      <div className="smooth absolute -top-[70px] z-50 flex w-full cursor-pointer items-center justify-between rounded border bg-white p-3 hover:bg-slate-100">
+      <div className="smooth  z-50 flex w-full cursor-pointer items-center justify-between rounded border bg-white p-3 hover:bg-slate-100">
         <h1 className="font-semibold">
           You received a special Offer from Nikko Abucejo
         </h1>

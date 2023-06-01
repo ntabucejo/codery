@@ -10,7 +10,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { Freelancer, Message as MessageType, User } from "@prisma/client";
 import { useState } from "react";
-import Message from "../../chat-piece";
+import Message from "../gig/message";
 import InboxMessage from "./message";
 
 type AsClientMessage = MessageType & {

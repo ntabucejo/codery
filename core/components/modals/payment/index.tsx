@@ -1,7 +1,7 @@
-import Modal from "../layouts/modal";
+import Modal from "../../layouts/modal";
 import { type Modal as ModalType } from "@core/types/modal";
-import Field from "../elements/field";
-import Button from "../elements/button";
+import Field from "../../elements/field";
+import Button from "../../elements/button";
 
 type Props = {
   modal: ModalType;

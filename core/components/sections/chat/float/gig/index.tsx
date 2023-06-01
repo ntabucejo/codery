@@ -4,25 +4,18 @@ import Symbol from "@core/components/elements/symbol";
 import Transition from "@core/components/layouts/transition";
 import {
   ChatBubbleLeftRightIcon,
+  MinusIcon,
   PaperAirplaneIcon,
-  PaperClipIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import GreetMessage from "./greet-message";
-import Header from "./header";
-import Message from "../../chat-piece";
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-  useSelectedLayoutSegments,
-} from "next/navigation";
+import Message from "./message";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { URLSearchParams } from "next/dist/compiled/@edge-runtime/primitives/url";
 import Image from "next/image";
-import { useSession } from "next-auth/react";
 import {
-  Client,
   Freelancer,
   Gig,
   Message as MessageType,
@@ -30,6 +23,7 @@ import {
   User,
 } from "@prisma/client";
 import cuid from "cuid";
+import CreateOffer from "@core/components/modals/offer";
 
 type Props = {
   user: User;
@@ -104,8 +98,6 @@ const Chat = ({ user, gig }: Props) => {
     mutate();
   };
 
-  console.log({ messages });
-
   return (
     <div className="fixed bottom-10 right-20 z-[9999] ">
       {/* chat icon */}
@@ -128,13 +120,24 @@ const Chat = ({ user, gig }: Props) => {
       {openChat && (
         <Transition.Fade show={openChat}>
           <div className="absolute bottom-0 right-[73px] grid h-[500px] w-96 grid-rows-[auto,auto,1fr,auto] rounded bg-white shadow-md">
-            <Header
-              name={gig.freelancer.user.name!}
-              location={gig.freelancer.user.location!}
-              onClick={() => {
-                handleOpenChat();
-              }}
-            />
+            <div className="flex w-full items-start justify-between p-1 px-4">
+              <div className="flex flex-col">
+                <span className="mr-3 font-semibold  text-primary-dark">
+                  {gig.freelancer.user.name!}
+                </span>
+                <span className="text-xs text-primary-dark">
+                  {gig.freelancer.user.location!}
+                </span>
+              </div>
+              <div className="flex items-end gap-1">
+                <button onClick={() => handleOpenChat()}>
+                  <Symbol Icon={MinusIcon} size="medium" />
+                </button>
+                <button onClick={() => handleOpenChat()}>
+                  <Symbol Icon={XMarkIcon} size="medium" />
+                </button>
+              </div>
+            </div>
 
             {/* gig */}
             <div className="my-2 flex items-center gap-5 border bg-slate-200 px-4">
@@ -179,7 +182,7 @@ const Chat = ({ user, gig }: Props) => {
               />
 
               <div className="flex items-center gap-2">
-                <Symbol Icon={PaperClipIcon} />
+                <CreateOffer gig={gig} />
                 <Button
                   onClick={handleSendChat}
                   className="border-none bg-transparent enabled:hover:bg-transparent">

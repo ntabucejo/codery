@@ -1,47 +1,29 @@
 "use client";
+
 import Button from "../../elements/button";
-import Modal from "../../layouts/modal";
 import useModal from "@core/hooks/use-modal";
-import Field from "../../elements/field";
-import {
-  Category,
-  Freelancer,
-  Gig as GigType,
-  Thumbnail,
-  User,
-} from "@prisma/client";
-import Gigs from "../../sections/gigs";
-import ChooseGigModal from "./choose-gig";
-import OfferDetailsModal from "./details";
+import Form from "./form";
+import { Freelancer, Gig, Thumbnail, User } from "@prisma/client";
 
 type Props = {
-  gigs: (GigType & {
-    category: Category;
+  gig: Gig & {
     thumbnails: Thumbnail[];
     freelancer: Freelancer & {
       user: User;
     };
-  })[];
+  };
 };
-
-const CreateOffer = ({ gigs }: Props) => {
-  const chooseGigModal = useModal();
-  const detailsModal = useModal();
+const CreateOffer = ({ gig }: Props) => {
+  const createOfferModal = useModal();
 
   return (
-    <div>
-      <Button onClick={chooseGigModal.handleOpen}>Create Offer</Button>
+    <>
+      <Button onClick={() => createOfferModal.handleOpen()}>
+      Offer
+      </Button>
 
-      {/* choose for gig */}
-      <ChooseGigModal
-        modal={chooseGigModal}
-        nextModal={detailsModal}
-        gigs={gigs}
-      />
-
-      {/* custom offer details */}
-      <OfferDetailsModal modal={detailsModal} />
-    </div>
+      <Form modal={createOfferModal} gig={gig} />
+    </>
   );
 };
 
