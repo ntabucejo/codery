@@ -16,16 +16,10 @@ const User = ({ user }: Props) => {
     <>
       <MinusIcon className="icon -ml-2 -mr-4 rotate-90 text-primary-dark/fade" />
       <div className="flex items-center gap-4">
-        <div className="flex">
-          <Button variant="tertiary">
-            <Symbol Icon={ShoppingCartIcon} />
-            Contracts
-          </Button>
-          <Button variant="tertiary">
-            <Symbol Icon={BanknotesIcon} />
-            Offers
-          </Button>
-        </div>
+        <Button variant="tertiary">
+          <Symbol Icon={BanknotesIcon} />
+          Offers
+        </Button>
         <Menu user={user} />
       </div>
     </>
