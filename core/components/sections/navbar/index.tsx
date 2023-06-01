@@ -10,6 +10,7 @@ import useSession from "@core/hooks/use-session";
 
 const Navbar = async () => {
   const session = await useSession();
+  const users = await prisma.user.findMany();
   const user = await prisma.user.findUnique({
     where: { email: session?.user?.email! || "!" },
     include: {
@@ -47,7 +48,7 @@ const Navbar = async () => {
       {/* Upper Nav */}
       <div className="flex items-center gap-4">
         <strong className="text-2xl">Codery</strong>
-        <Search />
+        <Search users={users} />
         <ul className="flex gap-4">
           <Route to="Home" href="/" isBold />
         </ul>
