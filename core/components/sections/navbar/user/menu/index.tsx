@@ -46,6 +46,11 @@ const Menu = ({ user, className }: Props) => {
               <span className="text-xs text-primary-dark/fade">
                 {user.email!}
               </span>
+              {user.freelancer ? (
+                <span className="mt-1  w-fit rounded bg-primary-dark py-1 px-3 text-xs font-semibold text-white">
+                  freelancer
+                </span>
+              ) : null}
             </div>
           </div>
 
