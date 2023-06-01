@@ -1,14 +1,39 @@
 "use client";
+
+import { useState } from "react";
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Modal from "@core/components/layouts/modal";
 import { type Modal as ModalType } from "@core/types/modal";
+import { Freelancer, Gig, Thumbnail, User } from "@prisma/client";
+import Image from "next/image";
 
 type Props = {
   modal: ModalType;
+  gig: Gig & {
+    thumbnails: Thumbnail[];
+    freelancer: Freelancer & {
+      user: User;
+    };
+  };
 };
 
-const OfferDetailsModal = ({ modal }: Props) => {
+const Form = ({ modal, gig }: Props) => {
+  const [fields, setFields] = useState({
+    client: "",
+    price: 5,
+    revision: 5,
+    delivery: 5,
+    description: "",
+  });
+
+  const handleChange = (id: string, value: any) => {
+    setFields((prevFields) => ({
+      ...prevFields,
+      [id]: value,
+    }));
+  };
+
   return (
     <Modal
       title="Custom Offer: Details"
@@ -25,41 +50,76 @@ const OfferDetailsModal = ({ modal }: Props) => {
             id="client"
             isFull
             placeholder="Name"
-            value="David Robertson"
-            isDisabled
+            value={fields.client}
+            onChange={(event) => handleChange("client", event.target.value)}
           />
         </Field.Body>
+
+        <div className="my-2 flex items-center gap-5 border bg-slate-200 px-4">
+          <div className="relative h-14 w-14">
+            <Image
+              src={gig.thumbnails[0].image}
+              alt={gig.title}
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xs">Gig Order:</span>
+            <h3 className="w-full whitespace-normal text-sm font-semibold">
+              {gig.title}
+            </h3>
+          </div>
+        </div>
 
         <Field.Body
           id="price"
           label="Price"
           description="State the offer's price.">
-          <Field.Number id="client" isFull value={350} />
+          <Field.Number
+            id="price"
+            isFull
+            value={fields.price}
+            onChange={(event) => handleChange("price", event.target.value)}
+          />
         </Field.Body>
 
         <Field.Body
           id="revision"
           label="Revision"
           description="State how many times of revision covered to your contract.">
-          <Field.Number id="revision" isFull value={5} />
+          <Field.Number
+            id="revision"
+            isFull
+            value={fields.revision}
+            onChange={(event) => handleChange("revision", event.target.value)}
+          />
         </Field.Body>
 
         <Field.Body
           id="delivery"
           label="Days of Delivery"
           description="State how many days you can delivered the product to your client.">
-          <Field.Number id="delivery" isFull value={5} />
+          <Field.Number
+            id="delivery"
+            isFull
+            value={fields.delivery}
+            onChange={(event) => handleChange("delivery", event.target.value)}
+          />
         </Field.Body>
 
         <Field.Body
-          id="client"
+          id="description"
           label="Description"
           description="State all the details that's been discussed between you and your client.">
           <Field.Textarea
             id="description"
             isFull
             placeholder="Lorem Ipsum"
-            value="I will do the client's frontend website using the latest technologies such as ReactJS, NextJS, TailwindCSS and typeScript. I will not do the design and just a development. "
+            value={fields.description}
+            onChange={(event) =>
+              handleChange("description", event.target.value)
+            }
           />
         </Field.Body>
       </div>
@@ -80,4 +140,4 @@ const OfferDetailsModal = ({ modal }: Props) => {
   );
 };
 
-export default OfferDetailsModal;
+export default Form;
