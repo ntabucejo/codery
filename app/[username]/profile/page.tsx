@@ -27,8 +27,8 @@ const Page = async ({ params }: Props) => {
       testimonials: true,
       skills: {
         include: {
-          technology: true
-        }
+          technology: true,
+        },
       },
     },
   });
@@ -71,10 +71,15 @@ const Page = async ({ params }: Props) => {
                 {moment(user?.createdAt!).format("LL")}
               </Pin>
             </div>
+            {user?.freelancer ? (
+              <span className="mt-auto w-fit rounded bg-primary-dark py-1 px-3 text-xs font-semibold text-white">
+                freelancer
+              </span>
+            ) : null}
           </div>
         </div>
       </section>
-      <Panels freelancer={freelancer!} gigs={gigs}/>
+      <Panels freelancer={freelancer!} gigs={gigs} />
     </>
   );
 };

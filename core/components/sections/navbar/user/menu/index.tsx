@@ -10,7 +10,6 @@ import {
   ArrowLeftOnRectangleIcon,
   BriefcaseIcon,
   PlusCircleIcon,
-  DocumentDuplicateIcon,
   ChartBarIcon,
 } from "@heroicons/react/24/outline";
 import Button from "@core/components/elements/button";
@@ -47,6 +46,11 @@ const Menu = ({ user, className }: Props) => {
               <span className="text-xs text-primary-dark/fade">
                 {user.email!}
               </span>
+              {user.freelancer ? (
+                <span className="mt-1  w-fit rounded bg-primary-dark py-1 px-3 text-xs font-semibold text-white">
+                  freelancer
+                </span>
+              ) : null}
             </div>
           </div>
 
@@ -57,46 +61,30 @@ const Menu = ({ user, className }: Props) => {
             <Route Icon={ChartPieIcon} href="/">
               Dashboard
             </Route>
-
             <Route Icon={ChartBarIcon} href="#">
               Report Statistics
             </Route>
-
-            {user.freelancer ? (
-              <Route
-                Icon={PlusCircleIcon}
-                href={`/${user.username}/create/gig`}>
-                Create Gig
-              </Route>
-            ) : null}
-
-            {!user.freelancer ? (
-              <Route
-                Icon={BriefcaseIcon}
-                href={`/${user.username}/create/freelancer`}>
-                Become Freelancer
-              </Route>
-            ) : null}
+            <Route Icon={PlusCircleIcon} href={`/${user.username}/create/gig`}>
+              Create Gig
+            </Route>
+            <Route
+              Icon={BriefcaseIcon}
+              href={`/${user.username}/create/freelancer`}>
+              Become Freelancer
+            </Route>
           </ul>
 
-          <div className="flex gap-2 px-2">
-            <Button
-              isFull
-              onClick={() => signOut()}
-              className="mt-2 flex items-center gap-2">
-              <Symbol
-                Icon={ArrowLeftOnRectangleIcon}
-                isHoverDisabled
-                className="text-primary-light"
-              />
-              Logout Account
-            </Button>
-            <Button
-              variant="secondary"
-              className="mt-2 flex items-center gap-2">
-              Feedback
-            </Button>
-          </div>
+          <Button
+            isFull
+            onClick={() => signOut()}
+            className="mt-2 flex items-center gap-2">
+            <Symbol
+              Icon={ArrowLeftOnRectangleIcon}
+              isHoverDisabled
+              className="text-primary-light"
+            />
+            Logout Account
+          </Button>
         </HeadlessuiMenu.Items>
       </Transition>
     </HeadlessuiMenu>

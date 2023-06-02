@@ -8,7 +8,7 @@ type Props = {
   variant?: "primary" | "secondary" | "tertiary" | "quaternary" | "icon";
   isFull?: boolean;
   isDisabled?: boolean;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onClick?: any
   className?: string;
   type?: "button" | "submit";
 };

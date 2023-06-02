@@ -63,7 +63,7 @@ const Page = async ({ params }: Props) => {
     <div className="space-y-12">
       <Overview gig={gig!} />
       {myGigs.length ? <Gigs label="Gigs I also offer" data={myGigs} /> : null}
-      <Reviews gigId={gig!.id} userId={String(user?.id)} />
+      <Reviews />
     </div>
   );
 };
