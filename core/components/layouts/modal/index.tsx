@@ -33,7 +33,7 @@ const Modal = ({
           leave="ease-in duration-200"
           leaveFrom="opacity-100"
           leaveTo="opacity-0">
-          <div className="fixed inset-0 bg-primary-dark/fade backdrop-blur-sm" />
+          <div className="fixed inset-0 bg-primary-dark/10 backdrop-blur-sm" />
         </Transition.Child>
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4">

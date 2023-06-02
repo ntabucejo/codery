@@ -1,7 +1,9 @@
 "use client";
 import Badge from "@core/components/elements/badge";
-import Gigs from "@core/components/sections/gigs";
-import testimonial from "@core/validations/schemas/freelancer/testimonial";
+import Button from "@core/components/elements/button";
+import Field from "@core/components/elements/field";
+import Modal from "@core/components/layouts/modal";
+import useModal from "@core/hooks/use-modal";
 import { Tab } from "@headlessui/react";
 import {
   Category,
@@ -15,6 +17,8 @@ import {
   Thumbnail,
   User,
 } from "@prisma/client";
+import { useState } from "react";
+import EditGig from "./edit-gig";
 
 type Props = {
   freelancer: Freelancer & {
@@ -33,17 +37,48 @@ type Props = {
 };
 
 const Panels = ({ gigs, freelancer }: Props) => {
+  const editGigModal = useModal();
+  const panels = [
+    { title: "About Me", show: false },
+    { title: "Manage Gigs", show: freelancer ?? false },
+  ];
+
+  const handleDeleteGig = async (id: string) => {
+    try {
+      const response = await fetch(`/api/gigs/${id}/delete`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        console.log(id);
+      } else {
+        console.error("Failed to delete gig");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <section className="contain space-y-4">
       <Tab.Group>
         <Tab.List className="flex items-center gap-4">
-          <Tab>My Gigs</Tab>
-          {freelancer ? <Tab>About Me</Tab> : null}
+          {panels.map((panel) => (
+            <Tab
+              key={panel.title}
+              className={({ selected }) =>
+                `${
+                  selected
+                    ? "bg-primary-dark text-white shadow"
+                    : "text-primary-dark hover:bg-white/[0.12] hover:text-primary-dark"
+                } w-full rounded-lg py-2.5 text-sm font-medium leading-5  ring-primary-dark ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2`
+              }>
+              {panel.title}
+            </Tab>
+          ))}
         </Tab.List>
+
         <Tab.Panels>
-          <Tab.Panel>
-            <Gigs data={gigs} />
-          </Tab.Panel>
           <Tab.Panel>
             <h1 className="mb-2 text-lg font-semibold">Skills</h1>
             <section className="flex flex-wrap items-center gap-3">
@@ -119,6 +154,30 @@ const Panels = ({ gigs, freelancer }: Props) => {
                     {testimonial.email}
                   </span>
                   <p className="text-sm text-gray-500">{testimonial.message}</p>
+                </div>
+              ))}
+            </section>
+          </Tab.Panel>
+
+          <Tab.Panel>
+            <section className="flex flex-col">
+              {gigs.map((gig) => (
+                <div
+                  key={gig.id}
+                  className="flex cursor-pointer items-center justify-between p-3 shadow hover:bg-slate-100">
+                  <div>
+                    <h2 className="font-semibold">{gig.title}</h2>
+                    <h6 className="text-xs">{gig.category.name}</h6>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button onClick={() => editGigModal.handleOpen()}>
+                      Edit
+                    </Button>
+                    <EditGig gig={gig} modal={editGigModal} />
+                    <Button onClick={() => handleDeleteGig(gig.id)}>
+                      Delete
+                    </Button>
+                  </div>
                 </div>
               ))}
             </section>

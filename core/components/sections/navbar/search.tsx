@@ -2,20 +2,26 @@
 
 import { useState, useRef } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { User } from "@prisma/client";
+import { Gig, User } from "@prisma/client";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 type Props = {
   users: User[];
+  gigs: Gig[];
+  username: string;
 };
 
-const Search = ({ users }: Props) => {
+const Search = ({ users, gigs, username }: Props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const filteredUsers = users.filter((user) =>
     user.name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredGigs = gigs.filter((gig) =>
+    gig.title?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleSetFocus = () => {
@@ -35,42 +41,58 @@ const Search = ({ users }: Props) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      {searchTerm.length > 0 && (
-        <Transition
-          show={searchTerm.length > 0}
-          enter="transition-opacity duration-200"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="transition-opacity duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0">
-          <Listbox
-            as="ul"
-            className="absolute z-10 mt-2 max-h-64 w-full overflow-auto rounded-md bg-white shadow-lg">
-            {filteredUsers.length > 0 ? (
-              filteredUsers.map((user) => (
+      <Transition
+        show={searchTerm.length > 0}
+        enter="transition-opacity duration-200"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-200"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0">
+        <Listbox
+          as="ul"
+          className="absolute z-[999] mt-2 max-h-64 w-full overflow-auto rounded-md bg-white shadow-lg">
+          {filteredUsers.length > 0 || filteredGigs.length > 0 ? (
+            <>
+              {filteredUsers.map((user) => (
                 <Link key={user.id} href={`/${user.username}/profile`}>
                   <Listbox.Option
                     value={user}
                     className={({ active }) =>
-                      `${active ? "bg-blue-500 text-white" : "text-gray-900"}
-                        cursor-default select-none py-2 pl-3 pr-9`
-                    }>
+                      `${
+                        active ? "bg-blue-500 text-white" : "text-gray-900"
+                      } cursor-default select-none py-2 pl-3 pr-9`
+                    }
+                    onClick={() => setSearchTerm("")}>
                     {user.name}
                   </Listbox.Option>
                 </Link>
-              ))
-            ) : (
-              <Listbox.Option
-                value=""
-                disabled
-                className="cursor-default select-none py-2 pl-3 pr-9">
-                No results found.
-              </Listbox.Option>
-            )}
-          </Listbox>
-        </Transition>
-      )}
+              ))}
+              {filteredGigs.map((gig) => (
+                <Link key={gig.id} href={`/${username}/${gig.id}`}>
+                  <Listbox.Option
+                    value={gig}
+                    className={({ active }) =>
+                      `${
+                        active ? "bg-blue-500 text-white" : "text-gray-900"
+                      } cursor-default select-none py-2 pl-3 pr-9`
+                    }
+                    onClick={() => setSearchTerm("")}>
+                    {gig.title}
+                  </Listbox.Option>
+                </Link>
+              ))}
+            </>
+          ) : (
+            <Listbox.Option
+              value=""
+              disabled
+              className="cursor-default select-none py-2 pl-3 pr-9">
+              No results found.
+            </Listbox.Option>
+          )}
+        </Listbox>
+      </Transition>
     </div>
   );
 };
