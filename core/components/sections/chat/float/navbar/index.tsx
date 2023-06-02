@@ -55,9 +55,7 @@ const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
           {/* how many messages */}
           <div className="flex items-center gap-2 border-b p-3 text-sm font-semibold">
             <Symbol Icon={EnvelopeIcon} size="small" />
-            <h4>
-              Inbox<span> (4)</span>
-            </h4>
+            <h4>Inbox</h4>
           </div>
 
           <button onClick={() => setIsFreelancer(!isFreelancer)}>
