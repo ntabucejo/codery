@@ -9,6 +9,7 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/solid";
 import { Freelancer, Message as MessageType, User } from "@prisma/client";
+import Link from "next/link";
 import { useState } from "react";
 import Message from "../gig/message";
 import InboxMessage from "./message";
@@ -50,7 +51,7 @@ const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
         Messages
       </Popover.Button>
       <Transition.PopDown>
-        <Popover.Panel className="absolute top-10 right-0 z-50 grid h-[400px] w-96 grid-rows-[auto,1fr,auto] rounded border bg-white shadow-xl">
+        <Popover.Panel className="absolute top-10 right-0 z-50 grid h-[400px] w-96 grid-rows-[auto,1fr,auto] overflow-y-scroll rounded border bg-white shadow-xl">
           {/* how many messages */}
           <div className="flex items-center gap-2 border-b p-3 text-sm font-semibold">
             <Symbol Icon={EnvelopeIcon} size="small" />
@@ -83,15 +84,9 @@ const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
               ))}
 
           {/* see all inbox */}
-          <div className="flex w-full items-center justify-between border-t p-3 text-right">
-            <div className="flex items-center gap-1">
-              <Symbol Icon={SpeakerWaveIcon} size="small" />
-              <Symbol Icon={Cog6ToothIcon} size="small" />
-            </div>
-            <h4 className="smooth cursor-pointer text-sm font-semibold text-primary-brand hover:text-primary-brand/fade">
-              See All In Inbox
-            </h4>
-          </div>
+          <h4 className="smooth ml-auto cursor-pointer p-2 text-sm font-semibold text-primary-brand hover:text-primary-brand/fade">
+            <Link href="/chat">See All In Inbox</Link>
+          </h4>
         </Popover.Panel>
       </Transition.PopDown>
     </Popover>

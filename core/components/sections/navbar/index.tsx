@@ -19,7 +19,6 @@ const Navbar = async () => {
     },
   });
 
-  const categories = await prisma.category.findMany();
   const providers = await getProviders();
 
   const asClientMessages = await prisma.message.findMany({
