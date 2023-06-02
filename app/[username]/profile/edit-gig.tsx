@@ -28,7 +28,7 @@ const EditGig = ({ gig, modal }: Props) => {
       state={modal.state}
       handleClose={modal.handleClose}
       className="max-w-5xl">
-      <div className="grid gap-8 laptop:grid-cols-2">
+      <div className="grid gap-8 laptop:grid-cols-2 z-[999]">
         <Field.Body id="title" label="Title" description="State your Gig Title">
           <Field.Text
             id="client"
