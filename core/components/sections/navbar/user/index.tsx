@@ -11,6 +11,7 @@ import Button from "@core/components/elements/button";
 import useModal from "@core/hooks/use-modal";
 import Modal from "@core/components/layouts/modal";
 import Field from "@core/components/elements/field";
+import PaymentModal from "@core/components/modals/payment";
 
 type Props = {
   user: User & { freelancer: Freelancer | null };
@@ -18,6 +19,7 @@ type Props = {
 
 const User = ({ user }: Props) => {
   const openOfferDetails = useModal();
+  const paymentModal = useModal();
 
   return (
     <>
@@ -100,7 +102,7 @@ const User = ({ user }: Props) => {
         </div>
 
         <div className="flex w-full gap-4">
-          <Button>Accept Offer</Button>
+          <Button onClick={paymentModal.handleOpen}>Accept Offer</Button>
           <Button variant="secondary" onClick={openOfferDetails.handleClose}>
             Decline Offer
           </Button>
@@ -112,6 +114,7 @@ const User = ({ user }: Props) => {
           </Button>
         </div>
       </Modal>
+      <PaymentModal modal={paymentModal} />
     </>
   );
 };
