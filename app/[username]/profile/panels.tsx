@@ -1,6 +1,9 @@
 "use client";
 import Badge from "@core/components/elements/badge";
 import Button from "@core/components/elements/button";
+import Field from "@core/components/elements/field";
+import Modal from "@core/components/layouts/modal";
+import useModal from "@core/hooks/use-modal";
 import { Tab } from "@headlessui/react";
 import {
   Category,
@@ -14,6 +17,8 @@ import {
   Thumbnail,
   User,
 } from "@prisma/client";
+import { useState } from "react";
+import EditGig from "./edit-gig";
 
 type Props = {
   freelancer: Freelancer & {
@@ -32,6 +37,7 @@ type Props = {
 };
 
 const Panels = ({ gigs, freelancer }: Props) => {
+  const editGigModal = useModal();
   const panels = [
     { title: "About Me", show: false },
     { title: "Manage Gigs", show: freelancer ?? false },
@@ -164,7 +170,10 @@ const Panels = ({ gigs, freelancer }: Props) => {
                     <h6 className="text-xs">{gig.category.name}</h6>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button>Edit</Button>
+                    <Button onClick={() => editGigModal.handleOpen()}>
+                      Edit
+                    </Button>
+                    <EditGig gig={gig} modal={editGigModal} />
                     <Button onClick={() => handleDeleteGig(gig.id)}>
                       Delete
                     </Button>
