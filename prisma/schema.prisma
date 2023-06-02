@@ -47,6 +47,7 @@ model User {
   accounts   Account[]
   favorites  Favorite[]
   messages   Message[]
+  offers     Offer[]
 }
 
 model Client {
@@ -55,7 +56,6 @@ model Client {
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String     @unique
   contracts Contract[]
-  offers    Offer[]
   reviews   Review[]
 }
 
@@ -234,23 +234,26 @@ model Contract {
 }
 
 model Offer {
-  id          String  @id @default(cuid())
-  title       String
-  description String  @db.Text
-  isAccepted  Boolean @default(false)
+  id           String  @id @default(cuid())
+  title        String
+  description  String  @db.Text
+  isAccepted   Boolean @default(false)
+  deliveryDays Int
+  price        Int
+  revision     Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   freelancer   Freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId String
-  client       Client     @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientId     String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
   gig          Gig        @relation(fields: [gigId], references: [id], onDelete: Cascade)
   gigId        String
 
   @@index([freelancerId])
-  @@index([clientId])
+  @@index([userId])
   @@index([gigId])
 }
 

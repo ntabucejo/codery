@@ -34,6 +34,22 @@ const Form = ({ modal, gig }: Props) => {
     }));
   };
 
+  const handleCreateOffer = async () => {
+    await fetch("/api/payment/create-offer", {
+      method: "POST",
+      body: JSON.stringify({
+        title: "Test",
+        userId: "cld4mfisa0000uifkho5eov3r",
+        freelancerId: "cldbsc6390008sqs0cacdwsml",
+        gigId: "cldci7mq90001sqv4q6xqs6qy",
+        description: "Test",
+        price: 2,
+        revision: 3,
+        deliveryDays: 1,
+      }),
+    });
+  };
+
   return (
     <Modal
       title="Custom Offer: Details"
@@ -125,7 +141,13 @@ const Form = ({ modal, gig }: Props) => {
       </div>
 
       <div className="flex w-full gap-4">
-        <Button onClick={modal.handleClose}>Create Offer</Button>
+        <Button
+          onClick={async () => {
+            await handleCreateOffer();
+            modal.handleClose;
+          }}>
+          Create Offer
+        </Button>
         <Button variant="secondary" onClick={modal.handleClose}>
           Clear
         </Button>

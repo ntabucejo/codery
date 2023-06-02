@@ -18,9 +18,7 @@ const CreateOffer = ({ gig }: Props) => {
 
   return (
     <>
-      <Button onClick={() => createOfferModal.handleOpen()}>
-      Offer
-      </Button>
+      <Button onClick={() => createOfferModal.handleOpen()}>Offer</Button>
 
       <Form modal={createOfferModal} gig={gig} />
     </>
