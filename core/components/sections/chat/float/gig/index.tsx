@@ -96,6 +96,7 @@ const Chat = ({ user, gig }: Props) => {
       }
     );
     mutate();
+    setFields({ text: "" });
   };
 
   return (
@@ -174,6 +175,7 @@ const Chat = ({ user, gig }: Props) => {
             <div className="my-auto flex items-center gap-3 p-3">
               <input
                 type="text"
+                value={fields.text}
                 placeholder="Write your message!"
                 className="w-full rounded-md bg-gray-200 py-3 pl-3 text-gray-600 placeholder-gray-600 placeholder:text-sm focus:placeholder-gray-400 focus:outline-none"
                 onChange={(event) =>
@@ -182,7 +184,7 @@ const Chat = ({ user, gig }: Props) => {
               />
 
               <div className="flex items-center gap-2">
-                <CreateOffer gig={gig} />
+                <CreateOffer user={user} gig={gig} />
                 <Button
                   onClick={handleSendChat}
                   className="border-none bg-transparent enabled:hover:bg-transparent">

@@ -4,7 +4,7 @@ import { BanknotesIcon } from "@heroicons/react/24/outline";
 import Symbol from "../../../elements/symbol";
 import Menu from "./menu";
 import { BellIcon, MinusIcon } from "@heroicons/react/24/solid";
-import type { Freelancer, User } from "@prisma/client";
+import type { Freelancer, Gig, Offer, User } from "@prisma/client";
 import { Popover } from "@headlessui/react";
 import Transition from "@core/components/layouts/transition";
 import Button from "@core/components/elements/button";
@@ -12,14 +12,22 @@ import useModal from "@core/hooks/use-modal";
 import Modal from "@core/components/layouts/modal";
 import Field from "@core/components/elements/field";
 import PaymentModal from "@core/components/modals/payment";
+import { useState } from "react";
+import RecievedOfferDetailsModal from "@core/components/modals/offer/recieved-offer-details";
 
 type Props = {
   user: User & { freelancer: Freelancer | null };
+  offers: (Offer & {
+    freelancer: Freelancer & {
+      user: User;
+    };
+    gig: Gig;
+  })[];
 };
 
-const User = ({ user }: Props) => {
+const User = ({ user, offers }: Props) => {
+  const [selectedOffer, setSelectedOffer] = useState(offers[0]);
   const openOfferDetails = useModal();
-  const paymentModal = useModal();
 
   return (
     <>
@@ -43,14 +51,24 @@ const User = ({ user }: Props) => {
               </div>
 
               <section className="flex flex-col">
-                <div className="smooth  z-50 flex w-full cursor-pointer items-center justify-between rounded p-3 hover:bg-slate-100">
-                  <h1 className="font-semibold">
-                    You received a special Offer from Nikko Abucejo
-                  </h1>
-                  <Button onClick={openOfferDetails.handleOpen}>
-                    See Details
-                  </Button>
-                </div>
+                {offers.map((offer) => (
+                  <>
+                    <div
+                      key={offer.id}
+                      className="smooth  z-50 flex w-full cursor-pointer items-center justify-between rounded p-3 hover:bg-slate-100">
+                      <h1 className="font-semibold">
+                        You received an Offer from {offer.freelancer.user.name}
+                      </h1>
+                      <Button
+                        onClick={() => {
+                          setSelectedOffer(offer);
+                          openOfferDetails.handleOpen();
+                        }}>
+                        See Details
+                      </Button>
+                    </div>
+                  </>
+                ))}
               </section>
             </Popover.Panel>
           </Transition.PopDown>
@@ -59,62 +77,11 @@ const User = ({ user }: Props) => {
         <Menu user={user} />
       </div>
 
-      <Modal
-        title="Custom Offer: Details"
-        description="State what are the details of your contract between you and your client."
-        state={openOfferDetails.state}
-        handleClose={openOfferDetails.handleClose}
-        className="max-w-5xl">
-        <div className="grid gap-8 laptop:grid-cols-2">
-          <Field.Body
-            id="client"
-            label="Client Full Name"
-            description="State the client's full name.">
-            <Field.Text
-              id="client"
-              isFull
-              placeholder="Name"
-              value="David Robertson"
-              isDisabled
-            />
-          </Field.Body>
-
-          <Field.Body id="price" label="Price">
-            <Field.Number id="client" isFull value={350} isDisabled />
-          </Field.Body>
-
-          <Field.Body id="revision" label="Revision">
-            <Field.Number id="revision" isFull value={5} isDisabled />
-          </Field.Body>
-
-          <Field.Body id="delivery" label="Days of Delivery">
-            <Field.Number id="delivery" isFull value={5} isDisabled />
-          </Field.Body>
-
-          <Field.Body id="client" label="Description">
-            <Field.Textarea
-              id="description"
-              isFull
-              value="I will do the client's frontend website using the latest technologies such as ReactJS, NextJS, TailwindCSS and typeScript. I will not do the design and just a development. "
-              isDisabled
-            />
-          </Field.Body>
-        </div>
-
-        <div className="flex w-full gap-4">
-          <Button onClick={paymentModal.handleOpen}>Accept Offer</Button>
-          <Button variant="secondary" onClick={openOfferDetails.handleClose}>
-            Decline Offer
-          </Button>
-          <Button
-            variant="tertiary"
-            onClick={openOfferDetails.handleClose}
-            className="ml-auto">
-            Close
-          </Button>
-        </div>
-      </Modal>
-      <PaymentModal modal={paymentModal} />
+      <RecievedOfferDetailsModal
+        offer={selectedOffer}
+        modal={openOfferDetails}
+        user={user}
+      />
     </>
   );
 };

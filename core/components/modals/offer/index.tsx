@@ -6,6 +6,7 @@ import Form from "./form";
 import { Freelancer, Gig, Thumbnail, User } from "@prisma/client";
 
 type Props = {
+  user: User;
   gig: Gig & {
     thumbnails: Thumbnail[];
     freelancer: Freelancer & {
@@ -13,14 +14,15 @@ type Props = {
     };
   };
 };
-const CreateOffer = ({ gig }: Props) => {
+
+const CreateOffer = ({ user, gig }: Props) => {
   const createOfferModal = useModal();
 
   return (
     <>
       <Button onClick={() => createOfferModal.handleOpen()}>Offer</Button>
 
-      <Form modal={createOfferModal} gig={gig} />
+      <Form user={user} modal={createOfferModal} gig={gig} />
     </>
   );
 };

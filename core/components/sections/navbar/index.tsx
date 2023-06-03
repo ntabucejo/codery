@@ -19,6 +19,18 @@ const Navbar = async () => {
     },
   });
 
+  const offers = await prisma.offer.findMany({
+    where: { userId: user?.id, isAccepted: false },
+    include: {
+      freelancer: {
+        include: {
+          user: true
+        }
+      },
+      gig: true,
+    },
+  });
+
   const providers = await getProviders();
 
   const asClientMessages = await prisma.message.findMany({
@@ -59,7 +71,7 @@ const Navbar = async () => {
         />
 
         {user ? (
-          <User user={serialize(user)} />
+          <User user={serialize(user)} offers={offers} />
         ) : (
           <SignIn providers={providers!} />
         )}

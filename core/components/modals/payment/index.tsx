@@ -3,34 +3,48 @@ import { type Modal as ModalType } from "@core/types/modal";
 import Field from "../../elements/field";
 import Button from "../../elements/button";
 import usePayment from "@core/hooks/use-payment";
+import { useState } from "react";
+import { Freelancer, User } from "@prisma/client";
 
 type Props = {
+  offferId: string;
   modal: ModalType;
+  user: User & {
+    freelancer: Freelancer | null;
+  };
 };
 
-const PaymentModal = ({ modal }: Props) => {
+const PaymentModal = ({ modal, user, offferId }: Props) => {
+  const [fields, setFields] = useState({
+    month: "",
+    year: "",
+    cvc: "",
+    amount: 0,
+    description: "",
+  });
+
   const { status, handleSubmit } = usePayment({
     user: {
-      name: "Nikko Abucejo",
-      email: "ntabucejo@gmail.com",
-      phone: "09951935710",
+      name: user.name!,
+      email: user.email!,
+      phone: user.phone!,
     },
     card: {
       number: "4343434343434345",
       expiration: {
-        month: "12",
-        year: "25",
+        month: fields.month,
+        year: fields.year,
       },
-      cvc: "123",
+      cvc: fields.cvc,
     },
-    amount: 500,
-    description: "Test Payment",
+    amount: fields.amount,
+    description: fields.description,
   });
 
   const acceptOffer = async () => {
     await fetch("/api/payment/accept-offer", {
       method: "PUT",
-      body: JSON.stringify({ id: "clif01e7e0003uiz0128a3gop" }),
+      body: JSON.stringify({ id: offferId }),
     });
   };
 
@@ -40,40 +54,80 @@ const PaymentModal = ({ modal }: Props) => {
       description="Proceed with giving out your payment account details to continue."
       state={modal.state}
       handleClose={modal.handleClose}
-      className="max-w-5xl">
+      className="max-w-5xl z-[999]">
       <div className="grid gap-8 laptop:grid-cols-2">
         <Field.Body
           id="name"
           label="Full Name"
           description="State your full name.">
-          <Field.Text
-            id="name"
+          <Field.Text id="name" isFull value={user.name!} isDisabled />
+        </Field.Body>
+
+        <Field.Body
+          id="month"
+          label="Month Expiry Date"
+          description="State your card's month expiry.">
+          <Field.Number
+            id="month"
             isFull
-            placeholder="Name"
-            value="Jazztine Cruz"
-            isDisabled
+            value={+fields.month}
+            onChange={(event) =>
+              setFields({ ...fields, month: event.target.value })
+            }
           />
         </Field.Body>
 
         <Field.Body
-          id="account number"
-          label="Account Number"
-          description="State your Account's Number">
-          <Field.Number id="client" isFull value={412684530321} isDisabled />
+          id="year"
+          label="Year Expiry Date"
+          description="State your card's year expiry.">
+          <Field.Number
+            id="year"
+            isFull
+            value={+fields.year}
+            onChange={(event) =>
+              setFields({ ...fields, year: event.target.value })
+            }
+          />
         </Field.Body>
 
-        <Field.Body
-          id="bank type"
-          label="Bank Name"
-          description="Tell us the Bank Name">
-          <Field.Text id="bank" isFull value="Paypal" isDisabled />
+        <Field.Body id="cvc" label="CVC" description="State your card's cvc">
+          <Field.Number
+            id="cvc"
+            isFull
+            value={+fields.cvc}
+            onChange={(event) =>
+              setFields({ ...fields, cvc: event.target.value })
+            }
+          />
         </Field.Body>
 
         <Field.Body
           id="amount"
           label="Amount"
           description="How much are you going to send?">
-          <Field.Number id="delivery" isFull value={350} />
+          <Field.Number
+            id="delivery"
+            isFull
+            value={+fields.amount}
+            onChange={(event) =>
+              setFields({ ...fields, amount: +event.target.value })
+            }
+          />
+        </Field.Body>
+
+        <Field.Body
+          id="description"
+          label="Description"
+          description="Description of Payment.">
+          <Field.Textarea
+            id="description"
+            isFull
+            value={fields.description}
+            onChange={(event) =>
+              setFields({ ...fields, description: event.target.value })
+            }
+          />
         </Field.Body>
       </div>
 
@@ -82,11 +136,21 @@ const PaymentModal = ({ modal }: Props) => {
           onClick={async (event: any) => {
             await handleSubmit(event);
             await acceptOffer();
-            modal.handleClose;
+            modal.handleClose()
           }}>
           Send Payment
         </Button>
-        <Button variant="secondary" onClick={modal.handleClose}>
+        <Button
+          variant="secondary"
+          onClick={() =>
+            setFields({
+              month: "",
+              year: "",
+              cvc: "",
+              amount: 0,
+              description: "",
+            })
+          }>
           Clear
         </Button>
         <Button
