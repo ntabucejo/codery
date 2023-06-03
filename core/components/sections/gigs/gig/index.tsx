@@ -29,7 +29,7 @@ const Gig = ({ data: gig }: Props) => {
     (sum, review) => sum + review.rating,
     0
   );
-  const averageRating = Math.round(totalRating / gig.reviews.length);
+  const averageRating = gig.reviews && Math.round(totalRating / gig.reviews.length);
 
   return (
     <li className="smooth overflow-hidden rounded border bg-white hover:cursor-pointer hover:shadow-lg">
