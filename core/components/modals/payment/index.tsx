@@ -2,12 +2,38 @@ import Modal from "../../layouts/modal";
 import { type Modal as ModalType } from "@core/types/modal";
 import Field from "../../elements/field";
 import Button from "../../elements/button";
+import usePayment from "@core/hooks/use-payment";
 
 type Props = {
   modal: ModalType;
 };
 
 const PaymentModal = ({ modal }: Props) => {
+  const { status, handleSubmit } = usePayment({
+    user: {
+      name: "Nikko Abucejo",
+      email: "ntabucejo@gmail.com",
+      phone: "09951935710",
+    },
+    card: {
+      number: "4343434343434345",
+      expiration: {
+        month: "12",
+        year: "25",
+      },
+      cvc: "123",
+    },
+    amount: 500,
+    description: "Test Payment",
+  });
+
+  const acceptOffer = async () => {
+    await fetch("/api/payment/accept-offer", {
+      method: "PUT",
+      body: JSON.stringify({ id: "clif01e7e0003uiz0128a3gop" }),
+    });
+  };
+
   return (
     <Modal
       title="Custom Offer: Payment"
@@ -52,7 +78,14 @@ const PaymentModal = ({ modal }: Props) => {
       </div>
 
       <div className="flex w-full gap-4">
-        <Button onClick={modal.handleClose}>Send Payment</Button>
+        <Button
+          onClick={async (event: any) => {
+            await handleSubmit(event);
+            await acceptOffer();
+            modal.handleClose;
+          }}>
+          Send Payment
+        </Button>
         <Button variant="secondary" onClick={modal.handleClose}>
           Clear
         </Button>
