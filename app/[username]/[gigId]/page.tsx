@@ -66,7 +66,7 @@ const Page = async ({ params }: Props) => {
 
   return (
     <div className="space-y-12">
-      <Overview gig={gig!} />
+      <Overview gig={gig!} user={user} />
       {myGigs.length ? <Gigs label="Gigs I also offer" data={myGigs} /> : null}
       <Reviews gig={gig!} user={user} />
     </div>

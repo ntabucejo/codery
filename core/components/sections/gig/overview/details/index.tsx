@@ -19,6 +19,11 @@ import { useRouter, usePathname } from "next/navigation";
 import Group from "./group";
 
 type Props = {
+  user:
+    | (User & {
+        freelancer: Freelancer | null;
+      })
+    | null;
   gig: Gig & {
     tags: (Tag & {
       technology: Technology | null;
@@ -34,7 +39,7 @@ type Props = {
   };
 };
 
-const Details = ({ gig }: Props) => {
+const Details = ({ user, gig }: Props) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -55,9 +60,11 @@ const Details = ({ gig }: Props) => {
           </Pin>
         </div>
       </div>
-      <Button onClick={handleMakeOrder} isFull>
-        Order {`$${gig.from} - $${gig.to}`}
-      </Button>
+      {gig.freelancer.userId !== user?.id ? (
+        <Button onClick={handleMakeOrder} isFull>
+          Order {`$${gig.from} - $${gig.to}`}
+        </Button>
+      ) : null}
       <Group name="About Me">
         <p className="text-sm">{gig.freelancer.user.biography}</p>
       </Group>

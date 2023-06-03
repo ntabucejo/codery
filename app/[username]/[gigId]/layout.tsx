@@ -32,9 +32,7 @@ const Layout = async ({ children, params }: Props) => {
       {children}
       {user.id !== gig.freelancer.userId ? (
         <Chat user={user} gig={gig} />
-      ) : (
-        <></>
-      )}
+      ) : null}
     </>
   );
 };
