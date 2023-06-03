@@ -66,12 +66,8 @@ const Details = ({ gig }: Props) => {
       </Group>
       <Group name="Technologies">
         <ul className="flex items-center gap-4">
-          {gig.freelancer.skills.map(({ id, technology }) => (
-            <Badge
-              key={id}
-              logo="/images/auth/google.svg"
-              name={technology!.name}
-            />
+          {gig.tags.map(({ id, technology }) => (
+            <Badge key={id} name={technology!.name} />
           ))}
         </ul>
       </Group>
