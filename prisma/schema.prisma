@@ -48,6 +48,7 @@ model User {
   favorites  Favorite[]
   messages   Message[]
   offers     Offer[]
+  reviews    Review[]
 }
 
 model Client {
@@ -56,7 +57,6 @@ model Client {
   user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String     @unique
   contracts Contract[]
-  reviews   Review[]
 }
 
 model Freelancer {
@@ -265,14 +265,13 @@ model Review {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  clientId String
+  userId   String
   gig      Gig       @relation(fields: [gigId], references: [id], onDelete: Cascade)
   gigId    String
   comments Comment[]
+  User     User      @relation(fields: [userId], references: [id])
 
-  @@unique([clientId, gigId])
-  @@index([clientId])
+  @@index([userId])
   @@index([gigId])
 }
 

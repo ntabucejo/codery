@@ -61,17 +61,19 @@ const Menu = ({ user, className }: Props) => {
             <Route Icon={ChartPieIcon} href="/">
               Dashboard
             </Route>
-            <Route Icon={ChartBarIcon} href="#">
-              Report Statistics
-            </Route>
-            <Route Icon={PlusCircleIcon} href={`/${user.username}/create/gig`}>
-              Create Gig
-            </Route>
-            <Route
-              Icon={BriefcaseIcon}
-              href={`/${user.username}/create/freelancer`}>
-              Become Freelancer
-            </Route>
+            {user.freelancer ? (
+              <Route
+                Icon={PlusCircleIcon}
+                href={`/${user.username}/create/gig`}>
+                Create Gig
+              </Route>
+            ) : (
+              <Route
+                Icon={BriefcaseIcon}
+                href={`/${user.username}/create/freelancer`}>
+                Become Freelancer
+              </Route>
+            )}
           </ul>
 
           <Button

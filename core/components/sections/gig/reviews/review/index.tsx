@@ -5,36 +5,34 @@ import { MapPinIcon, StarIcon } from "@heroicons/react/24/solid";
 
 type Props = {
   name: string;
-  comment: string;
+  message: string;
+  rating: number;
+  image: string;
   location: string;
 };
 
-const Review = ({ name, comment, location }: Props) => {
+const Review = ({ name, message, rating, image, location }: Props) => {
   return (
-    <div className="smooth mb-4 break-inside-avoid space-y-4 rounded border bg-white p-4 hover:shadow-lg">
+    <div className="smooth mb-4 break-inside-avoid flex flex-col space-y-4 rounded border bg-white p-4 hover:shadow-lg">
       <div className="flex gap-4">
-        <Avatar
-          src="https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=686&q=80"
-          alt="avatar"
-          size="medium"
-        />
+        <Avatar src={image} alt="avatar" size="medium" />
         <div>
           <h4 className="font-semibold">{name}</h4>
           <Pin Icon={MapPinIcon}>{location}</Pin>
         </div>
       </div>
-      <p className="text-sm">{comment}</p>
-      <div className="gap-0.1 ml-auto flex items-center">
-        {[1, 2, 3, 4, 5].map((rating, index) => (
+      <p className="text-sm">{message}</p>
+      <div className="gap-0.1 -mt-4 flex items-center">
+        {[...Array(rating)].map((_, index) => (
           <Symbol
-            key={rating}
+            key={index}
             size="small"
             Icon={StarIcon}
             isHoverDisabled
             className="text-yellow-400"
           />
         ))}
-        <p className="ml-1 text-xs font-medium">{"(158)"}</p>
+        <span className="font-semibold ml-2">({rating})</span>
       </div>
     </div>
   );

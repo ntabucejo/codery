@@ -79,7 +79,7 @@ const Page = async ({ params }: Props) => {
           </div>
         </div>
       </section>
-      <Panels freelancer={freelancer!} gigs={gigs} />
+      <Panels user={user} freelancer={freelancer!} gigs={gigs} />
     </>
   );
 };

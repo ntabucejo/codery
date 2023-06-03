@@ -8,13 +8,18 @@ import {
   Tag,
   Technology,
   Thumbnail,
+  User,
   User as UserType,
 } from "@prisma/client";
 import Carousel from "./carousel";
 import Details from "./details";
-import Chat from "../../chat/float/gig";
 
 type Props = {
+  user:
+    | (User & {
+        freelancer: Freelancer | null;
+      })
+    | null;
   gig: Gig & {
     tags: (Tag & {
       technology: Technology | null;
@@ -27,7 +32,7 @@ type Props = {
   };
 };
 
-const Overview = ({ gig }: Props) => {
+const Overview = ({  user, gig }: Props) => {
   return (
     <section className="contain space-y-4">
       <div className="grid grid-cols-4 gap-4">
@@ -35,7 +40,7 @@ const Overview = ({ gig }: Props) => {
           <Carousel thumbnails={serialize(gig.thumbnails)} />
         </div>
         <div className="">
-          <Details gig={serialize(gig)} />
+          <Details user={user} gig={serialize(gig)} />
         </div>
       </div>
       <div className="flex flex-col gap-2">

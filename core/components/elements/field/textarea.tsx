@@ -5,6 +5,7 @@ type Props = {
   isFull?: boolean;
   placeholder?: string;
   value?: string;
+  defaultValue?: string
   onChange?: ChangeEventHandler<HTMLTextAreaElement>;
   isDisabled?: boolean;
 };
@@ -14,6 +15,7 @@ const Textarea = ({
   isFull,
   placeholder,
   value,
+  defaultValue,
   onChange,
   isDisabled,
 }: Props) => {
@@ -23,6 +25,7 @@ const Textarea = ({
         id={id}
         rows={8}
         value={value}
+        defaultValue={defaultValue}
         onChange={onChange}
         placeholder={placeholder}
         disabled={isDisabled}

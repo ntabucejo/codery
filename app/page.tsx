@@ -8,6 +8,7 @@ const Page = async () => {
     include: {
       category: true,
       thumbnails: true,
+      reviews: true,
       freelancer: {
         include: {
           user: true,
