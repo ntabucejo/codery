@@ -52,6 +52,7 @@ const Panels = ({ gigs, freelancer }: Props) => {
     { title: "About Me", show: false },
     { title: "Manage Gigs", show: freelancer ?? false },
     { title: "Billing Information", show: false },
+    { title: "Contracts" },
   ];
 
   const handleDeleteGig = async (id: string) => {
