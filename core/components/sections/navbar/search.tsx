@@ -16,9 +16,11 @@ const Search = ({ users, gigs, username }: Props) => {
   const [searchTerm, setSearchTerm] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const filteredUsers = users.filter((user) =>
-    user.name?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredUsers = users.filter((user) => {
+    if (user.username !== username) {
+      user.name?.toLowerCase().includes(searchTerm.toLowerCase());
+    }
+  });
 
   const filteredGigs = gigs.filter((gig) =>
     gig.title?.toLowerCase().includes(searchTerm.toLowerCase())
