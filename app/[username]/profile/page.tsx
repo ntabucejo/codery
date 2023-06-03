@@ -22,6 +22,17 @@ const Page = async ({ params }: Props) => {
   const freelancer = await prisma.freelancer.findUnique({
     where: { userId: user?.id },
     include: {
+      contracts: {
+        select: {
+          status: true,
+          client: {
+            include: {
+              user: true,
+            },
+          },
+          gig: true,
+        },
+      },
       educations: true,
       employments: true,
       testimonials: true,
@@ -79,6 +90,7 @@ const Page = async ({ params }: Props) => {
           </div>
         </div>
       </section>
+      {/* @ts-ignore */}
       <Panels user={user} freelancer={freelancer!} gigs={gigs} />
     </>
   );

@@ -9,11 +9,14 @@ import useModal from "@core/hooks/use-modal";
 import { Tab } from "@headlessui/react";
 import {
   Category,
+  Client,
+  Contract,
   Education,
   Employment,
   Freelancer,
   Gig,
   Skill,
+  Status,
   Technology,
   Testimonial,
   Thumbnail,
@@ -28,6 +31,8 @@ type Props = {
       })
     | null;
   freelancer: Freelancer & {
+    contracts: Contract &
+      { client: Client & { user: User }; status: Status; gig: Gig }[];
     educations: Education[];
     employments: Employment[];
     testimonials: Testimonial[];
@@ -123,16 +128,16 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
 
         <Tab.Panels>
           <Tab.Panel>
-            <section className="flex flex-col gap-3 mb-2">
+            <section className="mb-2 flex flex-col gap-3">
               <div className="flex flex-col">
                 <h1 className="mb-2 text-lg font-semibold">Phone</h1>
-                <div className="flex flex-col gap-1 rounded border bg-white py-3 px-6 w-fit">
+                <div className="flex w-fit flex-col gap-1 rounded border bg-white py-3 px-6">
                   {user?.phone}
                 </div>
               </div>
               <div className="flex flex-col">
                 <h1 className="mb-2 text-lg font-semibold">Biography</h1>
-                <div className="flex flex-col gap-1 rounded border bg-white py-3 px-6 w-fit">
+                <div className="flex w-fit flex-col gap-1 rounded border bg-white py-3 px-6">
                   {user?.biography}
                 </div>
               </div>
@@ -141,11 +146,7 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
             <h1 className="mb-2 text-lg font-semibold">Skills</h1>
             <section className="flex flex-wrap items-center gap-3">
               {freelancer.skills.map(({ id, technology }) => (
-                <Badge
-                  key={id}
-                  logo="/images/auth/google.svg"
-                  name={technology!.name}
-                />
+                <Badge key={id} name={technology!.name} />
               ))}
             </section>
 
@@ -239,6 +240,22 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
                       Delete
                     </Button>
                   </div>
+                </div>
+              ))}
+            </section>
+          </Tab.Panel>
+
+          <Tab.Panel>
+            <section className="flex flex-col">
+              {freelancer.contracts.map((contract, index) => (
+                <div
+                  key={index}
+                  className="flex cursor-pointer items-center justify-between p-3 shadow hover:bg-slate-100">
+                  <div>
+                    <h2 className="font-semibold">{contract.gig.title}</h2>
+                    <h6 className="text-xs">{contract.client.user.name}</h6>
+                  </div>
+                  <Button>{contract.status}</Button>
                 </div>
               ))}
             </section>
