@@ -2,6 +2,8 @@
 import Badge from "@core/components/elements/badge";
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
+import Text from "@core/components/elements/field/text";
+import Textarea from "@core/components/elements/field/textarea";
 import Modal from "@core/components/layouts/modal";
 import useModal from "@core/hooks/use-modal";
 import { Tab } from "@headlessui/react";
@@ -20,6 +22,11 @@ import {
 import { useState } from "react";
 
 type Props = {
+  user:
+    | (User & {
+        freelancer: Freelancer | null;
+      })
+    | null;
   freelancer: Freelancer & {
     educations: Education[];
     employments: Employment[];
@@ -35,24 +42,25 @@ type Props = {
   })[];
 };
 
-const Panels = ({ gigs, freelancer }: Props) => {
-  const [selectedGig, setSelectedGig] = useState(gigs[0]);
+const Panels = ({ user, gigs, freelancer }: Props) => {
+  const [selectedGig, setSelectedGig] = useState(gigs[0] ?? "");
   const editGigModal = useModal();
+
   const initialFields = {
-    title: selectedGig.title,
-    description: selectedGig.description,
-    from: selectedGig.from,
-    to: selectedGig.to,
-    period: selectedGig.period,
+    title: selectedGig.title ?? "",
+    description: selectedGig.description ?? "",
+    from: selectedGig.from ?? 0,
+    to: selectedGig.to ?? 0,
+    period: selectedGig.period ?? 0,
   };
 
   const [editFields, setEditFields] = useState(initialFields);
 
   const panels = [
-    { title: "About Me", show: false },
+    { title: "Freelancer Details", show: freelancer ?? false },
     { title: "Manage Gigs", show: freelancer ?? false },
-    { title: "Billing Information", show: false },
-    { title: "Contracts" },
+    { title: "Billing Information" },
+    { title: "Contracts", show: freelancer ?? false },
   ];
 
   const handleDeleteGig = async (id: string) => {
@@ -90,7 +98,8 @@ const Panels = ({ gigs, freelancer }: Props) => {
     }
   };
 
-  console.log({ selectedGig });
+  if (!gigs || !freelancer) return null;
+
   return (
     <section className="contain space-y-4">
       <Tab.Group>
@@ -103,6 +112,8 @@ const Panels = ({ gigs, freelancer }: Props) => {
                   selected
                     ? "bg-primary-dark text-white shadow"
                     : "text-primary-dark hover:bg-white/[0.12] hover:text-primary-dark"
+                } ${
+                  panel.show ? "block" : "hidden"
                 } w-full rounded-lg py-2.5 text-sm font-medium leading-5  ring-primary-dark ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2`
               }>
               {panel.title}
@@ -112,6 +123,21 @@ const Panels = ({ gigs, freelancer }: Props) => {
 
         <Tab.Panels>
           <Tab.Panel>
+            <section className="flex flex-col gap-3 mb-2">
+              <div className="flex flex-col">
+                <h1 className="mb-2 text-lg font-semibold">Phone</h1>
+                <div className="flex flex-col gap-1 rounded border bg-white py-3 px-6 w-fit">
+                  {user?.phone}
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <h1 className="mb-2 text-lg font-semibold">Biography</h1>
+                <div className="flex flex-col gap-1 rounded border bg-white py-3 px-6 w-fit">
+                  {user?.biography}
+                </div>
+              </div>
+            </section>
+
             <h1 className="mb-2 text-lg font-semibold">Skills</h1>
             <section className="flex flex-wrap items-center gap-3">
               {freelancer.skills.map(({ id, technology }) => (

@@ -17,11 +17,6 @@ import { useState } from "react";
 import Review from "./review";
 
 type Props = {
-  reviews: (ReviewType & {
-    client: Client & {
-      user: User;
-    };
-  })[];
   user:
     | (User & {
         freelancer: Freelancer | null;
@@ -37,13 +32,15 @@ type Props = {
         };
         category: Category;
         thumbnails: Thumbnail[];
-        reviews: ReviewType[];
+        reviews: (ReviewType & {
+          User: User;
+        })[];
         tags: Tag[];
       })
     | null;
 };
 
-const Reviews = ({ user, gig, reviews }: Props) => {
+const Reviews = ({ user, gig }: Props) => {
   const [fields, setFields] = useState({
     message: "",
     rating: 0,
@@ -56,8 +53,8 @@ const Reviews = ({ user, gig, reviews }: Props) => {
         body: JSON.stringify({
           message: fields.message,
           rating: fields.rating,
-          gig: gig,
-          client: user,
+          gigId: gig?.id,
+          userId: user?.id,
         }),
       });
       setFields({ message: "", rating: 0 });
@@ -68,47 +65,49 @@ const Reviews = ({ user, gig, reviews }: Props) => {
 
   return (
     <section className="contain space-y-8">
-      <section className="contain space-y-4">
-        <Field.Body
-          id="message"
-          label="Message"
-          description="What is your review?">
-          <Field.Textarea
+      {gig?.freelancer.userId !== user?.id ? (
+        <section className="space-y-4">
+          <Field.Body
             id="message"
-            isFull
-            placeholder="Your Review here"
-            value={fields.message}
-            onChange={(event) =>
-              setFields({ ...fields, message: event.target.value })
-            }
-          />
-        </Field.Body>
+            label="Message"
+            description="What is your review?">
+            <Field.Textarea
+              id="message"
+              isFull
+              placeholder="Your Review here"
+              value={fields.message}
+              onChange={(event) =>
+                setFields({ ...fields, message: event.target.value })
+              }
+            />
+          </Field.Body>
 
-        <Field.Body
-          id="rating"
-          label="Rating"
-          description="How many will you rate this freelancer?">
-          <Field.Number
+          <Field.Body
             id="rating"
-            isFull
-            value={fields.rating}
-            onChange={(event) =>
-              setFields({ ...fields, rating: +event.target.value })
-            }
-          />
-        </Field.Body>
-        <Button onClick={handleCreateReview}>Post Review</Button>
-      </section>
+            label="Rating"
+            description="How many will you rate this freelancer?">
+            <Field.Number
+              id="rating"
+              isFull
+              value={fields.rating}
+              onChange={(event) =>
+                setFields({ ...fields, rating: +event.target.value })
+              }
+            />
+          </Field.Body>
+          <Button onClick={handleCreateReview}>Post Review</Button>
+        </section>
+      ) : null}
 
-      <section className="contain space-y-4 w-full">
+      <section className="w-full space-y-4">
         <h1 className="text-xl font-bold">Reviews</h1>
         <div className=" flex items-center gap-3">
-          {reviews.map((review) => (
+          {gig?.reviews.map((review) => (
             <Review
               key={review.id}
-              name={review.client.user.name!}
-              location={review.client.user.location!}
-              image={review.client.user.image!}
+              name={review.User.name!}
+              location={review.User.location!}
+              image={review.User.image!}
               message={review.message}
               rating={review.rating}
             />

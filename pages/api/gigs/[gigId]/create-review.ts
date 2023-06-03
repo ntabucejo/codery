@@ -8,8 +8,8 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
         data: {
           message: JSON.parse(request.body).message,
           rating: JSON.parse(request.body).rating,
-          gig: JSON.parse(request.body).gig,
-          client: JSON.parse(request.body).client,
+          gigId: JSON.parse(request.body).gigId,
+          userId: JSON.parse(request.body).userId,
         },
       });
       response.json("Good");
@@ -17,6 +17,9 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
       console.log(error);
       response.status(505).json("Internal Server Error");
     }
+  }
+  if (request.method === "DELETE") {
+    await prisma.review.deleteMany();
   }
 };
 
