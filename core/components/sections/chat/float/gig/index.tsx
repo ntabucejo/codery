@@ -184,7 +184,7 @@ const Chat = ({ user, gig }: Props) => {
               />
 
               <div className="flex items-center gap-2">
-                <CreateOffer gig={gig} />
+                <CreateOffer user={user} gig={gig} />
                 <Button
                   onClick={handleSendChat}
                   className="border-none bg-transparent enabled:hover:bg-transparent">

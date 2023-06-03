@@ -10,6 +10,7 @@ import Image from "next/image";
 
 type Props = {
   modal: ModalType;
+  user: User;
   gig: Gig & {
     thumbnails: Thumbnail[];
     freelancer: Freelancer & {
@@ -18,7 +19,7 @@ type Props = {
   };
 };
 
-const Form = ({ modal, gig }: Props) => {
+const Form = ({ modal, user, gig }: Props) => {
   const [fields, setFields] = useState({
     client: "",
     price: 5,
@@ -38,16 +39,17 @@ const Form = ({ modal, gig }: Props) => {
     await fetch("/api/payment/create-offer", {
       method: "POST",
       body: JSON.stringify({
-        title: "Test",
-        userId: "cld4mfisa0000uifkho5eov3r",
-        freelancerId: "cldbsc6390008sqs0cacdwsml",
-        gigId: "cldci7mq90001sqv4q6xqs6qy",
-        description: "Test",
-        price: 2,
-        revision: 3,
-        deliveryDays: 1,
+        title: gig.title,
+        userId: user.id,
+        freelancerId: gig.freelancerId,
+        gigId: gig.id,
+        description: fields.description,
+        price: +fields.price,
+        revision: +fields.revision,
+        deliveryDays: +fields.delivery,
       }),
     });
+    modal.handleClose();
   };
 
   return (
