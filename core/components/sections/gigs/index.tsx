@@ -3,6 +3,7 @@ import {
   Category,
   Freelancer,
   Gig as GigType,
+  Review,
   Thumbnail,
   User,
 } from "@prisma/client";
@@ -13,6 +14,7 @@ type Props = {
   data: (GigType & {
     category: Category;
     thumbnails: Thumbnail[];
+    reviews: Review[];
     freelancer: Freelancer & {
       user: User;
     };

@@ -55,9 +55,9 @@ const Reviews = ({ user, gig, reviews }: Props) => {
         method: "POST",
         body: JSON.stringify({
           message: fields.message,
-          gigId: gig?.id,
           rating: fields.rating,
-          clientId: user?.id,
+          gig: gig,
+          client: user,
         }),
       });
       setFields({ message: "", rating: 0 });

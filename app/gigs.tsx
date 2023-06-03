@@ -2,7 +2,7 @@
 
 import Gigs from "@core/components/sections/gigs";
 import { Tab } from "@headlessui/react";
-import { Category, Freelancer, Gig, Thumbnail, User } from "@prisma/client";
+import { Category, Freelancer, Gig, Review, Thumbnail, User } from "@prisma/client";
 import { useState } from "react";
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
   gigs: (Gig & {
     category: Category;
     thumbnails: Thumbnail[];
+    reviews: Review[];
     freelancer: Freelancer & {
       user: User;
     };

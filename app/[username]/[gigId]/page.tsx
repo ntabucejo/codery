@@ -36,16 +36,16 @@ const Page = async ({ params }: Props) => {
     },
   });
 
-  const reviews = await prisma.review.findMany({
-    where: { gigId: gig?.id },
-    include: {
-      client: {
-        include: {
-          user: true,
-        },
-      },
-    },
-  });
+  // const reviews = await prisma.review.findMany({
+  //   where: { gigId: gig?.id },
+  //   include: {
+  //     client: {
+  //       include: {
+  //         user: true,
+  //       },
+  //     },
+  //   },
+  // });
 
   const gigs = await prisma.gig.findMany({
     where: {
@@ -74,7 +74,7 @@ const Page = async ({ params }: Props) => {
     <div className="space-y-12">
       <Overview gig={gig!} />
       {myGigs.length ? <Gigs label="Gigs I also offer" data={myGigs} /> : null}
-      <Reviews gig={gig!} user={user} reviews={reviews} />
+      {/* <Reviews gig={gig!} user={user} reviews={reviews} /> */}
     </div>
   );
 };

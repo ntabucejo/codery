@@ -7,9 +7,9 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
       await prisma.review.create({
         data: {
           message: JSON.parse(request.body).message,
-          gigId: JSON.parse(request.body).gigId,
           rating: JSON.parse(request.body).rating,
-          clientId: JSON.parse(request.body).clientId,
+          gig: JSON.parse(request.body).gig,
+          client: JSON.parse(request.body).client,
         },
       });
       response.json("Good");
