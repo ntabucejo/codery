@@ -80,6 +80,7 @@ const User = ({ user, offers }: Props) => {
       <RecievedOfferDetailsModal
         offer={selectedOffer}
         modal={openOfferDetails}
+        user={user}
       />
     </>
   );

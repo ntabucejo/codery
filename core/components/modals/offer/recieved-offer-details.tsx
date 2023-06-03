@@ -14,8 +14,11 @@ type Props = {
     };
     gig: Gig;
   };
+  user: User & {
+    freelancer: Freelancer | null;
+  };
 };
-const RecievedOfferDetailsModal = ({ offer, modal }: Props) => {
+const RecievedOfferDetailsModal = ({ offer, modal, user }: Props) => {
   const paymentModal = useModal();
 
   return (
@@ -77,7 +80,7 @@ const RecievedOfferDetailsModal = ({ offer, modal }: Props) => {
         </div>
       </Modal>
 
-      <PaymentModal modal={paymentModal} />
+      <PaymentModal user={user} modal={paymentModal} offferId={offer.id} />
     </>
   );
 };
