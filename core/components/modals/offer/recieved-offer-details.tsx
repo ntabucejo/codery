@@ -19,6 +19,8 @@ type Props = {
   };
 };
 const RecievedOfferDetailsModal = ({ offer, modal, user }: Props) => {
+  if(!offer) return <></>
+  
   const paymentModal = useModal();
 
   return (

@@ -20,7 +20,7 @@ const Navbar = async () => {
   });
 
   const offers = await prisma.offer.findMany({
-    where: { userId: user?.id },
+    where: { userId: user?.id, isAccepted: false },
     include: {
       freelancer: {
         include: {
