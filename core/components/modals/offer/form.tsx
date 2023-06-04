@@ -7,6 +7,9 @@ import Modal from "@core/components/layouts/modal";
 import { type Modal as ModalType } from "@core/types/modal";
 import { Freelancer, Gig, Thumbnail, User } from "@prisma/client";
 import Image from "next/image";
+import validate from "@core/utilities/validate";
+import { ZodIssue } from "zod";
+import schemas from "@core/validations/schemas";
 
 type Props = {
   modal: ModalType;
@@ -20,11 +23,12 @@ type Props = {
 };
 
 const Form = ({ modal, user, gig }: Props) => {
+  const [warnings, setWarnings] = useState<ZodIssue[]>([]);
+
   const [fields, setFields] = useState({
-    client: "",
     price: 5,
     revision: 5,
-    delivery: 5,
+    deliveryDays: 5,
     description: "",
   });
 
@@ -35,21 +39,35 @@ const Form = ({ modal, user, gig }: Props) => {
     }));
   };
 
-  const handleCreateOffer = async () => {
-    await fetch("/api/payment/create-offer", {
-      method: "POST",
-      body: JSON.stringify({
-        title: gig.title,
-        userId: user.id,
-        freelancerId: gig.freelancerId,
-        gigId: gig.id,
-        description: fields.description,
-        price: +fields.price,
-        revision: +fields.revision,
-        deliveryDays: +fields.delivery,
-      }),
-    });
-    modal.handleClose();
+  const handleCreateOffer = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    const result = schemas.offer.safeParse(fields);
+    if (result.success) {
+      try {
+        const response = await fetch("/api/payment/create-offer", {
+          method: "POST",
+          body: JSON.stringify({
+            title: gig.title,
+            userId: user.id,
+            freelancerId: gig.freelancerId,
+            gigId: gig.id,
+            description: fields.description,
+            price: +fields.price,
+            revision: +fields.revision,
+            deliveryDays: +fields.deliveryDays,
+          }),
+        });
+        if (response.status === 201) {
+          modal.handleClose();
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setWarnings(result.error.issues);
+    }
   };
 
   return (
@@ -60,19 +78,6 @@ const Form = ({ modal, user, gig }: Props) => {
       handleClose={modal.handleClose}
       className="max-w-5xl">
       <div className="grid gap-8 laptop:grid-cols-2">
-        <Field.Body
-          id="client"
-          label="Client Full Name"
-          description="State the client's full name.">
-          <Field.Text
-            id="client"
-            isFull
-            placeholder="Name"
-            value={fields.client}
-            onChange={(event) => handleChange("client", event.target.value)}
-          />
-        </Field.Body>
-
         <div className="my-2 flex items-center gap-5 border bg-slate-200 px-4">
           <div className="relative h-14 w-14">
             <Image
@@ -93,7 +98,8 @@ const Form = ({ modal, user, gig }: Props) => {
         <Field.Body
           id="price"
           label="Price"
-          description="State the offer's price.">
+          description="State the offer's price."
+          warning={validate(warnings, "price")}>
           <Field.Number
             id="price"
             isFull
@@ -105,6 +111,7 @@ const Form = ({ modal, user, gig }: Props) => {
         <Field.Body
           id="revision"
           label="Revision"
+          warning={validate(warnings, "revision")}
           description="State how many times of revision covered to your contract.">
           <Field.Number
             id="revision"
@@ -115,13 +122,14 @@ const Form = ({ modal, user, gig }: Props) => {
         </Field.Body>
 
         <Field.Body
-          id="delivery"
+          id="deliveryDays"
           label="Days of Delivery"
+          warning={validate(warnings, "deliveryDays")}
           description="State how many days you can delivered the product to your client.">
           <Field.Number
-            id="delivery"
+            id="deliveryDays"
             isFull
-            value={fields.delivery}
+            value={fields.deliveryDays}
             onChange={(event) => handleChange("delivery", event.target.value)}
           />
         </Field.Body>
@@ -129,6 +137,7 @@ const Form = ({ modal, user, gig }: Props) => {
         <Field.Body
           id="description"
           label="Description"
+          warning={validate(warnings, "description")}
           description="State all the details that's been discussed between you and your client.">
           <Field.Textarea
             id="description"
@@ -143,13 +152,7 @@ const Form = ({ modal, user, gig }: Props) => {
       </div>
 
       <div className="flex w-full gap-4">
-        <Button
-          onClick={async () => {
-            await handleCreateOffer();
-            modal.handleClose;
-          }}>
-          Create Offer
-        </Button>
+        <Button onClick={handleCreateOffer}>Create Offer</Button>
         <Button variant="secondary" onClick={modal.handleClose}>
           Clear
         </Button>

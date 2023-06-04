@@ -4,6 +4,8 @@ import employment from "./freelancer/employment";
 import testimonial from "./freelancer/testimonial";
 import gig from "./gig";
 import thumbnail from "./gig/thumbnail";
+import offer from "./offer";
+import payment from "./payment";
 
 const schemas = {
   freelancer: {
@@ -16,6 +18,8 @@ const schemas = {
     base: gig,
     thumbnail: thumbnail,
   },
+  offer: offer,
+  payment: payment
 };
 
 export default schemas;

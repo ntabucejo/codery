@@ -5,6 +5,9 @@ import Button from "../../elements/button";
 import usePayment from "@core/hooks/use-payment";
 import { useState } from "react";
 import { Freelancer, User } from "@prisma/client";
+import { ZodIssue } from "zod";
+import schemas from "@core/validations/schemas";
+import validate from "@core/utilities/validate";
 
 type Props = {
   offferId: string;
@@ -15,6 +18,8 @@ type Props = {
 };
 
 const PaymentModal = ({ modal, user, offferId }: Props) => {
+  const [warnings, setWarnings] = useState<ZodIssue[]>([]);
+
   const [fields, setFields] = useState({
     month: "",
     year: "",
@@ -23,7 +28,7 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
     description: "",
   });
 
-  const { status, handleSubmit } = usePayment({
+  const { handleSubmit } = usePayment({
     user: {
       name: user.name!,
       email: user.email!,
@@ -41,6 +46,22 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
     description: fields.description,
   });
 
+  const handleValidationSubmit = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    const result = schemas.payment.safeParse(fields);
+    if (result.success) {
+      try {
+        handleSubmit(event);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setWarnings(result.error.issues);
+    }
+  };
+
   const acceptOffer = async () => {
     await fetch("/api/payment/accept-offer", {
       method: "PUT",
@@ -54,18 +75,12 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
       description="Proceed with giving out your payment account details to continue."
       state={modal.state}
       handleClose={modal.handleClose}
-      className="max-w-5xl z-[999]">
+      className="z-[999] max-w-5xl">
       <div className="grid gap-8 laptop:grid-cols-2">
-        <Field.Body
-          id="name"
-          label="Full Name"
-          description="State your full name.">
-          <Field.Text id="name" isFull value={user.name!} isDisabled />
-        </Field.Body>
-
         <Field.Body
           id="month"
           label="Month Expiry Date"
+          warning={validate(warnings, "month")}
           description="State your card's month expiry.">
           <Field.Number
             id="month"
@@ -80,6 +95,7 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
         <Field.Body
           id="year"
           label="Year Expiry Date"
+          warning={validate(warnings, "year")}
           description="State your card's year expiry.">
           <Field.Number
             id="year"
@@ -91,7 +107,11 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
           />
         </Field.Body>
 
-        <Field.Body id="cvc" label="CVC" description="State your card's cvc">
+        <Field.Body
+          id="cvc"
+          label="CVC"
+          description="State your card's cvc"
+          warning={validate(warnings, "cvc")}>
           <Field.Number
             id="cvc"
             isFull
@@ -105,6 +125,7 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
         <Field.Body
           id="amount"
           label="Amount"
+          warning={validate(warnings, "amount")}
           description="How much are you going to send?">
           <Field.Number
             id="delivery"
@@ -119,6 +140,7 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
         <Field.Body
           id="description"
           label="Description"
+          warning={validate(warnings, "description")}
           description="Description of Payment.">
           <Field.Textarea
             id="description"
@@ -134,9 +156,9 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
       <div className="flex w-full gap-4">
         <Button
           onClick={async (event: any) => {
-            await handleSubmit(event);
+            await handleValidationSubmit(event);
             await acceptOffer();
-            modal.handleClose()
+            modal.handleClose();
           }}>
           Send Payment
         </Button>
