@@ -12,12 +12,12 @@ const Page = async ({ params }: Props) => {
   const { userId } = params;
 
   const user = await useUser();
-  const sender = await prisma.user.findUnique({
+  const client = await prisma.user.findUnique({
     where: { id: userId },
   });
 
   return (
-    <Form sender={sender} user={user} userId={userId} freelancerId={user!.freelancer!.id} />
+    <Form client={client} user={user} userId={userId} freelancerId={user!.freelancer!.id} />
   );
 };
 

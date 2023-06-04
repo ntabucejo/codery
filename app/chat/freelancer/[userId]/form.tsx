@@ -16,10 +16,10 @@ type Props = {
     | null;
   userId: string;
   freelancerId: string;
-  sender: User | null;
+  client: User | null;
 };
 
-const Form = ({ user, userId, sender, freelancerId }: Props) => {
+const Form = ({ user, userId, client, freelancerId }: Props) => {
   const [text, setText] = useState("");
 
   const { data: messages, mutate } = useSWR<
@@ -52,8 +52,8 @@ const Form = ({ user, userId, sender, freelancerId }: Props) => {
   return (
     <div className="grid w-full grid-rows-[auto,1fr,auto] gap-5 p-3">
       <div className="border-b p-3">
-        <h1 className=" font-bold">{sender?.name}</h1>
-        <h1 className="text-xs">{sender?.email}</h1>
+        <h1 className=" font-bold">{client?.name}</h1>
+        <h1 className="text-xs">{client?.email}</h1>
       </div>
       <ul className="flex h-96 flex-col gap-1 overflow-y-scroll pr-3">
         {messages.map((message) => (
@@ -78,7 +78,7 @@ const Form = ({ user, userId, sender, freelancerId }: Props) => {
         />
 
         <div className="flex items-center gap-2">
-          {/* <CreateOffer  user={user} gig={gig} /> */}
+          {/* <CreateOffer client={client!} freelancerId={freelancerId} /> */}
           <Button
             type="button"
             onClick={handleSendMessage}
