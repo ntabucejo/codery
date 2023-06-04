@@ -11,7 +11,7 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
           message: body.message,
           rating: body.rating,
           gigId: body.gigId,
-          clientId: String(userId),
+          userId: String(userId),
         },
       });
       response.status(201).send({ message: "OK", review });
