@@ -33,7 +33,7 @@ const Form = ({ user, userId, freelancerId }: Props) => {
         user!.id
       }`,
       {
-        method: "DELETE",
+        method: "POST",
         body: JSON.stringify({
           text,
         }),
