@@ -66,9 +66,9 @@ const ChatLayout = async ({ children }: Props) => {
   };
 
   return (
-    <div className="flex gap-4">
-      <div>
-        <ul>
+    <div className="contain flex gap-4">
+      <div className="w-52">
+        <ul className="cursor-pointer border-b p-2 hover:bg-slate-100">
           {groupAsClientMessages().map((message) => (
             <li key={message.id}>
               <Link href={`/chat/client/${message.freelancer.id}`}>
@@ -77,14 +77,13 @@ const ChatLayout = async ({ children }: Props) => {
             </li>
           ))}
         </ul>
-        <p>AS Freelancer</p>
-        <ul>
+        <ul className="cursor-pointer border-b p-2 hover:bg-slate-100">
           {groupAsFreelancerMessages().map((message) => (
-            <li key={message.id}>
-              <Link href={`/chat/client/${message.userId}`}>
-                {message.user.name}
+            <div key={message.id}>
+              <Link href={`/chat/freelancer/${message.userId}`}>
+                <span>{message.user.name}</span>
               </Link>
-            </li>
+            </div>
           ))}
         </ul>
       </div>

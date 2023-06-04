@@ -181,16 +181,11 @@ const Chat = ({ user, gig }: Props) => {
                 }
               />
 
-              <div className="flex items-center gap-2">
-                {user.id === gig.freelancer.user.id ? (
-                  <CreateOffer user={user} gig={gig} />
-                ) : null}
-                <Button
-                  onClick={handleSendChat}
-                  className="border-none bg-transparent enabled:hover:bg-transparent">
-                  <Symbol Icon={PaperAirplaneIcon} />
-                </Button>
-              </div>
+              <Button
+                onClick={handleSendChat}
+                className="border-none bg-transparent enabled:hover:bg-transparent">
+                <Symbol Icon={PaperAirplaneIcon} />
+              </Button>
             </div>
           </div>
         </Transition.Fade>
