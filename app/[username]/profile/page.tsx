@@ -16,9 +16,11 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
-  
-  const user = await useUser({
+  const user = await prisma.user.findUnique({
     where: { username: params.username },
+    include: {
+      freelancer: true,
+    },
   });
 
   const freelancer = await prisma.freelancer.findUnique({
@@ -36,7 +38,7 @@ const Page = async ({ params }: Props) => {
   });
 
   const gigs = await prisma.gig.findMany({
-    where: { freelancerId: freelancer?.id },
+    where: { freelancerId: freelancer?.id ?? "!" },
     include: {
       category: true,
       thumbnails: true,
