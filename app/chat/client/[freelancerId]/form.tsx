@@ -56,16 +56,16 @@ const Form = ({ user, userId, freelancerId, freelancer }: Props) => {
   return (
     <>
       <div className="grid w-full grid-rows-[auto,1fr,auto] gap-5 p-3">
-        <div className="border-b p-3">
+        <div className="border-b p-3 flex flex-col">
           <h1 className=" font-bold">{freelancer?.user.name}</h1>
           <h1 className="text-xs">{freelancer?.user.email}</h1>
         </div>
-        <ul className="flex h-96 flex-col gap-1 overflow-y-scroll">
+        <ul className="flex h-96 flex-col gap-1 overflow-y-scroll pr-3">
           {messages.map((message) => (
             <li
               key={message.id}
               className={`w-fit rounded-md px-4 py-2 text-sm shadow ${
-                message.senderId === userId
+                message.senderId !== user?.id
                   ? "bg-slate-100"
                   : "ml-auto bg-black text-white"
               }`}>

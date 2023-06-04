@@ -55,12 +55,12 @@ const Form = ({ user, userId, sender, freelancerId }: Props) => {
         <h1 className=" font-bold">{sender?.name}</h1>
         <h1 className="text-xs">{sender?.email}</h1>
       </div>
-      <ul className="flex h-96 flex-col gap-1 overflow-y-scroll">
+      <ul className="flex h-96 flex-col gap-1 overflow-y-scroll pr-3">
         {messages.map((message) => (
           <li
             key={message.id}
             className={`w-fit rounded-md px-4 py-2 text-sm shadow ${
-              message.senderId === userId
+              message.senderId !== user?.id
                 ? "bg-slate-100"
                 : "ml-auto bg-black text-white"
             }`}>

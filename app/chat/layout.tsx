@@ -74,7 +74,9 @@ const ChatLayout = async ({ children }: Props) => {
             <div
               key={message.id}
               className="cursor-pointer border-b p-2 hover:bg-slate-100">
-              <Link href={`/chat/client/${message.freelancer.id}`}>
+              <Link
+                href={`/chat/client/${message.freelancer.id}`}
+                className="flex items-center gap-2">
                 <Avatar
                   src={message.freelancer.user.image!}
                   alt="sender image"
