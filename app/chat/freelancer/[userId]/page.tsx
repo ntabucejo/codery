@@ -14,7 +14,7 @@ const Page = async ({ params }: Props) => {
 
   return (
     <div>
-      <Form userId={userId} freelancerId={user!.freelancer!.id} />
+      <Form user={user} userId={userId} freelancerId={user!.freelancer!.id} />
     </div>
   );
 };

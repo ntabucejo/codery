@@ -6,20 +6,30 @@ import { Freelancer, Message as MessageType, User } from "@prisma/client";
 import cuid from "cuid";
 
 type Props = {
+  user:
+    | (User & {
+        freelancer: Freelancer | null;
+      })
+    | null;
   userId: string;
   freelancerId: string;
 };
 
-const Form = ({ userId, freelancerId }: Props) => {
+const Form = ({ user, userId, freelancerId }: Props) => {
   const [text, setText] = useState("");
 
   const { data: messages, mutate } = useSWR<
     (MessageType & {
       freelancer: Freelancer;
     })[]
-  >(`/api/messages?userId=${userId}&freelancerId=${freelancerId}`, {
-    refreshInterval: 1000,
-  });
+  >(
+    `/api/messages?userId=${userId}&freelancerId=${freelancerId}&senderId${
+      user!.id
+    }`,
+    {
+      refreshInterval: 1000,
+    }
+  );
 
   console.log({ messages });
 
