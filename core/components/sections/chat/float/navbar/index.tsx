@@ -16,7 +16,10 @@ import Message from "../gig/message";
 import InboxMessage from "./message";
 
 type AsClientMessage = MessageType & {
-  freelancer: Freelancer & { user: User };
+  user: User;
+  freelancer: Freelancer & {
+    user: User;
+  };
 };
 
 type AsFreelancerMessage = MessageType & { user: User };
@@ -29,18 +32,31 @@ type Props = {
 const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
   const [isFreelancer, setIsFreelancer] = useState(false);
 
-  const asFreelancerUniqueMessages = asFreelancerMessages.reduce(
-    (unique, message) => {
-      const isDuplicate = unique.some((m) => m.id === message.id);
+  const groupAsClientMessages = () => {
+    let groupedMessages: AsClientMessage[] = [];
+    for (const message of asClientMessages) {
+      let freelancerId = message.freelancerId;
+      if (
+        groupedMessages.find((message) => message.freelancerId === freelancerId)
+      )
+        continue;
+      groupedMessages = [...groupedMessages, message];
+    }
 
-      if (!isDuplicate) {
-        unique.push(message);
-      }
+    return groupedMessages;
+  };
 
-      return unique;
-    },
-    [] as AsFreelancerMessage[]
-  );
+  const groupAsFreelancerMessages = () => {
+    let groupedMessages: typeof asFreelancerMessages = [];
+    for (const message of asFreelancerMessages) {
+      let userId = message.userId;
+      if (groupedMessages.find((message) => message.user.id === userId))
+        continue;
+      groupedMessages = [...groupedMessages, message];
+    }
+
+    return groupedMessages;
+  };
 
   return (
     <Popover className="relative">
@@ -70,28 +86,28 @@ const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
           {/* messages */}
           <section className="flex flex-col">
             {!isFreelancer
-              ? asFreelancerUniqueMessages.map((message) => (
-                  <InboxMessage
-                    key={message.id}
-                    name={message.user.name!}
-                    image={message.user.image!}
-                    message={message.text}
-                  />
+              ? groupAsFreelancerMessages().map((message) => (
+                  <Link href={`chat/freelancer${message.userId}`}>
+                    <InboxMessage
+                      key={message.id}
+                      name={message.user.name!}
+                      image={message.user.image!}
+                      message={message.text}
+                    />
+                  </Link>
                 ))
-              : asClientMessages.map((message) => (
-                  <InboxMessage
-                    key={message.id}
-                    name={message.freelancer.user.name!}
-                    image={message.freelancer.user.image!}
-                    message={message.text}
-                  />
+              : groupAsClientMessages().map((message) => (
+                  <Link href={`chat/client/${message.freelancerId}`}>
+                    <InboxMessage
+                      key={message.id}
+                      name={message.freelancer.user.name!}
+                      image={message.freelancer.user.image!}
+                      message={message.text}
+                    />
+                    See All In Inbox
+                  </Link>
                 ))}
           </section>
-
-          {/* see all inbox */}
-          <h4 className="smooth ml-auto mt-auto cursor-pointer p-2 text-sm font-semibold text-primary-brand hover:text-primary-brand/fade">
-            <Link href="/chat">See All In Inbox</Link>
-          </h4>
         </Popover.Panel>
       </Transition.PopDown>
     </Popover>
