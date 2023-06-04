@@ -3,10 +3,10 @@
 import { useState } from "react";
 import useSWR from "swr";
 import { Freelancer, Message as MessageType, User } from "@prisma/client";
-import cuid from "cuid";
 import Button from "@core/components/elements/button";
 import Symbol from "@core/components/elements/symbol";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
+import CreateOffer from "@core/components/modals/offer";
 
 type Props = {
   user:
@@ -73,9 +73,7 @@ const Form = ({ user, userId, freelancerId }: Props) => {
         />
 
         <div className="flex items-center gap-2">
-          {/* {user.id === gig.freelancer.user.id ? (
-              <CreateOffer user={user} gig={gig} />
-            ) : null} */}
+          {/* <CreateOffer  user={user} gig={gig} /> */}
           <Button
             onClick={handleSendMessage}
             className="border-none bg-transparent enabled:hover:bg-transparent">
