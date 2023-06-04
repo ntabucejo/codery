@@ -49,7 +49,7 @@ const Chat = ({ user, gig }: Props) => {
 
   const { data: messages, mutate } = useSWR<
     (MessageType & { freelancer?: Freelancer })[]
-  >(`/api/messages?clientId=${user.id}&freelancerId=${gig.freelancerId}`, {
+  >(`/api/messages?userId=${user.id}&freelancerId=${gig.freelancerId}`, {
     refreshInterval: 1000,
   });
 
@@ -87,7 +87,7 @@ const Chat = ({ user, gig }: Props) => {
       { revalidate: false }
     );
     await fetch(
-      `/api/messages?clientId=${user.id}&freelancerId=${gig.freelancerId}`,
+      `/api/messages?userId=${user.id}&freelancerId=${gig.freelancerId}`,
       {
         method: "POST",
         body: JSON.stringify({ text: fields.text }),
