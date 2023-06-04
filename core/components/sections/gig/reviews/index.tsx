@@ -1,6 +1,8 @@
 "use client";
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
+import Symbol from "@core/components/elements/symbol";
+import { StarIcon } from "@heroicons/react/24/solid";
 import {
   Category,
   Client,
@@ -45,6 +47,13 @@ const Reviews = ({ user, gig }: Props) => {
     message: "",
     rating: 0,
   });
+
+  if (!gig) return <></>;
+  
+  const totalRating =
+    gig.reviews && gig.reviews.reduce((sum, review) => sum + review.rating, 0);
+  const averageRating =
+    gig.reviews && Math.round(totalRating / gig.reviews.length);
 
   const handleCreateReview = async () => {
     try {
@@ -100,8 +109,21 @@ const Reviews = ({ user, gig }: Props) => {
       ) : null}
 
       <section className="w-full space-y-4">
-        <h1 className="text-xl font-bold">Reviews</h1>
-        <div className=" flex items-center gap-3">
+        <div className="flex items-center gap-3 ">
+          <div className="gap-0.1 flex items-center">
+            {[...Array(averageRating)].map((_, index) => (
+              <Symbol
+                key={index}
+                size="small"
+                Icon={StarIcon}
+                isHoverDisabled
+                className="text-yellow-400"
+              />
+            ))}
+          </div>
+          <h1 className="text-xl font-bold">Reviews ({gig?.reviews.length})</h1>
+        </div>
+        <div className=" flex flex-col gap-2">
           {gig?.reviews.map((review) => (
             <Review
               key={review.id}

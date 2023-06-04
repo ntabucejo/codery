@@ -13,7 +13,7 @@ type Props = {
 
 const Review = ({ name, message, rating, image, location }: Props) => {
   return (
-    <div className="smooth mb-4 break-inside-avoid flex flex-col space-y-4 rounded border bg-white p-4 hover:shadow-lg">
+    <div className="smooth break-inside-avoid flex flex-col space-y-4 rounded border bg-white p-4 hover:shadow-lg">
       <div className="flex gap-4">
         <Avatar src={image} alt="avatar" size="medium" />
         <div>
