@@ -26,7 +26,7 @@ const Form = ({ user, userId, freelancerId }: Props) => {
       freelancer: Freelancer;
     })[]
   >(
-    `/api/messages?userId=${userId}&freelancerId=${freelancerId}&senderId${
+    `/api/messages?userId=${userId}&freelancerId=${freelancerId}&senderId=${
       user!.id
     }`,
     {
