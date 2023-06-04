@@ -29,11 +29,11 @@ const Form = ({ user, userId, freelancerId }: Props) => {
   const handleSendMessage = async () => {
     setText("");
     await fetch(
-      `/api/messages?userId=${userId}&freelancerId=${freelancerId}&senderId${
+      `/api/messages?userId=${userId}&freelancerId=${freelancerId}&senderId=${
         user!.id
       }`,
       {
-        method: "POST",
+        method: "DELETE",
         body: JSON.stringify({
           text,
         }),
