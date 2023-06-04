@@ -104,7 +104,6 @@ const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
                       image={message.freelancer.user.image!}
                       message={message.text}
                     />
-                    See All In Inbox
                   </Link>
                 ))}
           </section>
