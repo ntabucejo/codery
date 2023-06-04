@@ -1,5 +1,4 @@
 import useUser from "@core/hooks/use-user";
-import useSession from "../../core/hooks/use-session";
 import prisma from "@core/libraries/prisma";
 import ChatView from "./chat-view";
 

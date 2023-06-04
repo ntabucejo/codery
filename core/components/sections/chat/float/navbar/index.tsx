@@ -54,7 +54,7 @@ const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
       <Transition.PopDown>
         <Popover.Panel className="absolute top-10 right-0 z-50 grid h-[400px] w-96 grid-rows-[auto,1fr,auto] overflow-y-scroll rounded border bg-white shadow-xl">
           {/* how many messages */}
-          <div className="flex items-center justify-between p-3 border-b ">
+          <div className="flex items-center justify-between border-b p-3 ">
             <div className="flex items-center gap-2 text-sm font-semibold">
               <Symbol Icon={EnvelopeIcon} size="small" />
               <h4>Inbox</h4>
@@ -68,23 +68,25 @@ const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
           </div>
 
           {/* messages */}
-          {!isFreelancer
-            ? asFreelancerUniqueMessages.map((message) => (
-                <InboxMessage
-                  key={message.id}
-                  name={message.user.name!}
-                  image={message.user.image!}
-                  message={message.text}
-                />
-              ))
-            : asClientMessages.map((message) => (
-                <InboxMessage
-                  key={message.id}
-                  name={message.freelancer.user.name!}
-                  image={message.freelancer.user.image!}
-                  message={message.text}
-                />
-              ))}
+          <section className="flex flex-col">
+            {!isFreelancer
+              ? asFreelancerUniqueMessages.map((message) => (
+                  <InboxMessage
+                    key={message.id}
+                    name={message.user.name!}
+                    image={message.user.image!}
+                    message={message.text}
+                  />
+                ))
+              : asClientMessages.map((message) => (
+                  <InboxMessage
+                    key={message.id}
+                    name={message.freelancer.user.name!}
+                    image={message.freelancer.user.image!}
+                    message={message.text}
+                  />
+                ))}
+          </section>
 
           {/* see all inbox */}
           <h4 className="smooth ml-auto mt-auto cursor-pointer p-2 text-sm font-semibold text-primary-brand hover:text-primary-brand/fade">
