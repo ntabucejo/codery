@@ -61,8 +61,8 @@ const Form = ({ user, userId, sender, freelancerId }: Props) => {
             key={message.id}
             className={`w-fit rounded-md px-4 py-2 text-sm shadow ${
               message.senderId !== user?.id
-                ? "bg-slate-100"
-                : "ml-auto bg-black text-white"
+                ? "bg-gray-200"
+                : "ml-auto bg-primary-brand text-white"
             }`}>
             {message.text}
           </li>

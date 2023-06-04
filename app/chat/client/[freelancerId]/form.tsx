@@ -56,7 +56,7 @@ const Form = ({ user, userId, freelancerId, freelancer }: Props) => {
   return (
     <>
       <div className="grid w-full grid-rows-[auto,1fr,auto] gap-5 p-3">
-        <div className="border-b p-3 flex flex-col">
+        <div className="flex flex-col border-b p-3">
           <h1 className=" font-bold">{freelancer?.user.name}</h1>
           <h1 className="text-xs">{freelancer?.user.email}</h1>
         </div>
@@ -66,8 +66,8 @@ const Form = ({ user, userId, freelancerId, freelancer }: Props) => {
               key={message.id}
               className={`w-fit rounded-md px-4 py-2 text-sm shadow ${
                 message.senderId !== user?.id
-                  ? "bg-slate-100"
-                  : "ml-auto bg-black text-white"
+                  ? "bg-gray-200"
+                  : "ml-auto bg-primary-brand text-white"
               }`}>
               {message.text}
             </li>

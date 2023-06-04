@@ -6,7 +6,7 @@ type Props = {
 const Message = ({ children, isLeft }: Props) => {
   return (
     <div
-      className={`max-w-[250px] rounded-lg rounded-bl-none px-4 py-2 text-sm ${
+      className={`rounded-md px-4 py-2 text-sm w-fit ${
         isLeft ? "bg-gray-200" : "ml-auto bg-primary-brand text-white"
       }`}>
       {children}

@@ -160,10 +160,10 @@ const Chat = ({ user, gig }: Props) => {
             </div>
 
             {/* messages */}
-            <div className="flex flex-col gap-2 overflow-y-scroll">
+            <div className="flex flex-col gap-1 overflow-y-scroll p-3 ">
               {messages?.map((message) => (
                 <Message
-                  isLeft={user.id === message.freelancer?.userId}
+                  isLeft={user.id !== message.senderId}
                   key={message.id}>
                   {message.text}
                 </Message>
