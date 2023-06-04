@@ -87,7 +87,7 @@ const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
           <section className="flex flex-col">
             {!isFreelancer
               ? groupAsFreelancerMessages().map((message) => (
-                  <Link href={`chat/freelancer${message.userId}`}>
+                  <Link href={`chat/freelancer/${message.userId}`}>
                     <InboxMessage
                       key={message.id}
                       name={message.user.name!}
