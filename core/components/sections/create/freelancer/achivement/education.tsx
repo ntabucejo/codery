@@ -42,19 +42,21 @@ class Year {
 
 let years: { id: string; name: string }[] = [];
 
-for (let year = 1960; year <= 2022; year++) {
+for (let year = 1960; year <= 2050; year++) {
   years.unshift(new Year(cuid(), year.toString()));
 }
 
 let degrees: { id: string; name: string }[] = [
-  new Degree(cuid(), "BSCS"),
-  new Degree(cuid(), "BSIT"),
-  new Degree(cuid(), "BSCE"),
+  new Degree(cuid(), "BS Computer Science"),
+  new Degree(cuid(), "BS Information Technology"),
+  new Degree(cuid(), "BS Computer Engineering"),
+  new Degree(cuid(), "BS Electrical Engineering"),
 ];
 
 let areas: { id: string; name: string }[] = [
   new Area(cuid(), "Software"),
   new Area(cuid(), "Hardware"),
+  new Area(cuid(), "Both Software and Hardware"),
 ];
 
 const Education = ({ modal }: Props) => {

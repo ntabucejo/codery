@@ -24,7 +24,7 @@ class Year {
 
 let years: { id: string; name: string }[] = [];
 
-for (let year = 1960; year <= 2022; year++) {
+for (let year = 1960; year <= 2050; year++) {
   years.unshift(new Year(cuid(), year.toString()));
 }
 
