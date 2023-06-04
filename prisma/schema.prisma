@@ -42,13 +42,14 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  freelancer Freelancer?
-  client     Client?
-  accounts   Account[]
-  favorites  Favorite[]
-  messages   Message[]
-  offers     Offer[]
-  reviews    Review[]
+  freelancer   Freelancer?
+  client       Client?
+  accounts     Account[]
+  favorites    Favorite[]
+  messages     Message[]   @relation("client")
+  offers       Offer[]
+  reviews      Review[]
+  sentMessages Message[]   @relation("sender")
 }
 
 model Client {
@@ -297,10 +298,14 @@ model Message {
   freelancerId String
 
   text   String @db.Text
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation("client", fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
+  sender   User   @relation("sender", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId String
+
   @@index([freelancerId])
+  @@index([senderId])
   @@index([userId])
 }
 

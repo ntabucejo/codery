@@ -25,9 +25,14 @@ const Form = ({ user, userId, freelancerId }: Props) => {
     (MessageType & {
       freelancer: Freelancer;
     })[]
-  >(`/api/messages?userId=${userId}&freelancerId=${freelancerId}`, {
-    refreshInterval: 1000,
-  });
+  >(
+    `/api/messages?userId=${userId}&freelancerId=${freelancerId}&senderId${
+      user!.id
+    }`,
+    {
+      refreshInterval: 1000,
+    }
+  );
 
   const handleSendMessage = async () => {
     if (!text) return;

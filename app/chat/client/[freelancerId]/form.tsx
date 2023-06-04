@@ -6,11 +6,16 @@ import { Freelancer, Message as MessageType, User } from "@prisma/client";
 import cuid from "cuid";
 
 type Props = {
+  user:
+    | (User & {
+        freelancer: Freelancer | null;
+      })
+    | null;
   userId: string;
   freelancerId: string;
 };
 
-const Form = ({ userId, freelancerId }: Props) => {
+const Form = ({ user, userId, freelancerId }: Props) => {
   const [text, setText] = useState("");
 
   const { data: messages, mutate } = useSWR<
@@ -23,12 +28,17 @@ const Form = ({ userId, freelancerId }: Props) => {
 
   const handleSendMessage = async () => {
     setText("");
-    await fetch(`/api/messages?userId=${userId}&freelancerId=${freelancerId}`, {
-      method: "POST",
-      body: JSON.stringify({
-        text,
-      }),
-    });
+    await fetch(
+      `/api/messages?userId=${userId}&freelancerId=${freelancerId}&senderId${
+        user!.id
+      }`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          text,
+        }),
+      }
+    );
     mutate();
   };
 

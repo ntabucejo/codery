@@ -12,7 +12,9 @@ const Page = async ({ params }: Props) => {
 
   const user = await useUser();
 
-  return <Form user={user} userId={userId} freelancerId={user!.freelancer!.id} />;
+  return (
+    <Form user={user} userId={userId} freelancerId={user!.freelancer!.id} />
+  );
 };
 
 export default Page;

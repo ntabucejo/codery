@@ -87,7 +87,7 @@ const Chat = ({ user, gig }: Props) => {
       { revalidate: false }
     );
     await fetch(
-      `/api/messages?userId=${user.id}&freelancerId=${gig.freelancerId}`,
+      `/api/messages?userId=${user.id}&freelancerId=${gig.freelancerId}&senderId${user.id}`,
       {
         method: "POST",
         body: JSON.stringify({ text: fields.text }),

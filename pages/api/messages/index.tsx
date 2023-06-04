@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (request: NextApiRequest, response: NextApiResponse) => {
   const {
-    query: { userId, freelancerId },
+    query: { userId, freelancerId, senderId },
   } = request;
   switch (request.method) {
     case "GET":
@@ -11,6 +11,7 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
         where: {
           userId: String(userId),
           freelancerId: String(freelancerId),
+          senderId: String(senderId),
         },
         include: {
           freelancer: true,
@@ -24,6 +25,7 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
           userId: String(userId),
           freelancerId: String(freelancerId),
           text: String(text),
+          senderId: String(senderId),
         },
       });
       return response.json("Good");
