@@ -32,24 +32,24 @@ type Props = {
   };
 };
 
-const Overview = ({  user, gig }: Props) => {
+const Overview = ({ user, gig }: Props) => {
   return (
     <section className="contain space-y-4">
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-flow-row gap-4 laptop:grid-cols-4">
         <div className="col-span-3 overflow-hidden rounded">
           <Carousel thumbnails={serialize(gig.thumbnails)} />
+          <div className="flex flex-col gap-2 mt-4">
+            <Balancer>
+              <h1 className="text-4xl font-extrabold">{gig.title}</h1>
+            </Balancer>
+            <Balancer>
+              <p>{gig.description}</p>
+            </Balancer>
+          </div>
         </div>
         <div className="">
           <Details user={user} gig={serialize(gig)} />
         </div>
-      </div>
-      <div className="flex flex-col gap-2">
-        <Balancer>
-          <h1 className="text-4xl font-extrabold">{gig.title}</h1>
-        </Balancer>
-        <Balancer>
-          <p>{gig.description}</p>
-        </Balancer>
       </div>
     </section>
   );
