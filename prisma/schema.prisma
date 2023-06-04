@@ -81,7 +81,7 @@ model Freelancer {
 model Employment {
   id          String  @id @default(cuid())
   company     String
-  description String  @db.Text
+  description String  @db.VarChar(5000)
   position    String
   location    String
   from        String
@@ -113,7 +113,7 @@ model Testimonial {
   name     String
   position String
   email    String
-  message  String @db.Text
+  message  String @db.VarChar(5000)
 
   freelancer   Freelancer? @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId String?
@@ -124,7 +124,7 @@ model Testimonial {
 model Gig {
   id          String @id @default(cuid())
   title       String
-  description String @db.Text
+  description String @db.VarChar(5000)
   period      Int
   from        Int
   to          Int
@@ -205,7 +205,7 @@ model Thumbnail {
   id          String @id @default(cuid())
   image       String
   title       String
-  description String
+  description String @db.VarChar(5000)
   repository  String
   website     String
 
@@ -237,7 +237,7 @@ model Contract {
 model Offer {
   id           String  @id @default(cuid())
   title        String
-  description  String  @db.Text
+  description  String  @db.VarChar(5000)
   isAccepted   Boolean @default(false)
   deliveryDays Int
   price        Int
@@ -260,7 +260,7 @@ model Offer {
 
 model Review {
   id      String @id @default(cuid())
-  message String
+  message String @db.VarChar(5000)
   rating  Int
 
   createdAt DateTime @default(now())
@@ -278,7 +278,7 @@ model Review {
 
 model Comment {
   id      String @id @default(cuid())
-  message String
+  message String @db.VarChar(5000)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -297,7 +297,7 @@ model Message {
   freelancer   Freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   freelancerId String
 
-  text   String @db.Text
+  text   String @db.VarChar(5000)
   user   User   @relation("client", fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
