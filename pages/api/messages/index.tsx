@@ -11,7 +11,6 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
         where: {
           userId: String(userId),
           freelancerId: String(freelancerId),
-          senderId: String(senderId),
         },
         include: {
           freelancer: true,
