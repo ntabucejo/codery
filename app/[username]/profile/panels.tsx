@@ -105,7 +105,7 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
   return (
     <section className="contain space-y-4">
       <Tab.Group>
-        <Tab.List className="flex items-center gap-4">
+        <Tab.List className="flex items-center gap-4 overflow-x-scroll scrollbar-hide">
           {panels.map((panel) => (
             <Tab
               key={panel.title}
