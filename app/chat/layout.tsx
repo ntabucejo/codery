@@ -1,3 +1,4 @@
+import Avatar from "@core/components/elements/avatar";
 import useUser from "@core/hooks/use-user";
 import prisma from "@core/libraries/prisma";
 import Link from "next/link";
@@ -68,20 +69,36 @@ const ChatLayout = async ({ children }: Props) => {
   return (
     <div className="contain flex gap-4">
       <div className="w-52">
-        <ul className="cursor-pointer border-b p-2 hover:bg-slate-100">
+        <ul>
           {groupAsClientMessages().map((message) => (
-            <li key={message.id}>
+            <div
+              key={message.id}
+              className="cursor-pointer border-b p-2 hover:bg-slate-100">
               <Link href={`/chat/client/${message.freelancer.id}`}>
-                {message.freelancer.user.name}
+                <Avatar
+                  src={message.freelancer.user.image!}
+                  alt="sender image"
+                  size="small"
+                />
+                <h1>{message.freelancer.user.name}</h1>
               </Link>
-            </li>
+            </div>
           ))}
         </ul>
-        <ul className="cursor-pointer border-b p-2 hover:bg-slate-100">
+        <ul>
           {groupAsFreelancerMessages().map((message) => (
-            <div key={message.id}>
-              <Link href={`/chat/freelancer/${message.userId}`}>
-                <span>{message.user.name}</span>
+            <div
+              key={message.id}
+              className="cursor-pointer border-b p-2 hover:bg-slate-100">
+              <Link
+                href={`/chat/freelancer/${message.userId}`}
+                className="flex items-center gap-2">
+                <Avatar
+                  src={message.user.image!}
+                  alt="sender image"
+                  size="small"
+                />
+                <h1>{message.user.name}</h1>
               </Link>
             </div>
           ))}

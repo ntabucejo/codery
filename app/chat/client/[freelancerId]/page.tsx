@@ -13,7 +13,14 @@ const Page = async ({ params }: Props) => {
 
   const user = await useUser();
 
-  return <Form user={user} userId={user!.id} freelancerId={freelancerId} />;
+  const freelancer = await prisma.freelancer.findUnique({
+    where: {id: freelancerId},
+    include: {
+      user: true
+    }
+  });
+
+  return <Form freelancer={freelancer} user={user} userId={user!.id} freelancerId={freelancerId} />;
 };
 
 export default Page;

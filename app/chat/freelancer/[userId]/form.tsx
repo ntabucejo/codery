@@ -16,48 +16,53 @@ type Props = {
     | null;
   userId: string;
   freelancerId: string;
+  sender: User | null;
 };
 
-const Form = ({ user, userId, freelancerId }: Props) => {
+const Form = ({ user, userId, sender, freelancerId }: Props) => {
   const [text, setText] = useState("");
 
   const { data: messages, mutate } = useSWR<
     (MessageType & {
       freelancer: Freelancer;
     })[]
-  >(
-    `/api/messages?userId=${userId}&freelancerId=${freelancerId}&senderId=${
-      user!.id
-    }`,
-    {
-      refreshInterval: 1000,
-    }
-  );
+  >(`/api/messages?userId=${userId}&freelancerId=${freelancerId}`, {
+    refreshInterval: 1000,
+  });
 
   const handleSendMessage = async () => {
     if (!text) return;
     setText("");
-    await fetch(`/api/messages?userId=${userId}&freelancerId=${freelancerId}`, {
-      method: "POST",
-      body: JSON.stringify({
-        text,
-      }),
-    });
+    await fetch(
+      `/api/messages?userId=${userId}&freelancerId=${freelancerId}&senderId=${
+        user!.id
+      }`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          text,
+        }),
+      }
+    );
     mutate();
   };
 
   if (!messages) return null;
 
   return (
-    <div className="grid w-full grid-rows-[1fr,auto] gap-5 p-3">
+    <div className="grid w-full grid-rows-[auto,1fr,auto] gap-5 p-3">
+      <div className="border-b p-3">
+        <h1 className=" font-bold">{sender?.name}</h1>
+        <h1 className="text-xs">{sender?.email}</h1>
+      </div>
       <ul className="flex h-96 flex-col gap-1 overflow-y-scroll">
         {messages.map((message) => (
           <li
             key={message.id}
             className={`w-fit rounded-md px-4 py-2 text-sm shadow ${
-              message.freelancer.userId === user?.id
-                ? "bg-black text-white"
-                : "text-red-500"
+              message.senderId === userId
+                ? "bg-slate-100"
+                : "ml-auto bg-black text-white"
             }`}>
             {message.text}
           </li>
@@ -75,6 +80,7 @@ const Form = ({ user, userId, freelancerId }: Props) => {
         <div className="flex items-center gap-2">
           {/* <CreateOffer  user={user} gig={gig} /> */}
           <Button
+            type="button"
             onClick={handleSendMessage}
             className="border-none bg-transparent enabled:hover:bg-transparent">
             <Symbol Icon={PaperAirplaneIcon} />

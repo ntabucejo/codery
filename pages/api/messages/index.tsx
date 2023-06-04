@@ -14,6 +14,7 @@ const handler = async (request: NextApiRequest, response: NextApiResponse) => {
         },
         include: {
           freelancer: true,
+          sender: true
         },
       });
       return response.json(messages);

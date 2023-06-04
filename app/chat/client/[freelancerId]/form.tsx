@@ -16,14 +16,20 @@ type Props = {
     | null;
   userId: string;
   freelancerId: string;
+  freelancer:
+    | (Freelancer & {
+        user: User;
+      })
+    | null;
 };
 
-const Form = ({ user, userId, freelancerId }: Props) => {
+const Form = ({ user, userId, freelancerId, freelancer }: Props) => {
   const [text, setText] = useState("");
 
   const { data: messages, mutate } = useSWR<
     (MessageType & {
       freelancer: Freelancer;
+      sender: User;
     })[]
   >(`/api/messages?userId=${userId}&freelancerId=${freelancerId}`, {
     refreshInterval: 1000,
@@ -49,15 +55,19 @@ const Form = ({ user, userId, freelancerId }: Props) => {
 
   return (
     <>
-      <div className="grid w-full grid-rows-[1fr,auto] gap-5 p-3">
+      <div className="grid w-full grid-rows-[auto,1fr,auto] gap-5 p-3">
+        <div className="border-b p-3">
+          <h1 className=" font-bold">{freelancer?.user.name}</h1>
+          <h1 className="text-xs">{freelancer?.user.email}</h1>
+        </div>
         <ul className="flex h-96 flex-col gap-1 overflow-y-scroll">
           {messages.map((message) => (
             <li
               key={message.id}
               className={`w-fit rounded-md px-4 py-2 text-sm shadow ${
-                message.freelancer.userId === user?.id
-                  ? "bg-black text-white"
-                  : "text-red-500"
+                message.senderId === userId
+                  ? "bg-slate-100"
+                  : "ml-auto bg-black text-white"
               }`}>
               {message.text}
             </li>
