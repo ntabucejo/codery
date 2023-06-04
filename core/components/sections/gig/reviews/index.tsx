@@ -1,11 +1,13 @@
 "use client";
+
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Symbol from "@core/components/elements/symbol";
+import validate from "@core/utilities/validate";
+import schemas from "@core/validations/schemas";
 import { StarIcon } from "@heroicons/react/24/solid";
 import {
   Category,
-  Client,
   Freelancer,
   Gig,
   Review as ReviewType,
@@ -15,7 +17,9 @@ import {
   Thumbnail,
   User,
 } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ZodIssue } from "zod";
 import Review from "./review";
 
 type Props = {
@@ -43,32 +47,44 @@ type Props = {
 };
 
 const Reviews = ({ user, gig }: Props) => {
+  const [warnings, setWarnings] = useState<ZodIssue[]>([]);
+  const router = useRouter();
   const [fields, setFields] = useState({
     message: "",
     rating: 0,
   });
 
   if (!gig) return <></>;
-  
+
   const totalRating =
     gig.reviews && gig.reviews.reduce((sum, review) => sum + review.rating, 0);
   const averageRating =
     gig.reviews && Math.round(totalRating / gig.reviews.length);
 
-  const handleCreateReview = async () => {
-    try {
-      await fetch(`/api/gigs/${gig?.id}/create-review`, {
-        method: "POST",
-        body: JSON.stringify({
-          message: fields.message,
-          rating: fields.rating,
-          gigId: gig?.id,
-          userId: user?.id,
-        }),
-      });
-      setFields({ message: "", rating: 0 });
-    } catch (error) {
-      console.log(error);
+  const handleCreateReview = async (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault();
+    const result = schemas.review.safeParse(fields);
+    if (result.success) {
+      try {
+        await fetch(`/api/gigs/${gig?.id}/create-review`, {
+          method: "POST",
+          body: JSON.stringify({
+            message: fields.message,
+            rating: fields.rating,
+            gigId: gig?.id,
+            userId: user?.id,
+          }),
+        });
+        setFields({ message: "", rating: 0 });
+        setWarnings([]);
+        router.refresh();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      setWarnings(result.error.issues);
     }
   };
 
@@ -79,6 +95,7 @@ const Reviews = ({ user, gig }: Props) => {
           <Field.Body
             id="message"
             label="Message"
+            warning={validate(warnings, "message")}
             description="What is your review?">
             <Field.Textarea
               id="message"
@@ -94,6 +111,7 @@ const Reviews = ({ user, gig }: Props) => {
           <Field.Body
             id="rating"
             label="Rating"
+            warning={validate(warnings, "rating")}
             description="How many will you rate this freelancer?">
             <Field.Number
               id="rating"
