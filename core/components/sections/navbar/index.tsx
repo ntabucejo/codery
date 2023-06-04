@@ -24,8 +24,8 @@ const Navbar = async () => {
     include: {
       freelancer: {
         include: {
-          user: true
-        }
+          user: true,
+        },
       },
       gig: true,
     },
@@ -35,9 +35,10 @@ const Navbar = async () => {
 
   const asClientMessages = await prisma.message.findMany({
     where: {
-      userId: user?.id || "!",
+      userId: user?.id ?? "!",
     },
     include: {
+      user: true,
       freelancer: {
         include: {
           user: true,
