@@ -1,4 +1,5 @@
 "use client";
+import Button from "@core/components/elements/button";
 import Symbol from "@core/components/elements/symbol";
 import Transition from "@core/components/layouts/transition";
 import { Popover } from "@headlessui/react";
@@ -53,14 +54,18 @@ const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
       <Transition.PopDown>
         <Popover.Panel className="absolute top-10 right-0 z-50 grid h-[400px] w-96 grid-rows-[auto,1fr,auto] overflow-y-scroll rounded border bg-white shadow-xl">
           {/* how many messages */}
-          <div className="flex items-center gap-2 border-b p-3 text-sm font-semibold">
-            <Symbol Icon={EnvelopeIcon} size="small" />
-            <h4>Inbox</h4>
-          </div>
+          <div className="flex items-center justify-between p-3 border-b ">
+            <div className="flex items-center gap-2 text-sm font-semibold">
+              <Symbol Icon={EnvelopeIcon} size="small" />
+              <h4>Inbox</h4>
+            </div>
 
-          <button onClick={() => setIsFreelancer(!isFreelancer)}>
-            Switch to {isFreelancer ? "Freelancer" : "Client"}
-          </button>
+            <Button
+              className="w-fit"
+              onClick={() => setIsFreelancer(!isFreelancer)}>
+              Switch to {isFreelancer ? "Freelancer" : "Client"}
+            </Button>
+          </div>
 
           {/* messages */}
           {!isFreelancer
@@ -82,7 +87,7 @@ const Chat = ({ asClientMessages, asFreelancerMessages }: Props) => {
               ))}
 
           {/* see all inbox */}
-          <h4 className="smooth ml-auto cursor-pointer p-2 text-sm font-semibold text-primary-brand hover:text-primary-brand/fade">
+          <h4 className="smooth ml-auto mt-auto cursor-pointer p-2 text-sm font-semibold text-primary-brand hover:text-primary-brand/fade">
             <Link href="/chat">See All In Inbox</Link>
           </h4>
         </Popover.Panel>
