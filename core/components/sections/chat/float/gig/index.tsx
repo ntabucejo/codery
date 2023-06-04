@@ -82,6 +82,7 @@ const Chat = ({ user, gig }: Props) => {
           userId: sender,
           freelancerId: gig.freelancerId,
           text: fields.text,
+          senderId: user.id,
         },
       ],
       { revalidate: false }
