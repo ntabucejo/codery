@@ -70,8 +70,6 @@ const Chat = ({ user, gig }: Props) => {
     router.replace(`${chatPathname}?${params}`);
   };
 
-  console.log({ messages });
-
   const handleSendChat = async () => {
     if (user.id === gig.freelancer.userId) return;
     const sender =
@@ -184,7 +182,9 @@ const Chat = ({ user, gig }: Props) => {
               />
 
               <div className="flex items-center gap-2">
-                <CreateOffer user={user} gig={gig} />
+                {user.id === gig.freelancer.user.id ? (
+                  <CreateOffer user={user} gig={gig} />
+                ) : null}
                 <Button
                   onClick={handleSendChat}
                   className="border-none bg-transparent enabled:hover:bg-transparent">
