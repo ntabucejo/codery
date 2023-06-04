@@ -6,12 +6,18 @@ type Props = {
   children: React.ReactNode;
   params: {
     gigId: string;
+    username: string;
   };
 };
 
 const Layout = async ({ children, params }: Props) => {
   const { gigId } = params;
-  const user = await useUser();
+  const user = await prisma.user.findUnique({
+    where: { username: params.username },
+    include: {
+      freelancer: true,
+    },
+  });
 
   const gig = await prisma.gig.findUnique({
     where: { id: gigId },
