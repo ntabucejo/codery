@@ -17,12 +17,13 @@ const payment = z.object({
   year: z
     .number()
     .positive("Delivery should be positive only.")
-    .max(2040, "Years should not exceed more than year 2040"),
+    .min(2023, "Year must be at least this year 2023.")
+    .max(2040, "Year should not exceed more than year 2040"),
   cvc: z
-    .number()
-    .positive("Delivery should be positive only.")
-    .min(3, "CVC should starts with 3.")
-    .max(3, "CVC should not exceed more than with 3."),
+    .string()
+    .refine((value) => value.length === 3, {
+      message: "CVC should contain exactly 3 digits.",
+    }),
 });
 
 export default payment;

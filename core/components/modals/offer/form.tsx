@@ -26,9 +26,9 @@ const Form = ({ modal, user, gig }: Props) => {
   const [warnings, setWarnings] = useState<ZodIssue[]>([]);
 
   const [fields, setFields] = useState({
-    price: 5,
-    revision: 5,
-    deliveryDays: 5,
+    price: 0,
+    revision: 0,
+    deliveryDays: 0,
     description: "",
   });
 
@@ -50,7 +50,7 @@ const Form = ({ modal, user, gig }: Props) => {
           method: "POST",
           body: JSON.stringify({
             title: gig.title,
-            userId: user.id,
+            userId: "clih9leci001jsq8gl0q082rc",
             freelancerId: gig.freelancerId,
             gigId: gig.id,
             description: fields.description,
@@ -59,7 +59,7 @@ const Form = ({ modal, user, gig }: Props) => {
             deliveryDays: +fields.deliveryDays,
           }),
         });
-        if (response.status === 201) {
+        if (response.status === 200) {
           modal.handleClose();
         }
       } catch (error) {
@@ -104,7 +104,7 @@ const Form = ({ modal, user, gig }: Props) => {
             id="price"
             isFull
             value={fields.price}
-            onChange={(event) => handleChange("price", event.target.value)}
+            onChange={(event) => handleChange("price", +event.target.value)}
           />
         </Field.Body>
 
@@ -117,7 +117,7 @@ const Form = ({ modal, user, gig }: Props) => {
             id="revision"
             isFull
             value={fields.revision}
-            onChange={(event) => handleChange("revision", event.target.value)}
+            onChange={(event) => handleChange("revision", +event.target.value)}
           />
         </Field.Body>
 
@@ -130,7 +130,7 @@ const Form = ({ modal, user, gig }: Props) => {
             id="deliveryDays"
             isFull
             value={fields.deliveryDays}
-            onChange={(event) => handleChange("delivery", event.target.value)}
+            onChange={(event) => handleChange("deliveryDays", +event.target.value)}
           />
         </Field.Body>
 

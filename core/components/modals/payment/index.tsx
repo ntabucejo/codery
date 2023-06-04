@@ -21,8 +21,8 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
   const [warnings, setWarnings] = useState<ZodIssue[]>([]);
 
   const [fields, setFields] = useState({
-    month: "",
-    year: "",
+    month: 0,
+    year: 0,
     cvc: "",
     amount: 0,
     description: "",
@@ -37,8 +37,8 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
     card: {
       number: "4343434343434345",
       expiration: {
-        month: fields.month,
-        year: fields.year,
+        month: fields.month.toString(),
+        year: fields.year.toString(),
       },
       cvc: fields.cvc,
     },
@@ -53,7 +53,9 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
     const result = schemas.payment.safeParse(fields);
     if (result.success) {
       try {
-        handleSubmit(event);
+        await handleSubmit(event);
+        await acceptOffer();
+        modal.handleClose();
       } catch (error) {
         console.log(error);
       }
@@ -87,7 +89,7 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
             isFull
             value={+fields.month}
             onChange={(event) =>
-              setFields({ ...fields, month: event.target.value })
+              setFields({ ...fields, month: +event.target.value })
             }
           />
         </Field.Body>
@@ -102,7 +104,7 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
             isFull
             value={+fields.year}
             onChange={(event) =>
-              setFields({ ...fields, year: event.target.value })
+              setFields({ ...fields, year: +event.target.value })
             }
           />
         </Field.Body>
@@ -154,20 +156,13 @@ const PaymentModal = ({ modal, user, offferId }: Props) => {
       </div>
 
       <div className="flex w-full gap-4">
-        <Button
-          onClick={async (event: any) => {
-            await handleValidationSubmit(event);
-            await acceptOffer();
-            modal.handleClose();
-          }}>
-          Send Payment
-        </Button>
+        <Button onClick={handleValidationSubmit}>Send Payment</Button>
         <Button
           variant="secondary"
           onClick={() =>
             setFields({
-              month: "",
-              year: "",
+              month: 0,
+              year: 0,
               cvc: "",
               amount: 0,
               description: "",
