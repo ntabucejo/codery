@@ -7,7 +7,7 @@ const freelancer = z.object({
   biography: z
     .string()
     .min(1, "Biography should have at lease 1 valid character.")
-    .max(500, "Biography should not exceed more than 500 valid characters."),
+    .max(1000, "Biography should not exceed more than 1000 valid characters."),
   location: z
     .string()
     .min(1, "Country should have at lease 1 valid character.")

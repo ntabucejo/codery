@@ -31,8 +31,6 @@ type Props = {
       })
     | null;
   freelancer: Freelancer & {
-    contracts: Contract &
-      { client: Client & { user: User }; status: Status; gig: Gig }[];
     educations: Education[];
     employments: Employment[];
     testimonials: Testimonial[];
@@ -65,7 +63,6 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
     { title: "Freelancer Details", show: freelancer ?? false },
     { title: "Manage Gigs", show: freelancer ?? false },
     { title: "Billing Information" },
-    { title: "Contracts", show: freelancer ?? false },
   ];
 
   const handleDeleteGig = async (id: string) => {
@@ -108,7 +105,7 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
   return (
     <section className="contain space-y-4">
       <Tab.Group>
-        <Tab.List className="flex items-center gap-4">
+        <Tab.List className="flex items-center gap-4 overflow-x-scroll scrollbar-hide">
           {panels.map((panel) => (
             <Tab
               key={panel.title}
@@ -240,22 +237,6 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
                       Delete
                     </Button>
                   </div>
-                </div>
-              ))}
-            </section>
-          </Tab.Panel>
-
-          <Tab.Panel>
-            <section className="flex flex-col">
-              {freelancer.contracts.map((contract, index) => (
-                <div
-                  key={index}
-                  className="flex cursor-pointer items-center justify-between p-3 shadow hover:bg-slate-100">
-                  <div>
-                    <h2 className="font-semibold">{contract.gig.title}</h2>
-                    <h6 className="text-xs">{contract.client.user.name}</h6>
-                  </div>
-                  <Button>{contract.status}</Button>
                 </div>
               ))}
             </section>

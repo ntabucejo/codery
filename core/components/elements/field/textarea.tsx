@@ -20,10 +20,10 @@ const Textarea = ({
   isDisabled,
 }: Props) => {
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       <textarea
         id={id}
-        rows={8}
+        rows={15}
         value={value}
         defaultValue={defaultValue}
         onChange={onChange}
@@ -31,6 +31,7 @@ const Textarea = ({
         disabled={isDisabled}
         className={`${isFull ? "w-full" : ""} clearance rounded border text-sm`}
       />
+      <span className="ml-auto text-sm font-semibold">{value?.length ?? 0}/1000 Characters</span>
     </div>
   );
 };
