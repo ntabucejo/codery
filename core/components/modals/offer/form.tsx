@@ -5,24 +5,19 @@ import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Modal from "@core/components/layouts/modal";
 import { type Modal as ModalType } from "@core/types/modal";
-import { Freelancer, Gig, Thumbnail, User } from "@prisma/client";
-import Image from "next/image";
+import { Gig, User } from "@prisma/client";
 import validate from "@core/utilities/validate";
 import { ZodIssue } from "zod";
 import schemas from "@core/validations/schemas";
+import Avatar from "@core/components/elements/avatar";
 
 type Props = {
   modal: ModalType;
-  user: User;
-  gig: Gig & {
-    thumbnails: Thumbnail[];
-    freelancer: Freelancer & {
-      user: User;
-    };
-  };
+  client: User;
+  gigs: Gig[];
 };
 
-const Form = ({ modal, user, gig }: Props) => {
+const Form = ({ modal, client, gigs }: Props) => {
   const [warnings, setWarnings] = useState<ZodIssue[]>([]);
 
   const [fields, setFields] = useState({
@@ -30,6 +25,7 @@ const Form = ({ modal, user, gig }: Props) => {
     revision: 0,
     deliveryDays: 0,
     description: "",
+    gig: gigs[0],
   });
 
   const handleChange = (id: string, value: any) => {
@@ -49,10 +45,10 @@ const Form = ({ modal, user, gig }: Props) => {
         const response = await fetch("/api/payment/create-offer", {
           method: "POST",
           body: JSON.stringify({
-            title: gig.title,
-            userId: "clih9leci001jsq8gl0q082rc",
-            freelancerId: gig.freelancerId,
-            gigId: gig.id,
+            title: fields.gig.title,
+            userId: client.id,
+            freelancerId: fields.gig.freelancerId,
+            gigId: fields.gig.id,
             description: fields.description,
             price: +fields.price,
             revision: +fields.revision,
@@ -61,6 +57,13 @@ const Form = ({ modal, user, gig }: Props) => {
         });
         if (response.status === 200) {
           modal.handleClose();
+          setFields({
+            price: 0,
+            revision: 0,
+            deliveryDays: 0,
+            description: "",
+            gig: gigs[0],
+          });
         }
       } catch (error) {
         console.log(error);
@@ -78,22 +81,42 @@ const Form = ({ modal, user, gig }: Props) => {
       handleClose={modal.handleClose}
       className="max-w-5xl">
       <div className="grid gap-8 laptop:grid-cols-2">
-        <div className="my-2 flex items-center gap-5 border bg-slate-200 px-4">
-          <div className="relative h-14 w-14">
-            <Image
-              src={gig.thumbnails[0].image}
-              alt={gig.title}
-              fill
-              className="object-cover"
-            />
+        {/* client */}
+        <section className="flex flex-col gap-3">
+          <h1 className="font-bold">Client:</h1>
+          <div className="flex items-center gap-3">
+            <Avatar src={client.image!} alt="client" size="medium" />
+            <div className="flex flex-col">
+              <h2 className="font-bold">{client.name}</h2>
+              <h2 className="text-sm">{client.email}</h2>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <span className="text-xs">Gig Order:</span>
-            <h3 className="w-full whitespace-normal text-sm font-semibold">
-              {gig.title}
-            </h3>
-          </div>
-        </div>
+        </section>
+
+        {/* choose gig */}
+        <section className="flex h-64 flex-col gap-2 overflow-y-scroll pr-3">
+          <h1 className="font-bold">Select Gig</h1>
+          <p className="-mt-2 text-sm text-primary-dark/fade">
+            You can only select one gig.
+          </p>
+
+          {gigs.map((gig) => (
+            <div
+              key={gig.id}
+              className="flex w-full items-center justify-between rounded border px-4 py-2">
+              <h3 className="text-sm font-semibold">{gig.title}</h3>
+              <Button
+                onClick={() => setFields({ ...fields, gig: gig })}
+                className={`${
+                  gig.id === fields.gig.id
+                    ? "bg-primary-brand"
+                    : "bg-primary-dark"
+                }`}>
+                {gig.id === fields.gig.id ? "Selected" : "Select Gig"}
+              </Button>
+            </div>
+          ))}
+        </section>
 
         <Field.Body
           id="price"
@@ -130,7 +153,9 @@ const Form = ({ modal, user, gig }: Props) => {
             id="deliveryDays"
             isFull
             value={fields.deliveryDays}
-            onChange={(event) => handleChange("deliveryDays", +event.target.value)}
+            onChange={(event) =>
+              handleChange("deliveryDays", +event.target.value)
+            }
           />
         </Field.Body>
 

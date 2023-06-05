@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import useSWR from "swr";
-import { Freelancer, Message as MessageType, User } from "@prisma/client";
+import { Freelancer, Gig, Message as MessageType, User } from "@prisma/client";
 import Button from "@core/components/elements/button";
 import Symbol from "@core/components/elements/symbol";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import CreateOffer from "@core/components/modals/offer";
 
 type Props = {
+  gigs: Gig[];
   user:
     | (User & {
         freelancer: Freelancer | null;
@@ -19,7 +20,7 @@ type Props = {
   client: User | null;
 };
 
-const Form = ({ user, userId, client, freelancerId }: Props) => {
+const Form = ({ user, userId, client, gigs, freelancerId }: Props) => {
   const [text, setText] = useState("");
 
   const { data: messages, mutate } = useSWR<
@@ -78,7 +79,7 @@ const Form = ({ user, userId, client, freelancerId }: Props) => {
         />
 
         <div className="flex items-center gap-2">
-          {/* <CreateOffer client={client!} freelancerId={freelancerId} /> */}
+          <CreateOffer client={client!} gigs={gigs} />
           <Button
             type="button"
             onClick={handleSendMessage}

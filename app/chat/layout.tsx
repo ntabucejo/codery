@@ -38,8 +38,6 @@ const ChatLayout = async ({ children }: Props) => {
     },
   });
 
-  console.log({ asFreelancerMessages });
-
   const groupAsClientMessages = () => {
     let groupedMessages: typeof asClientMessages = [];
     for (const message of asClientMessages) {
