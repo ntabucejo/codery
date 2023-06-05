@@ -23,10 +23,11 @@ import {
   User,
 } from "@prisma/client";
 import cuid from "cuid";
-import CreateOffer from "@core/components/modals/offer";
 
 type Props = {
-  user: User;
+  user: User & {
+    freelancer: Freelancer | null;
+  };
   gig: Gig & {
     thumbnails: Thumbnail[];
     freelancer: Freelancer & {
@@ -162,9 +163,7 @@ const Chat = ({ user, gig }: Props) => {
             {/* messages */}
             <div className="flex flex-col gap-1 overflow-y-scroll p-3 ">
               {messages?.map((message) => (
-                <Message
-                  isLeft={user.id !== message.senderId}
-                  key={message.id}>
+                <Message isLeft={user.id !== message.senderId} key={message.id}>
                   {message.text}
                 </Message>
               ))}

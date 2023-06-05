@@ -12,12 +12,8 @@ type Props = {
 
 const Layout = async ({ children, params }: Props) => {
   const { gigId } = params;
-  const user = await prisma.user.findUnique({
-    where: { username: params.username },
-    include: {
-      freelancer: true,
-    },
-  });
+
+  const user = await useUser();
 
   const gig = await prisma.gig.findUnique({
     where: { id: gigId },
@@ -36,7 +32,7 @@ const Layout = async ({ children, params }: Props) => {
   return (
     <>
       {children}
-      {user.id !== gig.freelancer.user.id ? (
+      {user?.id !== gig.freelancer.user.id ? (
         <Chat user={user} gig={gig} />
       ) : null}
     </>
