@@ -1,6 +1,5 @@
 import Gig from "@core/components/sections/gig";
 import Gigs from "@core/components/sections/gigs";
-import useUser from "@core/hooks/use-user";
 import prisma from "@core/libraries/prisma";
 
 type Props = {
@@ -11,13 +10,6 @@ type Props = {
 };
 
 const Page = async ({ params }: Props) => {
-  const user = await prisma.user.findUnique({
-    where: { username: params.username },
-    include: {
-      freelancer: true,
-    },
-  });
-
   const gig = await prisma.gig.findUnique({
     where: { id: params.gigId },
     include: {
@@ -72,9 +64,11 @@ const Page = async ({ params }: Props) => {
 
   return (
     <div className="space-y-12">
-      <Overview gig={gig!} user={user} />
+      {/* @ts-expect-error Server Component */}
+      <Overview gig={gig!} />
       {myGigs.length ? <Gigs label="Gigs I also offer" data={myGigs} /> : null}
-      {gig?.reviews.length ? <Reviews gig={gig!} user={user} /> : null}
+      {/* @ts-expect-error Server Component */}
+      <Reviews gig={gig!} />
     </div>
   );
 };

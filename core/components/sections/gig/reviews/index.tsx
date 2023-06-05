@@ -1,8 +1,7 @@
-"use client";
-
 import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Symbol from "@core/components/elements/symbol";
+import useUser from "@core/hooks/use-user";
 import validate from "@core/utilities/validate";
 import schemas from "@core/validations/schemas";
 import { StarIcon } from "@heroicons/react/24/solid";
@@ -20,14 +19,10 @@ import {
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ZodIssue } from "zod";
+import Form from "./form";
 import Review from "./review";
 
 type Props = {
-  user:
-    | (User & {
-        freelancer: Freelancer | null;
-      })
-    | null;
   gig:
     | (Gig & {
         freelancer: Freelancer & {
@@ -46,114 +41,52 @@ type Props = {
     | null;
 };
 
-const Reviews = ({ user, gig }: Props) => {
-  const [warnings, setWarnings] = useState<ZodIssue[]>([]);
-  const router = useRouter();
-  const [fields, setFields] = useState({
-    message: "",
-    rating: 0,
-  });
-
-  if (!gig) return <></>;
-
+const Reviews = async ({ gig }: Props) => {
+  const user = await useUser();
   const totalRating =
-    gig.reviews && gig.reviews.reduce((sum, review) => sum + review.rating, 0);
+    gig?.reviews &&
+    gig?.reviews.reduce((sum, review) => sum + review.rating, 0);
   const averageRating =
-    gig.reviews && Math.round(totalRating / gig.reviews.length);
-
-  const handleCreateReview = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-    const result = schemas.review.safeParse(fields);
-    if (result.success) {
-      try {
-        await fetch(`/api/gigs/${gig?.id}/create-review`, {
-          method: "POST",
-          body: JSON.stringify({
-            message: fields.message,
-            rating: fields.rating,
-            gigId: gig?.id,
-            userId: user?.id,
-          }),
-        });
-        setFields({ message: "", rating: 0 });
-        setWarnings([]);
-        router.refresh();
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      setWarnings(result.error.issues);
-    }
-  };
+    gig?.reviews && Math.round(totalRating! / gig.reviews.length);
 
   return (
     <section className="contain space-y-8">
       {gig?.freelancer.userId !== user?.id ? (
-        <section className="space-y-4">
-          <Field.Body
-            id="message"
-            label="Message"
-            warning={validate(warnings, "message")}
-            description="What is your review?">
-            <Field.Textarea
-              id="message"
-              isFull
-              placeholder="Your Review here"
-              value={fields.message}
-              onChange={(event) =>
-                setFields({ ...fields, message: event.target.value })
-              }
-            />
-          </Field.Body>
-
-          <Field.Body
-            id="rating"
-            label="Rating"
-            warning={validate(warnings, "rating")}
-            description="How many will you rate this freelancer?">
-            <Field.Number
-              id="rating"
-              isFull
-              value={fields.rating}
-              onChange={(event) =>
-                setFields({ ...fields, rating: +event.target.value })
-              }
-            />
-          </Field.Body>
-          <Button onClick={handleCreateReview}>Post Review</Button>
-        </section>
+        <Form gig={gig} user={user} />
       ) : null}
 
-      <section className="w-full space-y-4">
-        <div className="flex items-center gap-3 ">
-          <div className="gap-0.1 flex items-center">
-            {[...Array(averageRating)].map((_, index) => (
-              <Symbol
-                key={index}
-                size="small"
-                Icon={StarIcon}
-                isHoverDisabled
-                className="text-yellow-400"
+      {gig?.reviews.length ? (
+        <section className="w-full space-y-4">
+          <div className="flex items-center gap-3 ">
+            <div className="gap-0.1 flex items-center">
+              {[...Array(averageRating)].map((_, index) => (
+                <Symbol
+                  key={index}
+                  size="small"
+                  Icon={StarIcon}
+                  isHoverDisabled
+                  className="text-yellow-400"
+                />
+              ))}
+            </div>
+            <h1 className="text-xl font-bold">
+              Reviews ({gig?.reviews.length})
+            </h1>
+          </div>
+          <div className=" flex flex-col gap-2">
+            {gig?.reviews.map((review) => (
+              <Review
+                key={review.id}
+                name={review.User.name!}
+                location={review.User.location!}
+                image={review.User.image!}
+                message={review.message}
+                rating={review.rating}
               />
             ))}
           </div>
-          <h1 className="text-xl font-bold">Reviews ({gig?.reviews.length})</h1>
-        </div>
-        <div className=" flex flex-col gap-2">
-          {gig?.reviews.map((review) => (
-            <Review
-              key={review.id}
-              name={review.User.name!}
-              location={review.User.location!}
-              image={review.User.image!}
-              message={review.message}
-              rating={review.rating}
-            />
-          ))}
-        </div>
-      </section>
+        </section>
+      ) : null}
     </section>
   );
 };

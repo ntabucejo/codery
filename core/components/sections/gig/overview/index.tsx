@@ -13,13 +13,9 @@ import {
 } from "@prisma/client";
 import Carousel from "./carousel";
 import Details from "./details";
+import useUser from "@core/hooks/use-user";
 
 type Props = {
-  user:
-    | (User & {
-        freelancer: Freelancer | null;
-      })
-    | null;
   gig: Gig & {
     tags: (Tag & {
       technology: Technology | null;
@@ -32,13 +28,15 @@ type Props = {
   };
 };
 
-const Overview = ({ user, gig }: Props) => {
+const Overview = async ({ gig }: Props) => {
+  const user = await useUser();
+
   return (
     <section className="contain space-y-4">
       <div className="grid grid-flow-row gap-4 laptop:grid-cols-4">
         <div className="col-span-3 overflow-hidden rounded">
           <Carousel thumbnails={serialize(gig.thumbnails)} />
-          <div className="flex flex-col gap-2 mt-4">
+          <div className="mt-4 flex flex-col gap-2">
             <Balancer>
               <h1 className="text-4xl font-extrabold">{gig.title}</h1>
             </Balancer>
