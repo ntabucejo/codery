@@ -29,7 +29,7 @@ const SignIn = ({ providers }: Props) => {
         handleClose={handleClose}
         className="max-w-xl">
         <div className="space-y-2">
-          {Object.values(providers).map((provider) => (
+          {Object.values(providers).filter((provider) => provider.name === "Google").map((provider) => (
             <div key={provider.name}>
               <Button
                 variant="secondary"

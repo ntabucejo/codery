@@ -60,8 +60,8 @@ const Navbar = async () => {
     <nav className="contain space-y-4">
       {/* Upper Nav */}
       <div className="flex items-center gap-4">
-        <strong className="text-2xl">Codery</strong>
-        <Search users={users} gigs={gigs} username={user?.username!} />
+        <strong className="text-2xl mr-auto">Codery</strong>
+        {/* <Search users={users} gigs={gigs} username={user?.username!} /> */}
         <ul className="flex gap-4">
           <Route to="Home" href="/" isBold />
         </ul>
