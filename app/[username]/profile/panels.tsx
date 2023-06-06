@@ -4,9 +4,11 @@ import Button from "@core/components/elements/button";
 import Field from "@core/components/elements/field";
 import Text from "@core/components/elements/field/text";
 import Textarea from "@core/components/elements/field/textarea";
+import Symbol from "@core/components/elements/symbol";
 import Modal from "@core/components/layouts/modal";
 import useModal from "@core/hooks/use-modal";
 import { Tab } from "@headlessui/react";
+import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/solid";
 import {
   Category,
   Client,
@@ -22,6 +24,7 @@ import {
   Thumbnail,
   User,
 } from "@prisma/client";
+import Image from "next/image";
 import { useState } from "react";
 
 type Props = {
@@ -62,7 +65,9 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
   const panels = [
     { title: "Freelancer Details", show: freelancer ?? false },
     { title: "Manage Gigs", show: freelancer ?? false },
-    { title: "Billing Information" },
+    { title: freelancer ? "Manage Offers" : "Track Offers", show: true },
+    { title: "Billing Information", show: true },
+    { title: "Rating and Reviews", show: true },
   ];
 
   const handleDeleteGig = async (id: string) => {
@@ -104,50 +109,50 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
 
   return (
     <section className="contain space-y-4">
-      <Tab.Group>
-        <Tab.List className="flex items-center gap-4 overflow-x-scroll scrollbar-hide">
-          {panels.map((panel) => (
+      <Tab.Group as="div" className="flex w-full gap-6">
+        <Tab.List className="flex h-fit flex-col items-center border bg-white">
+          {panels.map((panel, index) => (
             <Tab
               key={panel.title}
               className={({ selected }) =>
                 `${
                   selected
-                    ? "bg-primary-dark text-white shadow"
-                    : "text-primary-dark hover:bg-white/[0.12] hover:text-primary-dark"
+                    ? "bg-primary-brand text-white"
+                    : "text-primary-dark hover:bg-slate-100"
                 } ${
                   panel.show ? "block" : "hidden"
-                } w-full rounded-lg py-2.5 text-sm font-medium leading-5  ring-primary-dark ring-opacity-60 ring-offset-2 focus:outline-none focus:ring-2`
+                } w-full whitespace-nowrap border-b px-4 py-2.5 text-sm font-medium leading-5 outline-none`
               }>
               {panel.title}
             </Tab>
           ))}
         </Tab.List>
 
-        <Tab.Panels>
+        <Tab.Panels as="div" className="w-full">
           <Tab.Panel>
-            <section className="mb-2 flex flex-col gap-3">
+            <section className="mb-2 flex flex-wrap gap-3">
               <div className="flex flex-col">
-                <h1 className="mb-2 text-lg font-semibold">Phone</h1>
+                <h1 className="mb-2 font-semibold">Biography</h1>
+                <div className="flex w-fit flex-col flex-wrap gap-1 rounded border bg-white py-3 px-6">
+                  {user?.biography}
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <h1 className="mb-2 font-semibold">Phone</h1>
                 <div className="flex w-fit flex-col gap-1 rounded border bg-white py-3 px-6">
                   {user?.phone}
                 </div>
               </div>
-              <div className="flex flex-col">
-                <h1 className="mb-2 text-lg font-semibold">Biography</h1>
-                <div className="flex w-fit flex-col gap-1 rounded border bg-white py-3 px-6">
-                  {user?.biography}
-                </div>
-              </div>
             </section>
 
-            <h1 className="mb-2 text-lg font-semibold">Skills</h1>
+            <h1 className="mb-2 font-semibold">Skills</h1>
             <section className="flex flex-wrap items-center gap-3">
               {freelancer.skills.map(({ id, technology }) => (
                 <Badge key={id} name={technology!.name} />
               ))}
             </section>
 
-            <h1 className="my-4 text-lg font-semibold">Educations</h1>
+            <h1 className="my-4 font-semibold">Educations</h1>
             <section className="flex flex-wrap items-center gap-3">
               {freelancer.educations.map((education) => (
                 <div
@@ -169,7 +174,7 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
               ))}
             </section>
 
-            <h1 className="my-4 text-lg font-semibold">Employments</h1>
+            <h1 className="my-4 font-semibold">Employments</h1>
             <section className="flex flex-wrap items-center gap-3">
               {freelancer.employments.map((employment) => (
                 <div
@@ -194,7 +199,7 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
               ))}
             </section>
 
-            <h1 className="my-4 text-lg font-semibold">Testimonials</h1>
+            <h1 className="my-4 font-semibold">Testimonials</h1>
             <section className="flex flex-wrap items-center gap-3">
               {freelancer.testimonials.map((testimonial) => (
                 <div
@@ -215,31 +220,37 @@ const Panels = ({ user, gigs, freelancer }: Props) => {
             </section>
           </Tab.Panel>
 
-          <Tab.Panel>
-            <section className="flex flex-col">
-              {gigs.map((gig) => (
-                <div
-                  key={gig.id}
-                  className="flex cursor-pointer items-center justify-between p-3 shadow hover:bg-slate-100">
-                  <div>
-                    <h2 className="font-semibold">{gig.title}</h2>
-                    <h6 className="text-xs">{gig.category.name}</h6>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      onClick={() => {
-                        setSelectedGig(gig);
-                        editGigModal.handleOpen();
-                      }}>
-                      Edit
-                    </Button>
-                    <Button onClick={() => handleDeleteGig(gig.id)}>
-                      Delete
-                    </Button>
-                  </div>
+          <Tab.Panel as="div" className="flex flex-col bg-white">
+            {gigs.map((gig) => (
+              <div
+                key={gig.id}
+                className="flex cursor-pointer items-center gap-4 p-2 shadow hover:bg-slate-100">
+                <Image
+                  src={gig.thumbnails[0].image}
+                  alt="gig image"
+                  width={30}
+                  height={30}
+                  className="border-4"
+                />
+                <div>
+                  <h2 className="font-semibold">{gig.title}</h2>
+                  <h6 className="text-xs">{gig.category.name}</h6>
                 </div>
-              ))}
-            </section>
+                <div className="ml-auto flex items-center gap-2">
+                  <PencilSquareIcon
+                    className="h-5 w-5"
+                    onClick={() => {
+                      setSelectedGig(gig);
+                      editGigModal.handleOpen();
+                    }}
+                  />
+                  <TrashIcon
+                    className="h-5 w-5 text-red-500"
+                    onClick={() => handleDeleteGig(gig.id)}
+                  />
+                </div>
+              </div>
+            ))}
           </Tab.Panel>
         </Tab.Panels>
       </Tab.Group>

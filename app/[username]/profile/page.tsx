@@ -1,9 +1,6 @@
 import Avatar from "@core/components/elements/avatar";
 import Pin from "@core/components/elements/pin";
-import Route from "@core/components/elements/route";
-import Gigs from "@core/components/sections/gigs";
 import Hero from "@core/components/sections/hero";
-import useUser from "@core/hooks/use-user";
 import prisma from "@core/libraries/prisma";
 import { MapPinIcon, AtSymbolIcon, UserIcon } from "@heroicons/react/24/solid";
 import moment from "moment";
@@ -75,12 +72,12 @@ const Page = async ({ params }: Props) => {
               <Pin size="medium" Icon={UserIcon}>
                 {moment(user?.createdAt!).format("LL")}
               </Pin>
+              {user?.freelancer ? (
+                <span className="mt-auto w-fit rounded bg-primary-dark py-1 px-3 text-xs font-semibold text-white">
+                  freelancer
+                </span>
+              ) : null}
             </div>
-            {user?.freelancer ? (
-              <span className="mt-auto w-fit rounded bg-primary-dark py-1 px-3 text-xs font-semibold text-white">
-                freelancer
-              </span>
-            ) : null}
           </div>
         </div>
       </section>
